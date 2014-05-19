@@ -4,7 +4,7 @@
 from setuptools import setup, find_packages
 
 version = '0.1dev'
-description = "Tiles support for the Propertyshelf MLS Embedding."
+description = "Tiles support for the Propertyshelf MLS Plone Embedding."
 long_description = ('\n'.join([
     open('README.rst').read(),
     open('CHANGES.rst').read(),

@@ -1,4 +1,4 @@
-"""Tiles support for the Propertyshelf MLS Embedding."""
+"""Tiles support for the Propertyshelf MLS Plone Embedding."""
 
 
 def initialize(context):

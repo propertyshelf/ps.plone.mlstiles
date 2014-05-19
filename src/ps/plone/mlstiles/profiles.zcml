@@ -8,7 +8,7 @@
       name="default"
       title="Propertyshelf MLS Tiles"
       directory="profiles/default"
-      description="Tiles support for the Propertyshelf MLS Embedding."
+      description="Tiles support for the Propertyshelf MLS Plone Embedding."
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
