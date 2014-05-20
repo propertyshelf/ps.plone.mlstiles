@@ -27,3 +27,8 @@ class TestSetup(unittest.TestCase):
         """Validate that collective.cover is installed."""
         qi = self.portal.portal_quickinstaller
         self.assertTrue(qi.isProductInstalled('collective.cover'))
+
+    def test_plone_mls_listing_installed(self):
+        """Validate that plone.mls.listing is installed."""
+        qi = self.portal.portal_quickinstaller
+        self.assertTrue(qi.isProductInstalled('plone.mls.listing'))
