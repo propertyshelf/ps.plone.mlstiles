@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 """Recent MLS listings tile."""
 
+# python imports
+import copy
+
 # zope imports
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -145,7 +148,7 @@ class ListingCollectionTile(base.PersistentCoverTile):
         if uuid and obj:
             if not self.has_listing_collection(obj):
                 return items
-            config = self.get_config(obj)
+            config = copy.copy(self.get_config(obj))
             portal_state = obj.unrestrictedTraverse("@@plone_portal_state")
             params = {
                 'limit': size,
