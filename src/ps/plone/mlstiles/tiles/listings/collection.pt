@@ -9,7 +9,7 @@
       Please drop a collection here to fill the tile.
     </p>
 
-    <div class="cover-collection-tile tile-content" tal:condition="not:is_empty">
+    <div class="cover-collection-tile tile-content listing-summary" tal:condition="not:is_empty">
       <tal:results
           tal:define="results view/results | nothing;
                       toLocalizedTime nocall:context/@@plone/toLocalizedTime">
@@ -35,7 +35,8 @@
           </tal:fields>
         </div>
 
-        <div class="collection-item listing-summary" tal:repeat="listing results">
+        <div class="collection-item tileItem visualIEFloatFix"
+             tal:repeat="listing results">
           <tal:items
               tal:define="listing_title listing/title/value;
                           listing_url string:${view/collection_url}/${listing/id/value};">
@@ -123,6 +124,7 @@
                 </tal:item>
               </dl>
             </section>
+            <div class="visualClear"></div>
           </tal:items>
           <div class="visualClear"><!-- --></div>
         </div>
