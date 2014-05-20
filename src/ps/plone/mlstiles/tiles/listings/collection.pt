@@ -1,0 +1,136 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="collective.cover">
+
+  <body tal:define="is_empty view/is_empty">
+    <p tal:condition="python: is_empty and view.is_compose_mode()" i18n:translate="">
+      Please drop a collection here to fill the tile.
+    </p>
+
+    <div class="cover-collection-tile tile-content" tal:condition="not:is_empty">
+      <tal:results
+          tal:define="results view/results | nothing;
+                      toLocalizedTime nocall:context/@@plone/toLocalizedTime">
+
+        <div class="collection-link" tal:condition="view/is_compose_mode">
+          <a tal:attributes="href view/collection_url" i18n:translate="">Go to related collection</a>
+        </div>
+
+        <div tal:condition="not:results">
+          <p i18n:translate="">The collection doesn't have any results.</p>
+        </div>
+
+        <div class="tile-header" tal:condition="view/show_header">
+          <tal:fields tal:repeat="field view/configured_fields">
+            <tal:title
+                tal:define="htmltag python:field.get('htmltag', 'h1')"
+                tal:condition="python:field['id'] == 'header'">
+              <h1 tal:condition="python:htmltag == 'h1'" tal:content="view/data/header"></h1>
+              <h2 tal:condition="python:htmltag == 'h2'" tal:content="view/data/header"></h2>
+              <h3 tal:condition="python:htmltag == 'h3'" tal:content="view/data/header"></h3>
+              <h4 tal:condition="python:htmltag == 'h4'" tal:content="view/data/header"></h4>
+            </tal:title>
+          </tal:fields>
+        </div>
+
+        <div class="collection-item listing-summary" tal:repeat="listing results">
+          <tal:items
+              tal:define="listing_title listing/title/value;
+                          listing_url string:${view/collection_url}/${listing/id/value};">
+            <tal:fields repeat="field view/configured_fields">
+              <tal:title
+                  tal:define="htmltag python:field.get('htmltag', 'h1')"
+                  tal:condition="python:field['id'] == 'title'">
+                <h1 tal:condition="python:htmltag == 'h1'">
+                  <a tal:attributes="href listing_url" tal:content="listing_title" />
+                </h1>
+                <h2 tal:condition="python:htmltag == 'h2'">
+                  <a tal:attributes="href listing_url" tal:content="listing_title" />
+                </h2>
+                <h3 tal:condition="python:htmltag == 'h3'">
+                  <a tal:attributes="href listing_url" tal:content="listing_title" />
+                </h3>
+                <h4 tal:condition="python:htmltag == 'h4'">
+                  <a tal:attributes="href listing_url" tal:content="listing_title" />
+                </h4>
+              </tal:title>
+            </tal:fields>
+
+            <figure tal:define="image listing/lead_image | nothing">
+              <a href="" tal:attributes="href listing_url;
+                                         title listing_title"><img src="" alt=""
+                         tal:condition="image"
+                         tal:attributes="src image" /><img
+                         tal:condition="not:image" alt="" title=""
+                         src="++resource++plone.mls.listing.images/no-image.png" /></a>
+              <figcaption>
+                <small><span tal:replace="listing_title">[Caption]</span></small>
+              </figcaption>
+            </figure>
+
+            <section>
+              <dl>
+                <tal:item tal:define="item listing/price | nothing" tal:condition="item">
+                  <dt class="row"><span tal:replace="item/label">[Label]</span>:</dt>
+                  <dd><span tal:replace="item/value">[Value]</span></dd>
+                </tal:item>
+
+                <tal:item tal:define="item listing/workflow_status | nothing" tal:condition="item">
+                  <dt><span tal:replace="item/label">[Label]</span>:</dt>
+                  <dd><span tal:replace="item/value">[Value]</span></dd>
+                </tal:item>
+
+                <tal:item tal:define="item listing/listing_type | nothing" tal:condition="item">
+                  <dt><span tal:replace="item/label">[Label]</span>:</dt>
+                  <dd><span tal:replace="item/value">[Value]</span></dd>
+                </tal:item>
+
+                <tal:item tal:define="item listing/image_count | nothing" tal:condition="item">
+                  <dt><span tal:replace="item/label">[Label]</span>:</dt>
+                  <dd tal:attributes="class item/value"><span tal:replace="item/value">[Value]</span></dd>
+                </tal:item>
+
+                <tal:item tal:define="item listing/object_type | nothing" tal:condition="item">
+                  <dt class="row"><span tal:replace="item/label">[Label]</span>:</dt>
+                  <dd><span tal:replace="item/value">[Value]</span></dd>
+                </tal:item>
+
+                <tal:item tal:define="item listing/beds_baths | nothing" tal:condition="item">
+                  <dt><span tal:replace="item/label">[Label]</span>:</dt>
+                  <dd><span tal:replace="item/value">[Value]</span></dd>
+                </tal:item>
+
+                <tal:item tal:define="item listing/location | nothing" tal:condition="item">
+                  <dt class="row"><span tal:replace="item/label">[Label]</span>:</dt>
+                  <dd class="full"><span tal:replace="item/value">[Value]</span></dd>
+                </tal:item>
+
+                <tal:item tal:define="item listing/location_type | nothing" tal:condition="item">
+                  <dt class="row"><span tal:replace="item/label">[Label]</span>:</dt>
+                  <dd class="full"><span tal:replace="item/value">[Value]</span></dd>
+                </tal:item>
+
+                <tal:item tal:define="item listing/view_type | nothing" tal:condition="item">
+                  <dt class="row"><span tal:replace="item/label">[Label]</span>:</dt>
+                  <dd class="full"><span tal:replace="item/value">[Value]</span></dd>
+                </tal:item>
+
+                <tal:item tal:define="item listing/lot_size | nothing" tal:condition="item">
+                  <dt class="row"><span tal:replace="item/label">Label</span>:</dt>
+                  <dd class="full"><span tal:replace="structure item/value">Value</span></dd>
+                </tal:item>
+              </dl>
+            </section>
+          </tal:items>
+          <div class="visualClear"><!-- --></div>
+        </div>
+        <div class="tile-footer" tal:condition="view/show_footer">
+          <a tal:attributes="href view/collection_url" tal:content="view/data/footer" />
+        </div>
+        <div class="visualClear"><!-- --></div>
+      </tal:results>
+    </div>
+  </body>
+</html>
