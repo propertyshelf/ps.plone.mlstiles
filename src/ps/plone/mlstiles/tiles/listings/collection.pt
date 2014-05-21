@@ -155,7 +155,7 @@
                   tal:condition="python:field['id'] == 'lot_size' and item">
                 <h5 tal:condition="python:htmltag == 'h5'" tal:content="item/label">[Label]</h5>
                 <h6 tal:condition="python:htmltag == 'h6'" tal:content="item/label">[Label]</h6>
-                <p tal:content="item/value">[Value]</p>
+                <p tal:content="structure item/value">[Value]</p>
               </div>
 
             </tal:fields>
