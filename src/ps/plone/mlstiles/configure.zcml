@@ -9,6 +9,7 @@
   <!-- Include package dependencies. -->
   <!-- ============================= -->
   <includeDependencies package="." />
+  <include package=".widgets" />
   <include package=".tiles" />
   <include file="profiles.zcml" />
 
