@@ -284,6 +284,11 @@ class ListingCollectionTile(base.PersistentCoverTile):
                     # render, save it here
                     field['htmltag'] = field_conf['htmltag']
 
+                if 'htmltag-listings' in field_conf:
+                    # If this field has the capability to change its html tag
+                    # render, save it here
+                    field['htmltag-listings'] = field_conf['htmltag-listings']
+
                 if 'imgsize' in field_conf:
                     field['scale'] = field_conf['imgsize']
 
