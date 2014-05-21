@@ -43,34 +43,6 @@ class IListingCollectionTile(base.IPersistentCoverTile):
         title=_cc(u'Header'),
     )
 
-    form.omitted('title')
-    form.no_omit(configuration_view.IDefaultConfigureForm, 'title')
-    title = schema.TextLine(
-        required=False,
-        title=_cc(u'Title'),
-    )
-
-    form.omitted('description')
-    form.no_omit(configuration_view.IDefaultConfigureForm, 'description')
-    description = schema.Text(
-        required=False,
-        title=_cc(u'Description'),
-    )
-
-    form.omitted('date')
-    form.no_omit(configuration_view.IDefaultConfigureForm, 'date')
-    date = schema.Datetime(
-        required=False,
-        title=_cc(u'Date'),
-    )
-
-    form.omitted('image')
-    form.no_omit(configuration_view.IDefaultConfigureForm, 'image')
-    image = NamedImage(
-        required=False,
-        title=_cc(u'Image'),
-    )
-
     form.omitted('count')
     form.no_omit(configuration_view.IDefaultConfigureForm, 'count')
     count = schema.List(
@@ -85,6 +57,106 @@ class IListingCollectionTile(base.IPersistentCoverTile):
         default=0,
         required=False,
         title=_cc(u'Start at item'),
+    )
+
+    form.omitted('title')
+    form.no_omit(configuration_view.IDefaultConfigureForm, 'title')
+    title = schema.TextLine(
+        required=False,
+        title=_cc(u'Title'),
+    )
+
+    form.omitted('image')
+    form.no_omit(configuration_view.IDefaultConfigureForm, 'image')
+    image = NamedImage(
+        required=False,
+        title=_cc(u'Image'),
+    )
+
+    form.omitted('price')
+    form.no_omit(configuration_view.IDefaultConfigureForm, 'price')
+    form.widget(price='ps.plone.mlstiles.widgets.ListingTextFieldWidget')
+    price = schema.TextLine(
+        required=False,
+        title=_(u'Price'),
+    )
+
+    form.omitted('workflow_status')
+    form.no_omit(configuration_view.IDefaultConfigureForm, 'workflow_status')
+    form.widget(
+        workflow_status='ps.plone.mlstiles.widgets.ListingTextFieldWidget',
+    )
+    workflow_status = schema.TextLine(
+        required=False,
+        title=_(u'Workflow Status'),
+    )
+
+    form.omitted('listing_type')
+    form.no_omit(configuration_view.IDefaultConfigureForm, 'listing_type')
+    form.widget(
+        listing_type='ps.plone.mlstiles.widgets.ListingTextFieldWidget',
+    )
+    listing_type = schema.TextLine(
+        required=False,
+        title=_(u'Listing Type'),
+    )
+
+    form.omitted('image_count')
+    form.no_omit(configuration_view.IDefaultConfigureForm, 'image_count')
+    form.widget(image_count='ps.plone.mlstiles.widgets.ListingTextFieldWidget')
+    image_count = schema.TextLine(
+        required=False,
+        title=_(u'Image Count'),
+    )
+
+    form.omitted('object_type')
+    form.no_omit(configuration_view.IDefaultConfigureForm, 'object_type')
+    form.widget(object_type='ps.plone.mlstiles.widgets.ListingTextFieldWidget')
+    object_type = schema.TextLine(
+        required=False,
+        title=_(u'Property Type'),
+    )
+
+    form.omitted('beds_baths')
+    form.no_omit(configuration_view.IDefaultConfigureForm, 'beds_baths')
+    form.widget(beds_baths='ps.plone.mlstiles.widgets.ListingTextFieldWidget')
+    beds_baths = schema.TextLine(
+        required=False,
+        title=_(u'Beds/Baths'),
+    )
+
+    form.omitted('location')
+    form.no_omit(configuration_view.IDefaultConfigureForm, 'location')
+    form.widget(location='ps.plone.mlstiles.widgets.ListingTextFieldWidget')
+    location = schema.TextLine(
+        required=False,
+        title=_(u'Location'),
+    )
+
+    form.omitted('location_type')
+    form.no_omit(configuration_view.IDefaultConfigureForm, 'location_type')
+    form.widget(
+        location_type='ps.plone.mlstiles.widgets.ListingTextFieldWidget',
+    )
+    location_type = schema.TextLine(
+        required=False,
+        title=_(u'Location Type'),
+    )
+
+    form.omitted('view_type')
+    form.no_omit(configuration_view.IDefaultConfigureForm, 'view_type')
+    form.widget(view_type='ps.plone.mlstiles.widgets.ListingTextFieldWidget')
+    view_type = schema.TextLine(
+        required=False,
+        title=_(u'View Type'),
+    )
+
+    form.omitted('lot_size')
+    form.no_omit(configuration_view.IDefaultConfigureForm, 'lot_size')
+    form.widget(lot_size='ps.plone.mlstiles.widgets.ListingTextFieldWidget')
+    lot_size = schema.TextLine(
+        required=False,
+        title=_(u'Total Lot Size'),
     )
 
     footer = schema.TextLine(
