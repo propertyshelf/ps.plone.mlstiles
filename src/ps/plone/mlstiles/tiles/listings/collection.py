@@ -289,6 +289,14 @@ class ListingCollectionTile(base.PersistentCoverTile):
                     # render, save it here
                     field['htmltag-listings'] = field_conf['htmltag-listings']
 
+                if 'wraplink' in field_conf:
+                    # If this field has the capability to be rendered in an
+                    # a-tag, save it here
+                    if field_conf['wraplink'] == 'on':
+                        field['wraplink'] = True
+                    else:
+                        field['wraplink'] = False
+
                 if 'imgsize' in field_conf:
                     field['scale'] = field_conf['imgsize']
 
