@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Recent MLS listings tile."""
+"""MLS listing collection tiles."""
 
 # python imports
 import copy
@@ -30,6 +30,7 @@ from zope import schema
 from zope.annotation.interfaces import IAnnotations
 from zope.component import queryUtility
 from zope.interface import implementer
+from zope.schema.fieldproperty import FieldProperty
 
 # local imports
 from ps.plone.mlstiles import _
@@ -179,6 +180,24 @@ class ListingCollectionTile(base.PersistentCoverTile):
     short_name = _(u'MLS: Listing Collection')
     index = ViewPageTemplateFile('collection.pt')
     configured_fields = []
+
+    header = FieldProperty(IListingCollectionTile['header'])
+    count = FieldProperty(IListingCollectionTile['count'])
+    offset = FieldProperty(IListingCollectionTile['offset'])
+    title = FieldProperty(IListingCollectionTile['title'])
+    image = FieldProperty(IListingCollectionTile['image'])
+    price = FieldProperty(IListingCollectionTile['price'])
+    workflow_status = FieldProperty(IListingCollectionTile['workflow_status'])
+    listing_type = FieldProperty(IListingCollectionTile['listing_type'])
+    image_count = FieldProperty(IListingCollectionTile['image_count'])
+    object_type = FieldProperty(IListingCollectionTile['object_type'])
+    beds_baths = FieldProperty(IListingCollectionTile['beds_baths'])
+    location = FieldProperty(IListingCollectionTile['location'])
+    location_type = FieldProperty(IListingCollectionTile['location_type'])
+    view_type = FieldProperty(IListingCollectionTile['view_type'])
+    lot_size = FieldProperty(IListingCollectionTile['lot_size'])
+    footer = FieldProperty(IListingCollectionTile['footer'])
+    uuid = FieldProperty(IListingCollectionTile['uuid'])
 
     def get_title(self):
         return self.data['title']
