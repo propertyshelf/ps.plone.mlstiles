@@ -6,7 +6,6 @@ from plone.app.testing import (
     IntegrationTesting,
     PloneSandboxLayer,
     PLONE_FIXTURE,
-    applyProfile,
 )
 from zope.configuration import xmlconfig
 
@@ -27,7 +26,8 @@ class PSPloneMLSTiles(PloneSandboxLayer):
 
     def setUpPloneSite(self, portal):
         """Set up a Plone site for testing."""
-        applyProfile(portal, 'ps.plone.mlstiles:default')
+        self.applyProfile(portal, 'ps.plone.mlstiles:default')
+        self.applyProfile(portal, 'collective.cover:testfixture')
 
 
 PS_PLONE_MLSTILES_FIXTURE = PSPloneMLSTiles()
