@@ -2,25 +2,57 @@
 """MLS listing search tile."""
 
 # zope imports
+from Acquisition import aq_inner
+from Products.CMFPlone import PloneMessageFactory as PMF
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from collective.cover import _ as _cc
 from collective.cover.tiles import base
 from plone.app.uuid.utils import uuidToObject
+from plone.directives import form
 from plone.mls.listing.browser import listing_search
-from plone.tiles.interfaces import (
-    ITileDataManager,
-    ITileType,
-)
+from plone.tiles.interfaces import ITileDataManager
 from plone.uuid.interfaces import IUUID
+from z3c.form import field, button
 from zope import schema
 from zope.annotation.interfaces import IAnnotations
-from zope.component import queryUtility
-from zope.interface import implementer
+from zope.interface import alsoProvides, implementer
 from zope.schema.fieldproperty import FieldProperty
+
+# starting from 0.6.0 version plone.z3cform has IWrappedForm interface
+try:
+    from plone.z3cform.interfaces import IWrappedForm
+    HAS_WRAPPED_FORM = True
+except ImportError:
+    HAS_WRAPPED_FORM = False
 
 # local imports
 from ps.plone.mlstiles import _
+
+
+class ListingSearchForm(form.Form):
+    """Listing Search Form."""
+    fields = field.Fields(listing_search.IListingSearchForm)
+    ignoreContext = True
+    method = 'get'
+    search_url = None
+
+    @property
+    def action(self):
+        """See interfaces.IInputForm"""
+        if self.search_url:
+            return self.search_url
+        return super(ListingSearchForm, self).action()
+
+    @button.buttonAndHandler(
+        PMF(u'label_search', default=u'Search'),
+        name='search',
+    )
+    def handle_search(self, action):
+        data, errors = self.extractData()
+        if errors:
+            self.status = self.formErrorsMessage
+            return
 
 
 class IListingSearchTile(base.IPersistentCoverTile):
@@ -29,6 +61,16 @@ class IListingSearchTile(base.IPersistentCoverTile):
     header = schema.TextLine(
         required=False,
         title=_cc(u'Header'),
+    )
+
+    footer = schema.TextLine(
+        required=False,
+        title=_cc(u'Footer'),
+    )
+
+    uuid = schema.TextLine(
+        readonly=True,
+        title=_cc(u'UUID'),
     )
 
 
@@ -40,9 +82,10 @@ class ListingSearchTile(base.PersistentCoverTile):
     is_editable = True
     short_name = _(u'MLS: Listing Search')
     index = ViewPageTemplateFile('search.pt')
-    configured_fields = []
 
     header = FieldProperty(IListingSearchTile['header'])
+    footer = FieldProperty(IListingSearchTile['footer'])
+    uuid = FieldProperty(IListingSearchTile['uuid'])
 
     def get_title(self):
         return self.data['title']
@@ -77,35 +120,6 @@ class ListingSearchTile(base.PersistentCoverTile):
                 'uuid': uuid,
             })
 
-    def get_configured_fields(self):
-        # Override this method, since we are not storing anything
-        # in the fields, we just use them for configuration
-        tileType = queryUtility(ITileType, name=self.__name__)
-        conf = self.get_tile_configuration()
-
-        fields = schema.getFieldsInOrder(tileType.schema)
-
-        results = []
-        for name, obj in fields:
-            field = {'id': name,
-                     'title': obj.title}
-            if name in conf:
-                field_conf = conf[name]
-                if ('visibility' in field_conf and
-                        field_conf['visibility'] == u'off'):
-                    # If the field was configured to be invisible, then just
-                    # ignore it
-                    continue
-
-                if 'htmltag' in field_conf:
-                    # If this field has the capability to change its html tag
-                    # render, save it here
-                    field['htmltag'] = field_conf['htmltag']
-
-            results.append(field)
-
-        return results
-
     def remove_relation(self):
         data_mgr = ITileDataManager(self)
         old_data = data_mgr.get()
@@ -115,6 +129,19 @@ class ListingSearchTile(base.PersistentCoverTile):
 
     def show_header(self):
         return self._field_is_visible('header')
+
+    @property
+    def form(self):
+        uuid = self.data.get('uuid', None)
+        obj = uuidToObject(uuid)
+        if not self.has_listing_search(obj):
+            return
+        form = ListingSearchForm(aq_inner(obj), self.request)
+        form.search_url = self.search_url()
+        if HAS_WRAPPED_FORM:
+            alsoProvides(form, IWrappedForm)
+        form.update()
+        return form
 
     def search_url(self):
         uuid = self.data.get('uuid', None)
