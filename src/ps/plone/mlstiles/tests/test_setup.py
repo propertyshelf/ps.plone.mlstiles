@@ -52,6 +52,10 @@ class TestSetup(unittest.TestCase):
             'ps.plone.mlstiles.listings.recent',
             registry.records.get(key).value,
         )
+        self.assertIn(
+            'ps.plone.mlstiles.listings.search',
+            registry.records.get(key).value,
+        )
 
     def test_tiles_available(self):
         """Validate that the tiles are available within a cover."""
@@ -63,5 +67,9 @@ class TestSetup(unittest.TestCase):
         )
         self.assertIn(
             'ps.plone.mlstiles.listings.recent',
+            registry.records.get(key).value,
+        )
+        self.assertIn(
+            'ps.plone.mlstiles.listings.search',
             registry.records.get(key).value,
         )
