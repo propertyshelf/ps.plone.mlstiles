@@ -29,6 +29,12 @@ class PSPloneMLSTiles(PloneSandboxLayer):
         self.applyProfile(portal, 'ps.plone.mlstiles:default')
         self.applyProfile(portal, 'collective.cover:testfixture')
 
+        # Prevent kss validation errors in Plone 4.2
+        portal_kss = getattr(portal, 'portal_kss', None)
+        if portal_kss:
+            kss = portal_kss.getResource('++resource++plone.app.z3cform')
+            kss.setEnabled(False)
+
 
 PS_PLONE_MLSTILES_FIXTURE = PSPloneMLSTiles()
 PS_PLONE_MLSTILES_INTEGRATION_TESTING = IntegrationTesting(
