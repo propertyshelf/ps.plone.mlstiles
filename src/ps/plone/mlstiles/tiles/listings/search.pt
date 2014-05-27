@@ -10,7 +10,7 @@
       Please drag&amp;drop some content here to populate the tile.
     </p>
 
-    <div class="cover-search-tile tile-content" tal:condition="not:is_empty">
+    <div class="listing-search-tile tile-content" tal:condition="not:is_empty">
       <div class="collection-link" tal:condition="view/is_compose_mode">
         <a tal:attributes="href view/search_url" i18n:domain="ps.plone.mlstiles" i18n:translate="">Go to related search</a>
       </div>
