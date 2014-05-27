@@ -12,9 +12,11 @@ from plone.app.uuid.utils import uuidToObject
 from plone.directives import form
 from plone.mls.listing.browser import listing_search
 from plone.tiles.interfaces import ITileDataManager
+from plone.mls.listing.browser.valuerange.widget import ValueRangeFieldWidget
 from plone.mls.listing.i18n import _ as _mls
 from plone.uuid.interfaces import IUUID
-from z3c.form import field, button
+from z3c.form import button, field
+from z3c.form.browser import checkbox, radio
 from zope import schema
 from zope.annotation.interfaces import IAnnotations
 from zope.interface import alsoProvides, implementer
@@ -37,6 +39,20 @@ class ListingSearchForm(form.Form):
     ignoreContext = True
     method = 'get'
     search_url = None
+
+    fields['air_condition'].widgetFactory = radio.RadioFieldWidget
+    fields['baths'].widgetFactory = ValueRangeFieldWidget
+    fields['lot_size'].widgetFactory = ValueRangeFieldWidget
+    fields['interior_area'].widgetFactory = ValueRangeFieldWidget
+    fields['beds'].widgetFactory = ValueRangeFieldWidget
+    fields['geographic_type'].widgetFactory = checkbox.CheckBoxFieldWidget
+    fields['jacuzzi'].widgetFactory = radio.RadioFieldWidget
+    fields['listing_type'].widgetFactory = checkbox.CheckBoxFieldWidget
+    fields['location_type'].widgetFactory = checkbox.CheckBoxFieldWidget
+    fields['object_type'].widgetFactory = checkbox.CheckBoxFieldWidget
+    fields['ownership_type'].widgetFactory = checkbox.CheckBoxFieldWidget
+    fields['pool'].widgetFactory = radio.RadioFieldWidget
+    fields['view_type'].widgetFactory = checkbox.CheckBoxFieldWidget
 
     @property
     def action(self):
