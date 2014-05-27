@@ -212,6 +212,13 @@ class IListingSearchTile(base.IPersistentCoverTile):
         title=_mls(u'Lot Size'),
     )
 
+    form.omitted('form_interior_area')
+    form.no_omit(IDefaultConfigureForm, 'form_interior_area')
+    form_interior_area = schema.Text(
+        required=False,
+        title=_mls(u'Interior Area'),
+    )
+
     footer = schema.TextLine(
         required=False,
         title=_cc(u'Footer'),
@@ -268,6 +275,9 @@ class ListingSearchTile(base.PersistentCoverTile):
     form_pool = FieldProperty(IListingSearchTile['form_pool'])
     form_jacuzzi = FieldProperty(IListingSearchTile['form_jacuzzi'])
     form_lot_size = FieldProperty(IListingSearchTile['form_lot_size'])
+    form_interior_area = FieldProperty(
+        IListingSearchTile['form_interior_area']
+    )
 
     footer = FieldProperty(IListingSearchTile['footer'])
     uuid = FieldProperty(IListingSearchTile['uuid'])
