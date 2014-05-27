@@ -131,17 +131,17 @@ class ListingSearchTile(base.PersistentCoverTile):
         return self._field_is_visible('header')
 
     @property
-    def form(self):
+    def search_form(self):
         uuid = self.data.get('uuid', None)
         obj = uuidToObject(uuid)
         if not self.has_listing_search(obj):
             return
-        form = ListingSearchForm(aq_inner(obj), self.request)
-        form.search_url = self.search_url()
+        search_form = ListingSearchForm(aq_inner(obj), self.request)
+        search_form.search_url = self.search_url()
         if HAS_WRAPPED_FORM:
-            alsoProvides(form, IWrappedForm)
-        form.update()
-        return form
+            alsoProvides(search_form, IWrappedForm)
+        search_form.update()
+        return search_form
 
     def search_url(self):
         uuid = self.data.get('uuid', None)
