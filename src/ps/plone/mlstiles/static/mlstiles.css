@@ -33,3 +33,12 @@
 .listing-collection-tile figure figcaption {
     display: none;
 }
+
+
+/* Fix for collective.cover < 1.0b9.
+   =================================
+*/
+.template-layoutedit .modal {
+    max-height: 80%;
+    overflow: scroll;
+}
