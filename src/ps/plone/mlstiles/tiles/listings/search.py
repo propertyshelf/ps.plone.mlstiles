@@ -8,6 +8,7 @@ from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from collective.cover import _ as _cc
 from collective.cover.tiles import base
+from collective.cover.tiles.configuration_view import IDefaultConfigureForm
 from plone.app.uuid.utils import uuidToObject
 from plone.directives import form
 from plone.mls.listing.browser import listing_search
@@ -85,91 +86,127 @@ class IListingSearchTile(base.IPersistentCoverTile):
         title=_cc(u'Header'),
     )
 
+    form.omitted('form_listing_type')
+    form.no_omit(IDefaultConfigureForm, 'form_listing_type')
     form_listing_type = schema.Text(
         required=False,
         title=_mls(u'Listing Type'),
     )
 
+    form.omitted('form_location_state')
+    form.no_omit(IDefaultConfigureForm, 'form_location_state')
     form_location_state = schema.Text(
         required=False,
         title=_mls(u'State'),
     )
 
+    form.omitted('form_location_county')
+    form.no_omit(IDefaultConfigureForm, 'form_location_county')
     form_location_county = schema.Text(
         required=False,
         title=_mls(u'County'),
     )
 
+    form.omitted('form_location_district')
+    form.no_omit(IDefaultConfigureForm, 'form_location_district')
     form_location_district = schema.Text(
         required=False,
         title=_mls(u'District'),
     )
 
+    form.omitted('form_location_city')
+    form.no_omit(IDefaultConfigureForm, 'form_location_city')
     form_location_city = schema.Text(
         required=False,
         title=_mls(u'City/Town'),
     )
 
+    form.omitted('form_price_min')
+    form.no_omit(IDefaultConfigureForm, 'form_price_min')
     form_price_min = schema.Text(
         required=False,
         title=_mls(u'Price (Min)'),
     )
 
+    form.omitted('form_price_max')
+    form.no_omit(IDefaultConfigureForm, 'form_price_max')
     form_price_max = schema.Text(
         required=False,
         title=_mls(u'Price (Max)'),
     )
 
+    form.omitted('form_location_type')
+    form.no_omit(IDefaultConfigureForm, 'form_location_type')
     form_location_type = schema.Text(
         required=False,
         title=_mls(u'Location Type'),
     )
 
+    form.omitted('form_geographic_type')
+    form.no_omit(IDefaultConfigureForm, 'form_geographic_type')
     form_geographic_type = schema.Text(
         required=False,
         title=_mls(u'Geographic Type'),
     )
 
+    form.omitted('form_view_type')
+    form.no_omit(IDefaultConfigureForm, 'form_view_type')
     form_view_type = schema.Text(
         required=False,
         title=_mls(u'View Type'),
     )
 
+    form.omitted('form_object_type')
+    form.no_omit(IDefaultConfigureForm, 'form_object_type')
     form_object_type = schema.Text(
         required=False,
         title=_mls(u'Object Type'),
     )
 
+    form.omitted('form_ownership_type')
+    form.no_omit(IDefaultConfigureForm, 'form_ownership_type')
     form_ownership_type = schema.Text(
         required=False,
         title=_mls(u'Ownership Type'),
     )
 
+    form.omitted('form_beds')
+    form.no_omit(IDefaultConfigureForm, 'form_beds')
     form_beds = schema.Text(
         required=False,
         title=_mls(u'Bedrooms'),
     )
 
+    form.omitted('form_baths')
+    form.no_omit(IDefaultConfigureForm, 'form_baths')
     form_baths = schema.Text(
         required=False,
         title=_mls(u'Bathrooms'),
     )
 
+    form.omitted('form_air_condition')
+    form.no_omit(IDefaultConfigureForm, 'form_air_condition')
     form_air_condition = schema.Text(
         required=False,
         title=_mls(u'Air Condition'),
     )
 
+    form.omitted('form_pool')
+    form.no_omit(IDefaultConfigureForm, 'form_pool')
     form_pool = schema.Text(
         required=False,
         title=_mls(u'Pool'),
     )
 
+    form.omitted('form_jacuzzi')
+    form.no_omit(IDefaultConfigureForm, 'form_jacuzzi')
     form_jacuzzi = schema.Text(
         required=False,
         title=_mls(u'Jacuzzi'),
     )
 
+    form.omitted('form_lot_size')
+    form.no_omit(IDefaultConfigureForm, 'form_lot_size')
     form_lot_size = schema.Text(
         required=False,
         title=_mls(u'Lot Size'),
