@@ -1,0 +1,7 @@
+[MLS_Plone.psplonemlstiles]
+file_filter = src/ps/plone/mlstiles/locales/<lang>/LC_MESSAGES/ps.plone.mlstiles.po
+source_file = src/ps/plone/mlstiles/locales/ps.plone.mlstiles.pot
+source_lang = en
+
+[main]
+host = https://www.transifex.com
