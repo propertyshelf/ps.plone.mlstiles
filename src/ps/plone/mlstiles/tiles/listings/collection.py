@@ -20,6 +20,7 @@ from plone.mls.listing.browser import (
     listing_collection,
     recent_listings,
 )
+from plone.mls.listing.i18n import _ as _mls
 from plone.namedfile.field import NamedBlobImage as NamedImage
 from plone.tiles.interfaces import (
     ITileDataManager,
@@ -79,7 +80,7 @@ class IListingCollectionTile(base.IPersistentCoverTile):
     form.widget(price='ps.plone.mlstiles.widgets.ListingTextFieldWidget')
     price = schema.TextLine(
         required=False,
-        title=_(u'Price'),
+        title=_mls(u'Price'),
     )
 
     form.omitted('workflow_status')
@@ -89,7 +90,7 @@ class IListingCollectionTile(base.IPersistentCoverTile):
     )
     workflow_status = schema.TextLine(
         required=False,
-        title=_(u'Workflow Status'),
+        title=_mls(u'Workflow Status'),
     )
 
     form.omitted('listing_type')
@@ -99,7 +100,7 @@ class IListingCollectionTile(base.IPersistentCoverTile):
     )
     listing_type = schema.TextLine(
         required=False,
-        title=_(u'Listing Type'),
+        title=_mls(u'Listing Type'),
     )
 
     form.omitted('image_count')
@@ -107,7 +108,7 @@ class IListingCollectionTile(base.IPersistentCoverTile):
     form.widget(image_count='ps.plone.mlstiles.widgets.ListingTextFieldWidget')
     image_count = schema.TextLine(
         required=False,
-        title=_(u'Image Count'),
+        title=_mls(u'Image Count'),
     )
 
     form.omitted('object_type')
@@ -115,7 +116,7 @@ class IListingCollectionTile(base.IPersistentCoverTile):
     form.widget(object_type='ps.plone.mlstiles.widgets.ListingTextFieldWidget')
     object_type = schema.TextLine(
         required=False,
-        title=_(u'Property Type'),
+        title=_mls(u'Property Type'),
     )
 
     form.omitted('beds_baths')
@@ -123,7 +124,7 @@ class IListingCollectionTile(base.IPersistentCoverTile):
     form.widget(beds_baths='ps.plone.mlstiles.widgets.ListingTextFieldWidget')
     beds_baths = schema.TextLine(
         required=False,
-        title=_(u'Beds/Baths'),
+        title=_mls(u'Beds/Baths'),
     )
 
     form.omitted('location')
@@ -131,7 +132,7 @@ class IListingCollectionTile(base.IPersistentCoverTile):
     form.widget(location='ps.plone.mlstiles.widgets.ListingTextFieldWidget')
     location = schema.TextLine(
         required=False,
-        title=_(u'Location'),
+        title=_mls(u'Location'),
     )
 
     form.omitted('location_type')
@@ -141,7 +142,7 @@ class IListingCollectionTile(base.IPersistentCoverTile):
     )
     location_type = schema.TextLine(
         required=False,
-        title=_(u'Location Type'),
+        title=_mls(u'Location Type'),
     )
 
     form.omitted('view_type')
@@ -149,7 +150,7 @@ class IListingCollectionTile(base.IPersistentCoverTile):
     form.widget(view_type='ps.plone.mlstiles.widgets.ListingTextFieldWidget')
     view_type = schema.TextLine(
         required=False,
-        title=_(u'View Type'),
+        title=_mls(u'View Type'),
     )
 
     form.omitted('lot_size')
@@ -157,7 +158,7 @@ class IListingCollectionTile(base.IPersistentCoverTile):
     form.widget(lot_size='ps.plone.mlstiles.widgets.ListingTextFieldWidget')
     lot_size = schema.TextLine(
         required=False,
-        title=_(u'Total Lot Size'),
+        title=_mls(u'Total Lot Size'),
     )
 
     footer = schema.TextLine(
