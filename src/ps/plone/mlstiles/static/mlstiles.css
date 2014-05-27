@@ -1,3 +1,24 @@
 /* ps.plone.mls styles.
    ====================
 */
+
+#content .listing-collection-tile .collection-item {
+    margin-bottom: 1em;
+}
+
+#content .listing-collection-tile .item-heading {
+    float: left;
+    width: 25%;
+}
+
+#content .listing-collection-tile .item-heading:after {
+    content: ":";
+}
+
+#content .listing-collection-tile .item-body {
+    margin-bottom: 0;
+}
+
+.listing-collection-tile figcaption {
+    display: none;
+}
