@@ -11,15 +11,20 @@ from collective.cover.tiles import base
 from plone.app.uuid.utils import uuidToObject
 from plone.directives import form
 from plone.mls.listing.browser import listing_search
-from plone.tiles.interfaces import ITileDataManager
 from plone.mls.listing.browser.valuerange.widget import ValueRangeFieldWidget
 from plone.mls.listing.i18n import _ as _mls
+from plone.tiles.interfaces import (
+    ITileDataManager,
+    ITileType,
+)
 from plone.uuid.interfaces import IUUID
 from z3c.form import button, field
 from z3c.form.browser import checkbox, radio
 from zope import schema
 from zope.annotation.interfaces import IAnnotations
+from zope.component import queryUtility
 from zope.interface import alsoProvides, implementer
+from zope.schema import getFieldNamesInOrder
 from zope.schema.fieldproperty import FieldProperty
 
 # starting from 0.6.0 version plone.z3cform has IWrappedForm interface
@@ -279,7 +284,23 @@ class ListingSearchTile(base.PersistentCoverTile):
         obj = uuidToObject(uuid)
         if not self.has_listing_search(obj):
             return
+
+        available_fields = []
+        tileType = queryUtility(ITileType, name=self.__name__)
+        conf = self.get_tile_configuration()
+        for name in getFieldNamesInOrder(tileType.schema):
+            if name in conf:
+                field_conf = conf[name]
+                if ('visibility' in field_conf and
+                        field_conf['visibility'] == u'off'):
+                    # If the field was configured to be invisible, then just
+                    # ignore it
+                    continue
+            if name.startswith('form_'):
+                available_fields.append(name.split('form_')[1])
+
         search_form = ListingSearchForm(aq_inner(obj), self.request)
+        search_form.fields = search_form.fields.select(*available_fields)
         search_form.search_url = self.search_url()
         if HAS_WRAPPED_FORM:
             alsoProvides(search_form, IWrappedForm)
