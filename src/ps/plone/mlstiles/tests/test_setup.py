@@ -15,6 +15,11 @@ from zope.component import getUtility
 from ps.plone.mlstiles.testing import PS_PLONE_MLSTILES_INTEGRATION_TESTING
 
 
+CSS = [
+    '++resource++ps.plone.mlstiles/mlstiles.css',
+]
+
+
 class TestSetup(unittest.TestCase):
     """Validate setup process for ps.plone.mlstiles."""
 
@@ -39,6 +44,12 @@ class TestSetup(unittest.TestCase):
         """Validate that plone.mls.listing is installed."""
         qi = self.portal.portal_quickinstaller
         self.assertTrue(qi.isProductInstalled('plone.mls.listing'))
+
+    def test_cssregistry(self):
+        """Validate the CSS file registration."""
+        resource_ids = self.portal.portal_css.getResourceIds()
+        for id in CSS:
+            self.assertIn(id, resource_ids, '{0} not installed'.format(id))
 
     def test_tiles_registered(self):
         """Validate that the tiles are registered."""
