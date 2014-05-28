@@ -241,7 +241,7 @@ class ListingCollectionTile(base.PersistentCoverTile):
             if not self.has_listing_collection(obj):
                 return items
             config = copy.copy(self.get_config(obj))
-            portal_state = obj.unrestrictedTraverse("@@plone_portal_state")
+            portal_state = obj.unrestrictedTraverse('@@plone_portal_state')
             params = {
                 'limit': size,
                 'offset': offset,
@@ -279,6 +279,14 @@ class ListingCollectionTile(base.PersistentCoverTile):
                 'uuid': uuid,
             })
 
+    def _field_wrapped_in_link(self, field):
+        tile_conf = self.get_tile_configuration()
+        field_conf = tile_conf.get(field, None)
+        if field_conf and isinstance(field_conf, dict):
+            return field_conf.get('wraplink', None) == u'on'
+        else:
+            return False
+
     def get_configured_fields(self):
         # Override this method, since we are not storing anything
         # in the fields, we just use them for configuration
@@ -310,12 +318,7 @@ class ListingCollectionTile(base.PersistentCoverTile):
                     field['htmltag-listings'] = field_conf['htmltag-listings']
 
                 if 'wraplink' in field_conf:
-                    # If this field has the capability to be rendered in an
-                    # a-tag, save it here
-                    if field_conf['wraplink'] == 'on':
-                        field['wraplink'] = True
-                    else:
-                        field['wraplink'] = False
+                    field['wraplink'] = self._field_wrapped_in_link(name)
 
                 if 'imgsize' in field_conf:
                     field['scale'] = field_conf['imgsize']
