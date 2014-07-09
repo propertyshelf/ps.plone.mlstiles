@@ -1,10 +1,11 @@
 # 
 # Translators:
+# Valeria Garcia <valeriassimsou@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: MLS Plone Components\n"
 "POT-Creation-Date: 2014-05-27 11:16+0000\n"
-"PO-Revision-Date: 2014-05-27 11:17+0000\n"
+"PO-Revision-Date: 2014-07-09 14:56+0000\n"
 "Last-Translator: Thomas Massmann <thomas.massmann@it-spir.it>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/MLS_Plone/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -19,24 +20,24 @@ msgstr ""
 
 #: ps/plone/mlstiles/tiles/listings/search.pt:15
 msgid "Go to related search"
-msgstr ""
+msgstr "Buscar temas relacionados"
 
 #: ps/plone/mlstiles/tiles/listings/collection.py:181
 msgid "MLS: Listing Collection"
-msgstr ""
+msgstr "MLS: Grupo de Listado"
 
 #: ps/plone/mlstiles/tiles/listings/search.py:232
 msgid "MLS: Listing Search"
-msgstr ""
+msgstr "MLS: Búsqueda de Listados"
 
 #: ps/plone/mlstiles/tiles/listings/collection.py:381
 msgid "MLS: Recent Listings"
-msgstr ""
+msgstr "MLS: Listados Recientes"
 
 #: ps/plone/mlstiles/tiles/listings/search.pt:19
 msgid "The listing search is not yet active."
-msgstr ""
+msgstr "La búsqueda del listado aún no está activa."
 
 #: ps/plone/mlstiles/widgets/textline_listing.pt:87
 msgid "Wrap content in a link"
-msgstr ""
+msgstr "Envuelva el contenido de un enlace"
