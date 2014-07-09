@@ -13,6 +13,14 @@ install:
 branches:
   only:
     - master
-script: bin/code-analysis && bin/test
+script:
+  - bin/code-analysis
+  - bin/test
+after_success:
+  - bin/createcoverage run bin/test
+  - pip install -q coveralls
+  - coveralls
 notifications:
   irc: irc.freenode.org#propertyshelf
+  hipchat:
+    secure: "7bIt1k1JymS5D5hNjfymYRLUTduDp+dujTjpipk82v7kPsgLCBSUtf15TYvAfsuJluqjd/Utsh+mE4cIONmFqvkqH16RuTY3FzDr/YkT8UDp2PgWT8OHOkvOOwf+9TfhxayaY4u07TV9++UN2HJ0a7glIIRBULzZk+YFaeE8BFA="
