@@ -15,6 +15,7 @@ install_requires = [
     # -*- Extra requirements: -*-
     'collective.cover',
     'plone.mls.listing >= 0.9.11',
+    'ps.plone.mls',
 ]
 
 setup(
