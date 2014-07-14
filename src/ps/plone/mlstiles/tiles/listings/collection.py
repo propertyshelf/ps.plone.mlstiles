@@ -27,6 +27,7 @@ from plone.tiles.interfaces import (
     ITileType,
 )
 from plone.uuid.interfaces import IUUID
+from ps.plone.mls.browser.listings import featured
 from zope import schema
 from zope.annotation.interfaces import IAnnotations
 from zope.component import queryUtility
@@ -391,3 +392,19 @@ class RecentListingsTile(ListingCollectionTile):
         """Get collection configuration data from annotations."""
         annotations = IAnnotations(obj)
         return annotations.get(recent_listings.CONFIGURATION_KEY, {})
+
+
+@implementer(IListingCollectionTile)
+class FeaturedListingsTile(ListingCollectionTile):
+    """A tile that shows a list of featured MLS listings."""
+
+    short_name = _(u'MLS: Featured Listings')
+
+    def has_listing_collection(self, obj):
+        """Check if the obj is activated for recent MLS listings."""
+        return featured.IFeaturedListings.providedBy(obj)
+
+    def get_config(self, obj):
+        """Get collection configuration data from annotations."""
+        annotations = IAnnotations(obj)
+        return annotations.get(featured.CONFIGURATION_KEY, {})

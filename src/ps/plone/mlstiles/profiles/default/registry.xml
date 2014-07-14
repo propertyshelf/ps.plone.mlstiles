@@ -4,6 +4,7 @@
     <value purge="false">
       <element>ps.plone.mlstiles.listings.collection</element>
       <element>ps.plone.mlstiles.listings.recent</element>
+      <element>ps.plone.mlstiles.listings.featured</element>
       <element>ps.plone.mlstiles.listings.search</element>
     </value>
   </record>
@@ -12,6 +13,7 @@
     <value purge="false">
       <element>ps.plone.mlstiles.listings.collection</element>
       <element>ps.plone.mlstiles.listings.recent</element>
+      <element>ps.plone.mlstiles.listings.featured</element>
       <element>ps.plone.mlstiles.listings.search</element>
     </value>
   </record>

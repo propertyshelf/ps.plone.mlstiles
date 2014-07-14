@@ -29,6 +29,19 @@
       for="*"
       />
 
+  <!-- Featured MLS Listings .-->
+  <plone:tile
+      name="ps.plone.mlstiles.listings.featured"
+      title="MLS: Featured Listings"
+      description="A tile that shows a list of featured MLS listings."
+      icon="++resource++collective.cover/tile-list.png"
+      add_permission="cmf.ModifyPortalContent"
+      schema=".collection.IListingCollectionTile"
+      class=".collection.FeaturedListingsTile"
+      permission="zope2.View"
+      for="*"
+      />
+
   <!-- Listing Search .-->
   <plone:tile
       name="ps.plone.mlstiles.listings.search"
