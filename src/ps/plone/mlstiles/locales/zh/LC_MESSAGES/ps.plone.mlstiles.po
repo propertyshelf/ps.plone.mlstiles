@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MLS Plone Components\n"
-"POT-Creation-Date: 2014-05-27 11:16+0000\n"
-"PO-Revision-Date: 2014-05-27 11:17+0000\n"
+"POT-Creation-Date: 2014-07-14 16:32+0000\n"
+"PO-Revision-Date: 2014-07-14 16:34+0000\n"
 "Last-Translator: Thomas Massmann <thomas.massmann@it-spir.it>\n"
 "Language-Team: Chinese (http://www.transifex.com/projects/p/MLS_Plone/language/zh/)\n"
 "MIME-Version: 1.0\n"
@@ -21,15 +21,19 @@ msgstr ""
 msgid "Go to related search"
 msgstr ""
 
-#: ps/plone/mlstiles/tiles/listings/collection.py:181
+#: ps/plone/mlstiles/tiles/listings/collection.py:401
+msgid "MLS: Featured Listings"
+msgstr ""
+
+#: ps/plone/mlstiles/tiles/listings/collection.py:182
 msgid "MLS: Listing Collection"
 msgstr ""
 
-#: ps/plone/mlstiles/tiles/listings/search.py:232
+#: ps/plone/mlstiles/tiles/listings/search.py:239
 msgid "MLS: Listing Search"
 msgstr ""
 
-#: ps/plone/mlstiles/tiles/listings/collection.py:381
+#: ps/plone/mlstiles/tiles/listings/collection.py:385
 msgid "MLS: Recent Listings"
 msgstr ""
 
