@@ -12,4 +12,17 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+
+  <!-- GenericSetup Upgrade Steps. -->
+  <!-- =========================== -->
+  <genericsetup:upgradeStep
+      title="Upgrade ps.plone.mlstiles"
+      description="Add featured listings tile."
+      source="1000"
+      destination="1001"
+      handler=".migrations.migrate_to_1001"
+      sortkey="1"
+      profile="ps.plone.mlstiles:default"
+      />
+
 </configure>
