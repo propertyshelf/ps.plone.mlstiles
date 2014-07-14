@@ -4,5 +4,6 @@
   <dependencies>
     <dependency>profile-collective.cover:default</dependency>
     <dependency>profile-plone.mls.listing:default</dependency>
+    <dependency>profile-ps.plone.mls:default</dependency>
   </dependencies>
 </metadata>

@@ -45,6 +45,11 @@ class TestSetup(unittest.TestCase):
         qi = self.portal.portal_quickinstaller
         self.assertTrue(qi.isProductInstalled('plone.mls.listing'))
 
+    def test_ps_plone_mls_installed(self):
+        """Validate that ps.plone.mls is installed."""
+        qi = self.portal.portal_quickinstaller
+        self.assertTrue(qi.isProductInstalled('ps.plone.mls'))
+
     def test_cssregistry(self):
         """Validate the CSS file registration."""
         resource_ids = self.portal.portal_css.getResourceIds()
