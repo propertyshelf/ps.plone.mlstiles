@@ -15,10 +15,6 @@
         <a tal:attributes="href view/search_url" i18n:domain="ps.plone.mlstiles" i18n:translate="">Go to related search</a>
       </div>
 
-      <div tal:condition="not:search_form">
-        <p i18n:domain="ps.plone.mlstiles" i18n:translate="">The listing search is not yet active.</p>
-      </div>
-
       <div class="tile-header" tal:condition="view/show_header">
         <tal:fields tal:repeat="field view/get_configured_fields">
           <tal:header
@@ -30,6 +26,10 @@
             <h4 tal:condition="python:htmltag == 'h4'" tal:content="view/data/header"></h4>
           </tal:header>
         </tal:fields>
+      </div>
+
+      <div tal:condition="not:search_form">
+        <p i18n:domain="ps.plone.mlstiles" i18n:translate="">The listing search is not yet active.</p>
       </div>
 
       <div tal:condition="search_form" tal:replace="structure search_form/render"></div>
