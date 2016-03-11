@@ -56,14 +56,14 @@ class ListingSearchTileTestCase(TestTileMixin, unittest.TestCase):
 
     def test_delete_content(self):
         """Validate behavior when the content is removed."""
-        obj = self.portal['my-collection']
+        obj = self.portal['mandelbrot-set']
         self.tile.populate_with_object(obj)
         rendered = self.tile()
         self.assertNotIn('form', rendered)
 
         setRoles(self.portal, TEST_USER_ID, ['Manager', 'Editor', 'Reviewer'])
         login(self.portal, TEST_USER_NAME)
-        self.portal.manage_delObjects(['my-collection'])
+        self.portal.manage_delObjects(['mandelbrot-set'])
 
         msg = 'Please drag&amp;drop some content here to populate the tile.'
 
