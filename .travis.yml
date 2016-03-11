@@ -9,7 +9,8 @@ install:
   - sed -ie "s#versions-$PLONE_VERSION.x#versions#" travis.cfg
   - mkdir -p buildout-cache/eggs
   - mkdir -p buildout-cache/downloads
-  - python bootstrap.py -c travis.cfg
+  - pip install -r requirements.txt
+  - buildout bootstrap -c travis.cfg
   - bin/buildout -c travis.cfg annotate
   - bin/buildout -c travis.cfg -N -q
 branches:
@@ -23,6 +24,5 @@ after_success:
   - pip install -q coveralls
   - coveralls
 notifications:
-  irc: irc.freenode.org#propertyshelf
   hipchat:
     secure: "7bIt1k1JymS5D5hNjfymYRLUTduDp+dujTjpipk82v7kPsgLCBSUtf15TYvAfsuJluqjd/Utsh+mE4cIONmFqvkqH16RuTY3FzDr/YkT8UDp2PgWT8OHOkvOOwf+9TfhxayaY4u07TV9++UN2HJ0a7glIIRBULzZk+YFaeE8BFA="
