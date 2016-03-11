@@ -2,6 +2,7 @@
 """Test Layer for ps.plone.mlstiles."""
 
 # zope imports
+from collective.cover.tests.utils import create_standard_content_for_tests
 from plone.app.testing import (
     IntegrationTesting,
     PloneSandboxLayer,
@@ -28,6 +29,13 @@ class PSPloneMLSTiles(PloneSandboxLayer):
         """Set up a Plone site for testing."""
         self.applyProfile(portal, 'ps.plone.mlstiles:default')
         self.applyProfile(portal, 'collective.cover:testfixture')
+
+        # setup test content
+        create_standard_content_for_tests(portal)
+
+        portal_workflow = portal.portal_workflow
+        portal_workflow.setChainForPortalTypes(
+            ['Collection'], ['simple_publication_workflow'])
 
         # Prevent kss validation errors in Plone 4.2
         portal_kss = getattr(portal, 'portal_kss', None)
