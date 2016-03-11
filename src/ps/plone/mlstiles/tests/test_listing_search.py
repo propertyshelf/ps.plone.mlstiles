@@ -11,6 +11,7 @@ except ImportError:
 # zope imports
 from collective.cover.testing import ALL_CONTENT_TYPES
 from collective.cover.tests.base import TestTileMixin
+from plone import api
 from plone.app.testing import (
     TEST_USER_ID,
     TEST_USER_NAME,
@@ -63,7 +64,7 @@ class ListingSearchTileTestCase(TestTileMixin, unittest.TestCase):
 
         setRoles(self.portal, TEST_USER_ID, ['Manager', 'Editor', 'Reviewer'])
         login(self.portal, TEST_USER_NAME)
-        self.portal.manage_delObjects(['mandelbrot-set'])
+        api.content.delete(obj=self.portal['mandelbrot-set'])
 
         msg = 'Please drag&amp;drop some content here to populate the tile.'
 

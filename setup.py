@@ -14,6 +14,7 @@ install_requires = [
     'setuptools',
     # -*- Extra requirements: -*-
     'collective.cover',
+    'plone.api',
     'plone.mls.listing >= 0.9.11',
     'ps.plone.mls',
 ]

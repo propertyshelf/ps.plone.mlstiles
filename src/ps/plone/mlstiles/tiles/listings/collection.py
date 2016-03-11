@@ -12,6 +12,7 @@ from collective.cover.tiles import (
     base,
     configuration_view,
 )
+from plone import api as ploneapi
 from plone.app.uuid.utils import uuidToObject
 from plone.directives import form
 from plone.memoize import view
@@ -30,7 +31,10 @@ from plone.uuid.interfaces import IUUID
 from ps.plone.mls.browser.listings import featured
 from zope import schema
 from zope.annotation.interfaces import IAnnotations
-from zope.component import queryUtility
+from zope.component import (
+    getMultiAdapter,
+    queryUtility,
+)
 from zope.interface import implementer
 from zope.schema.fieldproperty import FieldProperty
 
@@ -242,7 +246,10 @@ class ListingCollectionTile(base.PersistentCoverTile):
             if not self.has_listing_collection(obj):
                 return items
             config = copy.copy(self.get_config(obj))
-            portal_state = obj.unrestrictedTraverse('@@plone_portal_state')
+            portal_state = getMultiAdapter(
+                (self.context, self.request),
+                name='plone_portal_state',
+            )
             params = {
                 'limit': size,
                 'offset': offset,
@@ -349,7 +356,7 @@ class ListingCollectionTile(base.PersistentCoverTile):
                 # Scale string is something like: 'mini 200:200'.
                 # We need the name only: 'mini'.
                 scale = scaleconf.split(' ')[0]
-                scales = item.restrictedTraverse('@@images')
+                scales = ploneapi.content.get(path='@@images')
                 return scales.scale('image', scale)
 
     @view.memoize
