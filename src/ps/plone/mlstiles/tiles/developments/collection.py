@@ -71,19 +71,18 @@ class IDevelopmentCollectionTile(base.IPersistentCoverTile):
         title=_cc(u'Title'),
     )
 
-    form.omitted('image')
-    form.no_omit(configuration_view.IDefaultConfigureForm, 'image')
-    image = NamedImage(
+    form.omitted('description')
+    form.no_omit(configuration_view.IDefaultConfigureForm, 'description')
+    description = schema.TextLine(
         required=False,
-        title=_cc(u'Image'),
+        title=_cc(u'Description'),
     )
 
-    form.omitted('image_count')
-    form.no_omit(configuration_view.IDefaultConfigureForm, 'image_count')
-    form.widget(image_count='ps.plone.mlstiles.widgets.ListingTextFieldWidget')
-    image_count = schema.TextLine(
+    form.omitted('logo')
+    form.no_omit(configuration_view.IDefaultConfigureForm, 'logo')
+    logo = NamedImage(
         required=False,
-        title=_mls(u'Image Count'),
+        title=_cc(u'Logo'),
     )
 
     form.omitted('location')
@@ -92,6 +91,14 @@ class IDevelopmentCollectionTile(base.IPersistentCoverTile):
     location = schema.TextLine(
         required=False,
         title=_mls(u'Location'),
+    )
+
+    form.omitted('lot_size')
+    form.no_omit(configuration_view.IDefaultConfigureForm, 'lot_size')
+    form.widget(lot_size='ps.plone.mlstiles.widgets.ListingTextFieldWidget')
+    lot_size = schema.TextLine(
+        required=False,
+        title=_mls(u'Total Lot Size'),
     )
 
     form.omitted('location_type')
@@ -104,12 +111,35 @@ class IDevelopmentCollectionTile(base.IPersistentCoverTile):
         title=_mls(u'Location Type'),
     )
 
-    form.omitted('view_type')
-    form.no_omit(configuration_view.IDefaultConfigureForm, 'view_type')
-    form.widget(view_type='ps.plone.mlstiles.widgets.ListingTextFieldWidget')
-    view_type = schema.TextLine(
+    form.omitted('agency_name')
+    form.no_omit(configuration_view.IDefaultConfigureForm, 'agency_name')
+    form.widget(agency_name='ps.plone.mlstiles.widgets.ListingTextFieldWidget')
+    agency_name = schema.TextLine(
         required=False,
-        title=_mls(u'View Type'),
+        title=_mls(u'Agency Name'),
+    )
+
+    form.omitted('number_of_listings')
+    form.no_omit(
+        configuration_view.IDefaultConfigureForm,
+        'number_of_listings',
+    )
+    form.widget(
+        number_of_listings='ps.plone.mlstiles.widgets.ListingTextFieldWidget',
+    )
+    number_of_listings = schema.TextLine(
+        required=False,
+        title=_mls(u'Listings'),
+    )
+
+    form.omitted('number_of_groups')
+    form.no_omit(configuration_view.IDefaultConfigureForm, 'number_of_groups')
+    form.widget(
+        number_of_groups='ps.plone.mlstiles.widgets.ListingTextFieldWidget',
+    )
+    number_of_groups = schema.TextLine(
+        required=False,
+        title=_mls(u'Property Groups'),
     )
 
     footer = schema.TextLine(
@@ -137,19 +167,18 @@ class DevelopmentCollectionTile(base.PersistentCoverTile):
     count = FieldProperty(IDevelopmentCollectionTile['count'])
     offset = FieldProperty(IDevelopmentCollectionTile['offset'])
     title = FieldProperty(IDevelopmentCollectionTile['title'])
-    image = FieldProperty(IDevelopmentCollectionTile['image'])
-    # price = FieldProperty(IDevelopmentCollectionTile['price'])
-    # workflow_status = FieldProperty(
-    #     IDevelopmentCollectionTile['workflow_status']
-    # )
-    # listing_type = FieldProperty(IDevelopmentCollectionTile['listing_type'])
-    image_count = FieldProperty(IDevelopmentCollectionTile['image_count'])
-    # object_type = FieldProperty(IDevelopmentCollectionTile['object_type'])
-    # beds_baths = FieldProperty(IDevelopmentCollectionTile['beds_baths'])
+    description = FieldProperty(IDevelopmentCollectionTile['description'])
+    logo = FieldProperty(IDevelopmentCollectionTile['logo'])
     location = FieldProperty(IDevelopmentCollectionTile['location'])
+    lot_size = FieldProperty(IDevelopmentCollectionTile['lot_size'])
     location_type = FieldProperty(IDevelopmentCollectionTile['location_type'])
-    view_type = FieldProperty(IDevelopmentCollectionTile['view_type'])
-    # lot_size = FieldProperty(IDevelopmentCollectionTile['lot_size'])
+    agency_name = FieldProperty(IDevelopmentCollectionTile['agency_name'])
+    number_of_listings = FieldProperty(
+        IDevelopmentCollectionTile['number_of_listings'],
+    )
+    number_of_groups = FieldProperty(
+        IDevelopmentCollectionTile['number_of_groups'],
+    )
     footer = FieldProperty(IDevelopmentCollectionTile['footer'])
     uuid = FieldProperty(IDevelopmentCollectionTile['uuid'])
 
