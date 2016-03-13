@@ -17,6 +17,7 @@ from plone.app.uuid.utils import uuidToObject
 from plone.directives import form
 from plone.memoize import view
 from plone.mls.listing.i18n import _ as _mls
+from plone.memoize.view import memoize
 from plone.namedfile.field import NamedBlobImage as NamedImage
 from plone.tiles.interfaces import (
     ITileDataManager,
@@ -37,6 +38,7 @@ from zope.component import (
 )
 from zope.interface import implementer
 from zope.schema.fieldproperty import FieldProperty
+from zope.traversing.browser.absoluteurl import absoluteURL
 
 # local imports
 from ps.plone.mlstiles import _
@@ -254,6 +256,31 @@ class DevelopmentCollectionTile(base.PersistentCoverTile):
             self.remove_relation()
 
         return items
+
+    @memoize
+    def view_url(self, obj):
+        """Generate view url."""
+        return '/'.join([
+            absoluteURL(obj, self.request),
+            '',
+        ])
+
+    def get_url(self, item):
+        """Get the (possibly modified) URL for the development item."""
+        config = {}
+        uuid = self.data.get('uuid', None)
+        obj = uuidToObject(uuid)
+        if uuid and obj:
+            config = copy.copy(self.get_config(obj))
+
+        url = u'{0}{1}'.format(self.view_url(obj), item.id.value)
+        if config.get('modify_url', True):
+            url = u'{0}___{1}-{2}'.format(
+                url,
+                item.title.value,
+                item.location.value,
+            )
+        return url
 
     def is_empty(self):
         return self.data.get('uuid', None) is None or \
