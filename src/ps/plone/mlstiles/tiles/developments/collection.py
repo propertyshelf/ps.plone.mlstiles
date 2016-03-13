@@ -16,7 +16,6 @@ from plone import api as ploneapi
 from plone.app.uuid.utils import uuidToObject
 from plone.directives import form
 from plone.memoize import view
-from plone.mls.listing import api
 from plone.mls.listing.i18n import _ as _mls
 from plone.namedfile.field import NamedBlobImage as NamedImage
 from plone.tiles.interfaces import (
@@ -24,9 +23,12 @@ from plone.tiles.interfaces import (
     ITileType,
 )
 from plone.uuid.interfaces import IUUID
+from ps.plone.mls import (
+    api,
+    config,
+)
 from ps.plone.mls.interfaces import IDevelopmentCollection
-from ps.plone.mls import config
-# from ps.plone.mls.browser.developments import collection
+from ps.plone.mls.browser.developments import collection
 from zope import schema
 from zope.annotation.interfaces import IAnnotations
 from zope.component import (
@@ -227,17 +229,27 @@ class DevelopmentCollectionTile(base.PersistentCoverTile):
                 (self.context, self.request),
                 name='plone_portal_state',
             )
+            lang = portal_state.language()
+            mlsapi = api.get_api(context=obj, lang=lang)
             params = {
+                # 'summary': '1',
+                'fields': u','.join(collection.FIELDS),
                 'limit': size,
                 'offset': offset,
-                'lang': portal_state.language(),
             }
             config.update(params)
-            items = api.search(
-                params=api.prepare_search_params(config),
-                batching=False,
+            params = api.prepare_search_params(
+                config,
                 context=obj,
+                omit=collection.EXCLUDED_SEARCH_FIELDS,
             )
+            try:
+                result = api.Development.search(mlsapi, params=params)
+            except Exception:
+                pass
+            else:
+                items = result.get_items()
+
         else:
             self.remove_relation()
 
