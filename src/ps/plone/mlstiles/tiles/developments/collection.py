@@ -82,6 +82,13 @@ class IDevelopmentCollectionTile(base.IPersistentCoverTile):
         title=_cc(u'Description'),
     )
 
+    form.omitted('banner')
+    form.no_omit(configuration_view.IDefaultConfigureForm, 'banner')
+    banner = NamedImage(
+        required=False,
+        title=_cc(u'Banner'),
+    )
+
     form.omitted('logo')
     form.no_omit(configuration_view.IDefaultConfigureForm, 'logo')
     logo = NamedImage(
@@ -172,6 +179,7 @@ class DevelopmentCollectionTile(base.PersistentCoverTile):
     offset = FieldProperty(IDevelopmentCollectionTile['offset'])
     title = FieldProperty(IDevelopmentCollectionTile['title'])
     description = FieldProperty(IDevelopmentCollectionTile['description'])
+    banner = FieldProperty(IDevelopmentCollectionTile['banner'])
     logo = FieldProperty(IDevelopmentCollectionTile['logo'])
     location = FieldProperty(IDevelopmentCollectionTile['location'])
     lot_size = FieldProperty(IDevelopmentCollectionTile['lot_size'])
@@ -233,9 +241,12 @@ class DevelopmentCollectionTile(base.PersistentCoverTile):
             )
             lang = portal_state.language()
             mlsapi = api.get_api(context=obj, lang=lang)
+            fields = collection.FIELDS
+            if 'banner_image' not in fields:
+                fields.append('banner_image')
             params = {
                 # 'summary': '1',
-                'fields': u','.join(collection.FIELDS),
+                'fields': u','.join(fields),
                 'limit': size,
                 'offset': offset,
             }
