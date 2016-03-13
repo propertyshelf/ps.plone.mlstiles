@@ -36,7 +36,7 @@
         </div>
 
         <div class="collection-item tileItem visualIEFloatFix"
-             tal:repeat="listing results">
+             tal:repeat="development results | nothing">
           <tal:items
               tal:define="listing_title listing/title/value;
                           listing_url string:${view/collection_url}/${listing/id/value};">
