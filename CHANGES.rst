@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.2 (unreleased)
+----------------
+
+- Add freetext search field.
+- Fix listing search custom form prefix.
+
+
 0.1.1 (2014-07-15)
 ------------------
 

@@ -61,6 +61,12 @@ class ListingSearchForm(form.Form):
     fields['pool'].widgetFactory = radio.RadioFieldWidget
     fields['view_type'].widgetFactory = checkbox.CheckBoxFieldWidget
 
+    def __init__(self, context, request):
+        super(ListingSearchForm, self).__init__(context, request)
+        form_context = self.getContent()
+        if form_context is not None:
+            self.prefix = 'form.{0}'.format(form_context.id)
+
     @property
     def action(self):
         """See interfaces.IInputForm"""
