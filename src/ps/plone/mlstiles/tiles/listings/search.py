@@ -87,6 +87,13 @@ class IListingSearchTile(base.IPersistentCoverTile):
         title=_CC(u'Header'),
     )
 
+    form.omitted('form_q')
+    form.no_omit(IDefaultConfigureForm, 'form_q')
+    form_q = schema.Text(
+        required=False,
+        title=_MLS(u'Freetext search (Location, Keywords, Listing ID, ...)'),
+    )
+
     form.omitted('form_listing_type')
     form.no_omit(IDefaultConfigureForm, 'form_listing_type')
     form_listing_type = schema.Text(
@@ -242,6 +249,7 @@ class ListingSearchTile(base.PersistentCoverTile):
 
     header = FieldProperty(IListingSearchTile['header'])
 
+    form_q = FieldProperty(IListingSearchTile['form_q'])
     form_listing_type = FieldProperty(IListingSearchTile['form_listing_type'])
     form_location_state = FieldProperty(
         IListingSearchTile['form_location_state']
