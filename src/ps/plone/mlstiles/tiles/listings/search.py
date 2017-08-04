@@ -6,19 +6,19 @@ from Acquisition import aq_inner
 from Products.CMFPlone import PloneMessageFactory as PMF
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from collective.cover import _ as _cc
+from collective.cover import _ as _CC
 from collective.cover.tiles import base
 from collective.cover.tiles.configuration_view import IDefaultConfigureForm
+from plone import api as ploneapi
 from plone.app.uuid.utils import uuidToObject
 from plone.directives import form
 from plone.mls.listing.browser import listing_search
 from plone.mls.listing.browser.valuerange.widget import ValueRangeFieldWidget
-from plone.mls.listing.i18n import _ as _mls
+from plone.mls.listing.i18n import _ as _MLS
 from plone.tiles.interfaces import (
     ITileDataManager,
     ITileType,
 )
-from plone.uuid.interfaces import IUUID
 from z3c.form import button, field
 from z3c.form.browser import checkbox, radio
 from zope import schema
@@ -41,6 +41,7 @@ from ps.plone.mlstiles import _
 
 class ListingSearchForm(form.Form):
     """Listing Search Form."""
+
     fields = field.Fields(listing_search.IListingSearchForm)
     ignoreContext = True
     method = 'get'
@@ -83,150 +84,150 @@ class IListingSearchTile(base.IPersistentCoverTile):
 
     header = schema.TextLine(
         required=False,
-        title=_cc(u'Header'),
+        title=_CC(u'Header'),
     )
 
     form.omitted('form_listing_type')
     form.no_omit(IDefaultConfigureForm, 'form_listing_type')
     form_listing_type = schema.Text(
         required=False,
-        title=_mls(u'Listing Type'),
+        title=_MLS(u'Listing Type'),
     )
 
     form.omitted('form_location_state')
     form.no_omit(IDefaultConfigureForm, 'form_location_state')
     form_location_state = schema.Text(
         required=False,
-        title=_mls(u'State'),
+        title=_MLS(u'State'),
     )
 
     form.omitted('form_location_county')
     form.no_omit(IDefaultConfigureForm, 'form_location_county')
     form_location_county = schema.Text(
         required=False,
-        title=_mls(u'County'),
+        title=_MLS(u'County'),
     )
 
     form.omitted('form_location_district')
     form.no_omit(IDefaultConfigureForm, 'form_location_district')
     form_location_district = schema.Text(
         required=False,
-        title=_mls(u'District'),
+        title=_MLS(u'District'),
     )
 
     form.omitted('form_location_city')
     form.no_omit(IDefaultConfigureForm, 'form_location_city')
     form_location_city = schema.Text(
         required=False,
-        title=_mls(u'City/Town'),
+        title=_MLS(u'City/Town'),
     )
 
     form.omitted('form_price_min')
     form.no_omit(IDefaultConfigureForm, 'form_price_min')
     form_price_min = schema.Text(
         required=False,
-        title=_mls(u'Price (Min)'),
+        title=_MLS(u'Price (Min)'),
     )
 
     form.omitted('form_price_max')
     form.no_omit(IDefaultConfigureForm, 'form_price_max')
     form_price_max = schema.Text(
         required=False,
-        title=_mls(u'Price (Max)'),
+        title=_MLS(u'Price (Max)'),
     )
 
     form.omitted('form_location_type')
     form.no_omit(IDefaultConfigureForm, 'form_location_type')
     form_location_type = schema.Text(
         required=False,
-        title=_mls(u'Location Type'),
+        title=_MLS(u'Location Type'),
     )
 
     form.omitted('form_geographic_type')
     form.no_omit(IDefaultConfigureForm, 'form_geographic_type')
     form_geographic_type = schema.Text(
         required=False,
-        title=_mls(u'Geographic Type'),
+        title=_MLS(u'Geographic Type'),
     )
 
     form.omitted('form_view_type')
     form.no_omit(IDefaultConfigureForm, 'form_view_type')
     form_view_type = schema.Text(
         required=False,
-        title=_mls(u'View Type'),
+        title=_MLS(u'View Type'),
     )
 
     form.omitted('form_object_type')
     form.no_omit(IDefaultConfigureForm, 'form_object_type')
     form_object_type = schema.Text(
         required=False,
-        title=_mls(u'Object Type'),
+        title=_MLS(u'Object Type'),
     )
 
     form.omitted('form_ownership_type')
     form.no_omit(IDefaultConfigureForm, 'form_ownership_type')
     form_ownership_type = schema.Text(
         required=False,
-        title=_mls(u'Ownership Type'),
+        title=_MLS(u'Ownership Type'),
     )
 
     form.omitted('form_beds')
     form.no_omit(IDefaultConfigureForm, 'form_beds')
     form_beds = schema.Text(
         required=False,
-        title=_mls(u'Bedrooms'),
+        title=_MLS(u'Bedrooms'),
     )
 
     form.omitted('form_baths')
     form.no_omit(IDefaultConfigureForm, 'form_baths')
     form_baths = schema.Text(
         required=False,
-        title=_mls(u'Bathrooms'),
+        title=_MLS(u'Bathrooms'),
     )
 
     form.omitted('form_air_condition')
     form.no_omit(IDefaultConfigureForm, 'form_air_condition')
     form_air_condition = schema.Text(
         required=False,
-        title=_mls(u'Air Condition'),
+        title=_MLS(u'Air Condition'),
     )
 
     form.omitted('form_pool')
     form.no_omit(IDefaultConfigureForm, 'form_pool')
     form_pool = schema.Text(
         required=False,
-        title=_mls(u'Pool'),
+        title=_MLS(u'Pool'),
     )
 
     form.omitted('form_jacuzzi')
     form.no_omit(IDefaultConfigureForm, 'form_jacuzzi')
     form_jacuzzi = schema.Text(
         required=False,
-        title=_mls(u'Jacuzzi'),
+        title=_MLS(u'Jacuzzi'),
     )
 
     form.omitted('form_lot_size')
     form.no_omit(IDefaultConfigureForm, 'form_lot_size')
     form_lot_size = schema.Text(
         required=False,
-        title=_mls(u'Lot Size'),
+        title=_MLS(u'Lot Size'),
     )
 
     form.omitted('form_interior_area')
     form.no_omit(IDefaultConfigureForm, 'form_interior_area')
     form_interior_area = schema.Text(
         required=False,
-        title=_mls(u'Interior Area'),
+        title=_MLS(u'Interior Area'),
     )
 
     footer = schema.TextLine(
         required=False,
-        title=_cc(u'Footer'),
+        title=_CC(u'Footer'),
     )
 
     uuid = schema.TextLine(
         readonly=True,
-        title=_cc(u'UUID'),
+        title=_CC(u'UUID'),
     )
 
 
@@ -305,8 +306,8 @@ class ListingSearchTile(base.PersistentCoverTile):
         if obj.portal_type in self.accepted_ct():
             # Use obj's title as header.
             header = safe_unicode(obj.Title())
-            footer = _cc(u'More…')
-            uuid = IUUID(obj)
+            footer = _CC(u'More…')
+            uuid = ploneapi.content.get_uuid(obj)
 
             data_mgr = ITileDataManager(self)
             data_mgr.set({
@@ -333,9 +334,9 @@ class ListingSearchTile(base.PersistentCoverTile):
             return
 
         available_fields = []
-        tileType = queryUtility(ITileType, name=self.__name__)
+        tile_type = queryUtility(ITileType, name=self.__name__)
         conf = self.get_tile_configuration()
-        for name in getFieldNamesInOrder(tileType.schema):
+        for name in getFieldNamesInOrder(tile_type.schema):
             if name in conf:
                 field_conf = conf[name]
                 if ('visibility' in field_conf and

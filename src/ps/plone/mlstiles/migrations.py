@@ -2,9 +2,7 @@
 """Migration steps for ps.plone.mlstiles."""
 
 # zope imports
-from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
-from zope.component import getUtility
+from plone import api
 
 
 PROFILE_ID = 'profile-ps.plone.mlstiles:default'
@@ -16,9 +14,8 @@ def migrate_to_1001(context):
     * Install ps.plone.mls
     * Add featured listings tile.
     """
-    site = getUtility(IPloneSiteRoot)
-    setup = getToolByName(site, 'portal_setup')
-    qi = getToolByName(site, 'portal_quickinstaller')
+    setup = api.portal.get_tool(name='portal_setup')
+    qi = api.portal.get_tool(name='portal_quickinstaller')
 
     qi.installProduct('ps.plone.mls')
     setup.runImportStepFromProfile(PROFILE_ID, 'plone.app.registry')

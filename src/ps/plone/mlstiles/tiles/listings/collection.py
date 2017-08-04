@@ -7,7 +7,7 @@ import copy
 # zope imports
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from collective.cover import _ as _cc
+from collective.cover import _ as _CC
 from collective.cover.tiles import (
     base,
     configuration_view,
@@ -21,13 +21,12 @@ from plone.mls.listing.browser import (
     listing_collection,
     recent_listings,
 )
-from plone.mls.listing.i18n import _ as _mls
+from plone.mls.listing.i18n import _ as _MLS
 from plone.namedfile.field import NamedBlobImage as NamedImage
 from plone.tiles.interfaces import (
     ITileDataManager,
     ITileType,
 )
-from plone.uuid.interfaces import IUUID
 from ps.plone.mls.browser.listings import featured
 from zope import schema
 from zope.annotation.interfaces import IAnnotations
@@ -47,14 +46,14 @@ class IListingCollectionTile(base.IPersistentCoverTile):
 
     header = schema.TextLine(
         required=False,
-        title=_cc(u'Header'),
+        title=_CC(u'Header'),
     )
 
     form.omitted('count')
     form.no_omit(configuration_view.IDefaultConfigureForm, 'count')
     count = schema.List(
         required=False,
-        title=_cc(u'Number of items to display'),
+        title=_CC(u'Number of items to display'),
         value_type=schema.TextLine(),
     )
 
@@ -63,21 +62,21 @@ class IListingCollectionTile(base.IPersistentCoverTile):
     offset = schema.Int(
         default=0,
         required=False,
-        title=_cc(u'Start at item'),
+        title=_CC(u'Start at item'),
     )
 
     form.omitted('title')
     form.no_omit(configuration_view.IDefaultConfigureForm, 'title')
     title = schema.TextLine(
         required=False,
-        title=_cc(u'Title'),
+        title=_CC(u'Title'),
     )
 
     form.omitted('image')
     form.no_omit(configuration_view.IDefaultConfigureForm, 'image')
     image = NamedImage(
         required=False,
-        title=_cc(u'Image'),
+        title=_CC(u'Image'),
     )
 
     form.omitted('price')
@@ -85,7 +84,7 @@ class IListingCollectionTile(base.IPersistentCoverTile):
     form.widget(price='ps.plone.mlstiles.widgets.ListingTextFieldWidget')
     price = schema.TextLine(
         required=False,
-        title=_mls(u'Price'),
+        title=_MLS(u'Price'),
     )
 
     form.omitted('workflow_status')
@@ -95,7 +94,7 @@ class IListingCollectionTile(base.IPersistentCoverTile):
     )
     workflow_status = schema.TextLine(
         required=False,
-        title=_mls(u'Workflow Status'),
+        title=_MLS(u'Workflow Status'),
     )
 
     form.omitted('listing_type')
@@ -105,7 +104,7 @@ class IListingCollectionTile(base.IPersistentCoverTile):
     )
     listing_type = schema.TextLine(
         required=False,
-        title=_mls(u'Listing Type'),
+        title=_MLS(u'Listing Type'),
     )
 
     form.omitted('image_count')
@@ -113,7 +112,7 @@ class IListingCollectionTile(base.IPersistentCoverTile):
     form.widget(image_count='ps.plone.mlstiles.widgets.ListingTextFieldWidget')
     image_count = schema.TextLine(
         required=False,
-        title=_mls(u'Image Count'),
+        title=_MLS(u'Image Count'),
     )
 
     form.omitted('object_type')
@@ -121,7 +120,7 @@ class IListingCollectionTile(base.IPersistentCoverTile):
     form.widget(object_type='ps.plone.mlstiles.widgets.ListingTextFieldWidget')
     object_type = schema.TextLine(
         required=False,
-        title=_mls(u'Property Type'),
+        title=_MLS(u'Property Type'),
     )
 
     form.omitted('beds_baths')
@@ -129,7 +128,7 @@ class IListingCollectionTile(base.IPersistentCoverTile):
     form.widget(beds_baths='ps.plone.mlstiles.widgets.ListingTextFieldWidget')
     beds_baths = schema.TextLine(
         required=False,
-        title=_mls(u'Beds/Baths'),
+        title=_MLS(u'Beds/Baths'),
     )
 
     form.omitted('location')
@@ -137,7 +136,7 @@ class IListingCollectionTile(base.IPersistentCoverTile):
     form.widget(location='ps.plone.mlstiles.widgets.ListingTextFieldWidget')
     location = schema.TextLine(
         required=False,
-        title=_mls(u'Location'),
+        title=_MLS(u'Location'),
     )
 
     form.omitted('location_type')
@@ -147,7 +146,7 @@ class IListingCollectionTile(base.IPersistentCoverTile):
     )
     location_type = schema.TextLine(
         required=False,
-        title=_mls(u'Location Type'),
+        title=_MLS(u'Location Type'),
     )
 
     form.omitted('view_type')
@@ -155,7 +154,7 @@ class IListingCollectionTile(base.IPersistentCoverTile):
     form.widget(view_type='ps.plone.mlstiles.widgets.ListingTextFieldWidget')
     view_type = schema.TextLine(
         required=False,
-        title=_mls(u'View Type'),
+        title=_MLS(u'View Type'),
     )
 
     form.omitted('lot_size')
@@ -163,17 +162,17 @@ class IListingCollectionTile(base.IPersistentCoverTile):
     form.widget(lot_size='ps.plone.mlstiles.widgets.ListingTextFieldWidget')
     lot_size = schema.TextLine(
         required=False,
-        title=_mls(u'Total Lot Size'),
+        title=_MLS(u'Total Lot Size'),
     )
 
     footer = schema.TextLine(
         required=False,
-        title=_cc(u'Footer'),
+        title=_CC(u'Footer'),
     )
 
     uuid = schema.TextLine(
         readonly=True,
-        title=_cc(u'UUID'),
+        title=_CC(u'UUID'),
     )
 
 
@@ -277,8 +276,8 @@ class ListingCollectionTile(base.PersistentCoverTile):
         if obj.portal_type in self.accepted_ct():
             # Use obj's title as header.
             header = safe_unicode(obj.Title())
-            footer = _cc(u'More…')
-            uuid = IUUID(obj)
+            footer = _CC(u'More…')
+            uuid = ploneapi.content.get_uuid(obj)
 
             data_mgr = ITileDataManager(self)
             data_mgr.set({
@@ -298,10 +297,10 @@ class ListingCollectionTile(base.PersistentCoverTile):
     def get_configured_fields(self):
         # Override this method, since we are not storing anything
         # in the fields, we just use them for configuration
-        tileType = queryUtility(ITileType, name=self.__name__)
+        tile_type = queryUtility(ITileType, name=self.__name__)
         conf = self.get_tile_configuration()
 
-        fields = schema.getFieldsInOrder(tileType.schema)
+        fields = schema.getFieldsInOrder(tile_type.schema)
 
         results = []
         for name, obj in fields:
@@ -342,8 +341,10 @@ class ListingCollectionTile(base.PersistentCoverTile):
         return results
 
     def thumbnail(self, item):
-        """Return a thumbnail of an image if the item has an image field and
-        the field is visible in the tile.
+        """Return a thumbnail of an image.
+
+        Return it if the item has an image field and the field is visible
+        in the tile.
 
         :param item: [required]
         :type item: content object
