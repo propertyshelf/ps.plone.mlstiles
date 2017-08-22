@@ -2,7 +2,11 @@
 """Test Layer for ps.plone.mlstiles."""
 
 # zope imports
-from collective.cover.tests.utils import create_standard_content_for_tests
+try:
+    from collective.cover.tests.utils import create_standard_content_for_tests
+    HAS_COVER = True
+except ImportError:
+    HAS_COVER = False
 from plone.app.testing import (
     IntegrationTesting,
     PloneSandboxLayer,
@@ -12,6 +16,7 @@ from plone.app.testing import (
 
 class PSPloneMLSTiles(PloneSandboxLayer):
     """Custom Test Layer for ps.plone.mlstiles."""
+
     defaultBases = (PLONE_FIXTURE, )
 
     def setUpZope(self, app, configurationContext):
@@ -23,10 +28,12 @@ class PSPloneMLSTiles(PloneSandboxLayer):
     def setUpPloneSite(self, portal):
         """Set up a Plone site for testing."""
         self.applyProfile(portal, 'ps.plone.mlstiles:default')
-        self.applyProfile(portal, 'collective.cover:testfixture')
 
         # setup test content
-        create_standard_content_for_tests(portal)
+        if HAS_COVER:
+            self.applyProfile(portal, 'ps.plone.mlstiles:support_cover')
+            self.applyProfile(portal, 'collective.cover:testfixture')
+            create_standard_content_for_tests(portal)
 
         portal_workflow = portal.portal_workflow
         portal_workflow.setChainForPortalTypes(
