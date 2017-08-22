@@ -4,5 +4,6 @@
 
   <include package="collective.cover" />
   <include file="developments.zcml" />
+  <include file="listings.zcml" />
 
 </configure>

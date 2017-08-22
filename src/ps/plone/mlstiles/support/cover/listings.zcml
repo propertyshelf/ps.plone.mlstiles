@@ -1,0 +1,19 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="ps.plone.mlstiles">
+
+  <!-- Listing Search .-->
+  <plone:tile
+      add_permission="cmf.ModifyPortalContent"
+      class=".listing_search.ListingSearchTile"
+      description="A tile that shows a search form for listings."
+      for="*"
+      icon="++resource++ps.plone.mlstiles/tile-search.png"
+      name="ps.plone.mlstiles.listings.search"
+      permission="zope2.View"
+      schema=".listing_search.IListingSearchTile"
+      title="MLS: Listing Search"
+      />
+
+</configure>

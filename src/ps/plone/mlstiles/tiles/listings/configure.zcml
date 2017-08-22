@@ -42,17 +42,4 @@
       for="*"
       />
 
-  <!-- Listing Search .-->
-  <plone:tile
-      name="ps.plone.mlstiles.listings.search"
-      title="MLS: Listing Search"
-      description="A tile that shows a search form for listings."
-      icon="++resource++ps.plone.mlstiles/tile-search.png"
-      add_permission="cmf.ModifyPortalContent"
-      schema=".search.IListingSearchTile"
-      class=".search.ListingSearchTile"
-      permission="zope2.View"
-      for="*"
-      />
-
 </configure>
