@@ -4,7 +4,7 @@
     i18n_domain="ps.plone.mlstiles">
 
   <!-- MLS Listing Collection .-->
-<!--   <plone:tile
+  <plone:tile
       add_permission="cmf.ModifyPortalContent"
       class=".listing_collection.ListingCollectionTile"
       description="A tile that shows a list of MLS listings."
@@ -15,9 +15,9 @@
       schema=".listing_collection.IListingCollectionTile"
       title="MLS: Listing Collection"
       />
- -->
+
   <!-- Recent MLS Listings .-->
-<!--   <plone:tile
+  <plone:tile
       add_permission="cmf.ModifyPortalContent"
       class=".listing_collection.RecentListingsTile"
       description="A tile that shows a list of recent MLS listings."
@@ -28,9 +28,9 @@
       schema=".listing_collection.IListingCollectionTile"
       title="MLS: Recent Listings"
       />
- -->
+
   <!-- Featured MLS Listings .-->
-<!--   <plone:tile
+  <plone:tile
       add_permission="cmf.ModifyPortalContent"
       class=".listing_collection.FeaturedListingsTile"
       description="A tile that shows a list of featured MLS listings."
@@ -41,7 +41,7 @@
       schema=".listing_collection.IListingCollectionTile"
       title="MLS: Featured Listings"
       />
- -->
+
   <!-- Listing Search .-->
   <plone:tile
       add_permission="cmf.ModifyPortalContent"
