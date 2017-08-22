@@ -2,7 +2,6 @@
 """A tile that shows a list of MLS developments."""
 
 # zope import
-from plone.app.vocabularies.catalog import CatalogSource as CatalogSourceBase
 from plone.supermodel.model import Schema
 from plone.tiles import Tile
 from ps.plone.mls import (
@@ -16,14 +15,7 @@ from zope.schema.fieldproperty import FieldProperty
 
 # local imports
 from ps.plone.mlstiles import _
-
-
-class CatalogSource(CatalogSourceBase):
-    """Specific catalog source to allow targeted widget."""
-
-    def __contains__(self, value):
-        """Return always contains to allow lazy handling of removed objs."""
-        return True
+from ps.plone.mlstiles.tiles.base import CatalogSource
 
 
 class IDevelopmentCollectionTile(Schema):
