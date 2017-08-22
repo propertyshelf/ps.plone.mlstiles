@@ -2,22 +2,17 @@
 """Test Setup of ps.plone.mlstiles."""
 
 # python imports
-try:
-    import unittest2 as unittest
-except ImportError:
-    import unittest
+import unittest
 
 # zope imports
 from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
 
 # local imports
-from ps.plone.mlstiles.testing import PS_PLONE_MLSTILES_INTEGRATION_TESTING
-
-
-CSS = [
-    '++resource++ps.plone.mlstiles/mlstiles.css',
-]
+from ps.plone.mlstiles.testing import (
+    PS_PLONE_MLSTILES_INTEGRATION_TESTING,
+    skip_if_no_cover,
+)
 
 
 class TestSetup(unittest.TestCase):
@@ -30,11 +25,13 @@ class TestSetup(unittest.TestCase):
         self.app = self.layer['app']
         self.portal = self.layer['portal']
 
+    @skip_if_no_cover
     def test_collective_cover_installed(self):
         """Validate that collective.cover is installed."""
         qi = self.portal.portal_quickinstaller
         self.assertTrue(qi.isProductInstalled('collective.cover'))
 
+    @skip_if_no_cover
     def test_tiles_registered(self):
         """Validate that the tiles are registered."""
         registry = getUtility(IRegistry)
@@ -52,6 +49,7 @@ class TestSetup(unittest.TestCase):
             registry.records.get(key).value,
         )
 
+    @skip_if_no_cover
     def test_tiles_available(self):
         """Validate that the tiles are available within a cover."""
         registry = getUtility(IRegistry)

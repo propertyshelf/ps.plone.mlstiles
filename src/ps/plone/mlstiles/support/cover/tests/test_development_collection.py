@@ -3,14 +3,17 @@
 
 # python imports
 from mock import Mock
-try:
-    import unittest2 as unittest
-except ImportError:
-    import unittest
+import unittest
 
 # zope imports
-from collective.cover.testing import ALL_CONTENT_TYPES
-from collective.cover.tests.base import TestTileMixin
+try:
+    from collective.cover.testing import ALL_CONTENT_TYPES
+    from collective.cover.tests.base import TestTileMixin
+except ImportError:
+    ALL_CONTENT_TYPES = []
+
+    class TestTileMixin(object):
+        """Dummy class"""
 from plone import api
 from plone.app.testing import (
     TEST_USER_ID,
@@ -20,8 +23,10 @@ from plone.app.testing import (
 )
 
 # local imports
-from ps.plone.mlstiles.testing import PS_PLONE_MLSTILES_INTEGRATION_TESTING
-from ps.plone.mlstiles.tiles.developments import collection
+from ps.plone.mlstiles.testing import (
+    PS_PLONE_MLSTILES_INTEGRATION_TESTING,
+    skip_if_no_cover,
+)
 
 
 class DevelopmentCollectionTileTestCase(TestTileMixin, unittest.TestCase):
@@ -29,7 +34,9 @@ class DevelopmentCollectionTileTestCase(TestTileMixin, unittest.TestCase):
 
     layer = PS_PLONE_MLSTILES_INTEGRATION_TESTING
 
+    @skip_if_no_cover
     def setUp(self):
+        from ps.plone.mlstiles.tiles.developments import collection
         super(DevelopmentCollectionTileTestCase, self).setUp()
         self.tile = collection.DevelopmentCollectionTile(
             self.cover, self.request
@@ -37,26 +44,32 @@ class DevelopmentCollectionTileTestCase(TestTileMixin, unittest.TestCase):
         self.tile.__name__ = u'ps.plone.mlstiles.developments.collection'
         self.tile.id = u'test'
 
+    @skip_if_no_cover
     def test_interface(self):
         """Validate the tile implementation."""
+        from ps.plone.mlstiles.tiles.developments import collection
         self.interface = collection.IDevelopmentCollectionTile
         self.klass = collection.DevelopmentCollectionTile
         super(DevelopmentCollectionTileTestCase, self).test_interface()
 
+    @skip_if_no_cover
     def test_default_configuration(self):
         """Validate the default tile configuration."""
         self.assertTrue(self.tile.is_configurable)
         self.assertTrue(self.tile.is_editable)
         self.assertTrue(self.tile.is_droppable)
 
+    @skip_if_no_cover
     def test_accepted_content_types(self):
         """Validate the accepted content types for the tile."""
         self.assertEqual(self.tile.accepted_ct(), ALL_CONTENT_TYPES)
 
+    @skip_if_no_cover
     def test_tile_is_empty(self):
         """Validate that the tile is empty by default."""
         self.assertTrue(self.tile.is_empty())
 
+    @skip_if_no_cover
     def test_delete_collection(self):
         """Validate behavior when the collection is removed."""
         obj = self.portal['mandelbrot-set']

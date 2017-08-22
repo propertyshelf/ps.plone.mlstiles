@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 """Test Layer for ps.plone.mlstiles."""
 
+# python imports
+import unittest
+
 # zope imports
 try:
     from collective.cover.tests.utils import create_standard_content_for_tests
@@ -12,6 +15,16 @@ from plone.app.testing import (
     PloneSandboxLayer,
     PLONE_FIXTURE,
 )
+
+
+def skip_if_no_cover(testfunc):
+    """Skip test if collective.cover is missing."""
+    try:
+        import collective.cover  # noqa
+    except ImportError:
+        return unittest.skip('collective.cover is not installed')(testfunc)
+    else:
+        return testfunc
 
 
 class PSPloneMLSTiles(PloneSandboxLayer):
