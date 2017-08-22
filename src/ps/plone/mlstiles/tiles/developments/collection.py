@@ -387,11 +387,20 @@ class DevelopmentCollectionTile(base.PersistentCoverTile):
                 return scales.scale('image', scale)
 
     @view.memoize
-    def get_image_position(self):
+    def get_banner_position(self):
         tile_conf = self.get_tile_configuration()
-        image_conf = tile_conf.get('image', None)
+        image_conf = tile_conf.get('banner', None)
         if image_conf:
             return image_conf['position']
+        return ''
+
+    @view.memoize
+    def get_logo_position(self):
+        tile_conf = self.get_tile_configuration()
+        image_conf = tile_conf.get('logo', None)
+        if image_conf:
+            return image_conf['position']
+        return ''
 
     def remove_relation(self):
         data_mgr = ITileDataManager(self)

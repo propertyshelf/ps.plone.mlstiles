@@ -53,8 +53,8 @@
               <tal:banner
                   tal:define="image development/banner_image | nothing"
                   tal:condition="python:field['id'] == 'banner' and image">
-                <figure
-                    tal:attributes="class view/get_image_position;">
+                <figure class="banner"
+                    tal:attributes="class string:banner ${view/get_banner_position};">
                   <a href=""
                       tal:attributes="href item_url;
                                       title item_title"><img src="" alt="" class="banner"
@@ -68,8 +68,8 @@
               <tal:logo
                   tal:define="image development/logo | nothing"
                   tal:condition="python:field['id'] == 'logo'">
-                <figure
-                    tal:attributes="class view/get_image_position;">
+                <figure class="logo"
+                    tal:attributes="class string:logo ${view/get_logo_position};">
                   <a href=""
                       tal:attributes="href item_url;
                                       title item_title"><img src="" alt="" class="logo"
