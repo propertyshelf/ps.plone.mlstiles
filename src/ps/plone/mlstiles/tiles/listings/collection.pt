@@ -9,7 +9,7 @@
       Please drop a collection here to fill the tile.
     </p>
 
-    <div class="listing-collection-tile tile-content" tal:condition="not:is_empty">
+    <div class="mls-collection-tile listing-collection-tile tile-content" tal:condition="not:is_empty">
       <tal:results
           tal:define="results view/results | nothing;
                       toLocalizedTime nocall:context/@@plone/toLocalizedTime">

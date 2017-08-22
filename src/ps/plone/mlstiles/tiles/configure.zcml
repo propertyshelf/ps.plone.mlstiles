@@ -7,6 +7,6 @@
   <!-- ======================== -->
   <include package=".listings" />
   <include package=".agencies" zcml:condition="installed ps.plone.mlsagencies" />
-  <include package=".developments" zcml:condition="installed ps.plone.mlsdevelopments" />
+  <include package=".developments" />
 
 </configure>
