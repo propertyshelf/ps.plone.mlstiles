@@ -88,8 +88,6 @@
                               wraplink python:field.get('wraplink', False);
                               item development/description | nothing"
                   tal:condition="python:field['id'] == 'description' and item">
-                <h5 class="item-heading" tal:condition="python:htmltag == 'h5'" tal:content="item/title">[Label]</h5>
-                <h6 class="item-heading" tal:condition="python:htmltag == 'h6'" tal:content="item/title">[Label]</h6>
                 <p class="item-body"><a href="" tal:attributes="href item_url" tal:omit-tag="not: wraplink" tal:content="item/value">[Value]</a></p>
               </div>
 
