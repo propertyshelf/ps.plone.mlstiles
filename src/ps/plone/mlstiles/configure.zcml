@@ -16,6 +16,7 @@
   <!-- Include package dependencies. -->
   <!-- ============================= -->
   <includeDependencies package="." />
+  <include package="plone.app.tiles" />
   <include package=".widgets" />
   <include package=".support" />
   <include package=".tiles" />

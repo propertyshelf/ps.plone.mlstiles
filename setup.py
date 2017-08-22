@@ -14,7 +14,14 @@ install_requires = [
     'setuptools',
     # -*- Extra requirements: -*-
     'plone.api >= 1.0',
+    'plone.app.blocks',
+    'plone.app.registry',
+    'plone.app.tiles',
+    'plone.subrequest',
+    'plone.tiles',
     'ps.plone.mls',
+    'requests',
+    'z3c.form',
 ]
 
 setup(
@@ -55,7 +62,6 @@ setup(
             'plone.app.mosaic',
         ],
         test=[
-            'collective.cover [test]',
             'mock',
             'plone.app.testing',
         ],
