@@ -30,48 +30,41 @@ class TestSetup(unittest.TestCase):
         self.app = self.layer['app']
         self.portal = self.layer['portal']
 
-    def test_product_is_installed(self):
-        """Validate that our product is installed."""
+    def test_collective_cover_installed(self):
+        """Validate that collective.cover is installed."""
         qi = self.portal.portal_quickinstaller
-        self.assertTrue(qi.isProductInstalled('ps.plone.mlstiles'))
-
-    def test_plone_mls_listing_installed(self):
-        """Validate that plone.mls.listing is installed."""
-        qi = self.portal.portal_quickinstaller
-        self.assertTrue(qi.isProductInstalled('plone.mls.listing'))
-
-    def test_ps_plone_mls_installed(self):
-        """Validate that ps.plone.mls is installed."""
-        qi = self.portal.portal_quickinstaller
-        self.assertTrue(qi.isProductInstalled('ps.plone.mls'))
-
-    def test_cssregistry(self):
-        """Validate the CSS file registration."""
-        resource_ids = self.portal.portal_css.getResourceIds()
-        for id in CSS:
-            self.assertIn(id, resource_ids, '{0} not installed'.format(id))
+        self.assertTrue(qi.isProductInstalled('collective.cover'))
 
     def test_tiles_registered(self):
         """Validate that the tiles are registered."""
         registry = getUtility(IRegistry)
         key = 'plone.app.tiles'
         self.assertIn(
-            'ps.plone.mlstiles.development_collection',
+            'ps.plone.mlstiles.listings.collection',
             registry.records.get(key).value,
         )
         self.assertIn(
-            'ps.plone.mlstiles.listing_collection',
+            'ps.plone.mlstiles.listings.recent',
             registry.records.get(key).value,
         )
         self.assertIn(
-            'ps.plone.mlstiles.featured_listings',
+            'ps.plone.mlstiles.listings.search',
+            registry.records.get(key).value,
+        )
+
+    def test_tiles_available(self):
+        """Validate that the tiles are available within a cover."""
+        registry = getUtility(IRegistry)
+        key = 'collective.cover.controlpanel.ICoverSettings.available_tiles'
+        self.assertIn(
+            'ps.plone.mlstiles.listings.collection',
             registry.records.get(key).value,
         )
         self.assertIn(
-            'ps.plone.mlstiles.recent_listings',
+            'ps.plone.mlstiles.listings.recent',
             registry.records.get(key).value,
         )
         self.assertIn(
-            'ps.plone.mlstiles.listing_search',
+            'ps.plone.mlstiles.listings.search',
             registry.records.get(key).value,
         )
