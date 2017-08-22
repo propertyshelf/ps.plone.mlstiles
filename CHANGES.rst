@@ -4,7 +4,7 @@ Changelog
 0.3 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Add development collection tile for collective cover.
 
 
 0.2 (2017-08-04)
