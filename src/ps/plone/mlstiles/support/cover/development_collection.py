@@ -25,12 +25,9 @@ from plone.tiles.interfaces import (
 )
 from ps.plone.mls import (
     api,
-    config,
 )
-from ps.plone.mls.interfaces import IDevelopmentCollection
 from ps.plone.mls.browser.developments import collection
 from zope import schema
-from zope.annotation.interfaces import IAnnotations
 from zope.component import (
     getMultiAdapter,
     queryUtility,
@@ -192,15 +189,6 @@ class DevelopmentCollectionTile(
 
     def get_title(self):
         return self.data['title']
-
-    def has_development_collection(self, obj):
-        """Check if the obj is activated for recent MLS developments."""
-        return IDevelopmentCollection.providedBy(obj)
-
-    def get_config(self, obj):
-        """Get collection configuration data from annotations."""
-        annotations = IAnnotations(obj)
-        return annotations.get(config.SETTINGS_DEVELOPMENT_COLLECTION, {})
 
     def results(self):
         items = []

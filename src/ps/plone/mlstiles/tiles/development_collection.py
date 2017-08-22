@@ -5,7 +5,13 @@
 from plone.app.vocabularies.catalog import CatalogSource as CatalogSourceBase
 from plone.supermodel.model import Schema
 from plone.tiles import Tile
+from ps.plone.mls import (
+    # api,
+    config,
+)
+from ps.plone.mls.interfaces import IDevelopmentCollection
 from zope import schema
+from zope.annotation.interfaces import IAnnotations
 from zope.schema.fieldproperty import FieldProperty
 
 # local imports
@@ -48,3 +54,12 @@ class DevelopmentCollectionTile(Tile):
     count = FieldProperty(IDevelopmentCollectionTile['count'])
     offset = FieldProperty(IDevelopmentCollectionTile['offset'])
     content_uid = FieldProperty(IDevelopmentCollectionTile['content_uid'])
+
+    def get_config(self, obj):
+        """Get collection configuration data from annotations."""
+        annotations = IAnnotations(obj)
+        return annotations.get(config.SETTINGS_DEVELOPMENT_COLLECTION, {})
+
+    def has_development_collection(self, obj):
+        """Check if the obj is activated for recent MLS developments."""
+        return IDevelopmentCollection.providedBy(obj)
