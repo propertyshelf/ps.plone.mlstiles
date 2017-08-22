@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.3 (unreleased)
+0.3 (2017-08-22)
 ----------------
 
 - Add development collection tile for collective cover.
