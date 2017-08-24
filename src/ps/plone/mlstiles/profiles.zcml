@@ -33,4 +33,14 @@
       profile="ps.plone.mlstiles:default"
       />
 
+  <genericsetup:upgradeStep
+      title="Upgrade ps.plone.mlstiles"
+      description="Add development collection tile."
+      source="1001"
+      destination="1002"
+      handler=".migrations.migrate_to_1002"
+      sortkey="1"
+      profile="ps.plone.mlstiles:default"
+      />
+
 </configure>

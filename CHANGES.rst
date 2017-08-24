@@ -1,7 +1,19 @@
 Changelog
 =========
 
-0.3 (unreleased)
+0.4 (unreleased)
+----------------
+
+- Nothing changed yet.
+
+
+0.3.1 (2017-08-24)
+------------------
+
+- Add missing upgrade step to add development collection tile to existing sites.
+
+
+0.3 (2017-08-22)
 ----------------
 
 - Add development collection tile for collective cover.
