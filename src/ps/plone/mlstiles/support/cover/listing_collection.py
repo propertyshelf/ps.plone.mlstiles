@@ -17,19 +17,13 @@ from plone.app.uuid.utils import uuidToObject
 from plone.directives import form
 from plone.memoize import view
 from plone.mls.listing import api
-from plone.mls.listing.browser import (
-    listing_collection,
-    recent_listings,
-)
 from plone.mls.listing.i18n import _ as _MLS
 from plone.namedfile.field import NamedBlobImage as NamedImage
 from plone.tiles.interfaces import (
     ITileDataManager,
     ITileType,
 )
-from ps.plone.mls.browser.listings import featured
 from zope import schema
-from zope.annotation.interfaces import IAnnotations
 from zope.component import (
     getMultiAdapter,
     queryUtility,
@@ -39,10 +33,16 @@ from zope.schema.fieldproperty import FieldProperty
 
 # local imports
 from ps.plone.mlstiles import _
+from ps.plone.mlstiles.tiles import listing_collection
 
 
-class IListingCollectionTile(base.IPersistentCoverTile):
+class IListingCollectionTile(
+    listing_collection.IListingCollectionTile,
+    base.IPersistentCoverTile,
+):
     """Configuration schema for a listing collection."""
+
+    form.omitted('content_uid')
 
     header = schema.TextLine(
         required=False,
@@ -51,19 +51,9 @@ class IListingCollectionTile(base.IPersistentCoverTile):
 
     form.omitted('count')
     form.no_omit(configuration_view.IDefaultConfigureForm, 'count')
-    count = schema.List(
-        required=False,
-        title=_CC(u'Number of items to display'),
-        value_type=schema.TextLine(),
-    )
 
     form.omitted('offset')
     form.no_omit(configuration_view.IDefaultConfigureForm, 'offset')
-    offset = schema.Int(
-        default=0,
-        required=False,
-        title=_CC(u'Start at item'),
-    )
 
     form.omitted('title')
     form.no_omit(configuration_view.IDefaultConfigureForm, 'title')
@@ -177,18 +167,19 @@ class IListingCollectionTile(base.IPersistentCoverTile):
 
 
 @implementer(IListingCollectionTile)
-class ListingCollectionTile(base.PersistentCoverTile):
+class ListingCollectionTile(
+    listing_collection.ListingCollectionTile,
+    base.PersistentCoverTile,
+):
     """A tile that shows a list of MLS listings."""
 
     is_configurable = True
     is_editable = True
     short_name = _(u'MLS: Listing Collection')
-    index = ViewPageTemplateFile('collection.pt')
+    index = ViewPageTemplateFile('listing_collection.pt')
     configured_fields = []
 
     header = FieldProperty(IListingCollectionTile['header'])
-    count = FieldProperty(IListingCollectionTile['count'])
-    offset = FieldProperty(IListingCollectionTile['offset'])
     title = FieldProperty(IListingCollectionTile['title'])
     image = FieldProperty(IListingCollectionTile['image'])
     price = FieldProperty(IListingCollectionTile['price'])
@@ -206,15 +197,6 @@ class ListingCollectionTile(base.PersistentCoverTile):
 
     def get_title(self):
         return self.data['title']
-
-    def has_listing_collection(self, obj):
-        """Check if the obj is activated for recent MLS listings."""
-        return listing_collection.IListingCollection.providedBy(obj)
-
-    def get_config(self, obj):
-        """Get collection configuration data from annotations."""
-        annotations = IAnnotations(obj)
-        return annotations.get(listing_collection.CONFIGURATION_KEY, {})
 
     def results(self):
         items = []
@@ -389,32 +371,20 @@ class ListingCollectionTile(base.PersistentCoverTile):
 
 
 @implementer(IListingCollectionTile)
-class RecentListingsTile(ListingCollectionTile):
+class RecentListingsTile(
+    listing_collection.RecentListingsTile,
+    ListingCollectionTile,
+):
     """A tile that shows a list of recent MLS listings."""
 
     short_name = _(u'MLS: Recent Listings')
 
-    def has_listing_collection(self, obj):
-        """Check if the obj is activated for recent MLS listings."""
-        return recent_listings.IRecentListings.providedBy(obj)
-
-    def get_config(self, obj):
-        """Get collection configuration data from annotations."""
-        annotations = IAnnotations(obj)
-        return annotations.get(recent_listings.CONFIGURATION_KEY, {})
-
 
 @implementer(IListingCollectionTile)
-class FeaturedListingsTile(ListingCollectionTile):
+class FeaturedListingsTile(
+    listing_collection.FeaturedListingsTile,
+    ListingCollectionTile,
+):
     """A tile that shows a list of featured MLS listings."""
 
     short_name = _(u'MLS: Featured Listings')
-
-    def has_listing_collection(self, obj):
-        """Check if the obj is activated for recent MLS listings."""
-        return featured.IFeaturedListings.providedBy(obj)
-
-    def get_config(self, obj):
-        """Get collection configuration data from annotations."""
-        annotations = IAnnotations(obj)
-        return annotations.get(featured.CONFIGURATION_KEY, {})

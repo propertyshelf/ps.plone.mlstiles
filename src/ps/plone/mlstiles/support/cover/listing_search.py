@@ -3,7 +3,6 @@
 
 # zope imports
 from Acquisition import aq_inner
-from Products.CMFPlone import PloneMessageFactory as PMF
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from collective.cover import _ as _CC
@@ -12,17 +11,12 @@ from collective.cover.tiles.configuration_view import IDefaultConfigureForm
 from plone import api as ploneapi
 from plone.app.uuid.utils import uuidToObject
 from plone.directives import form
-from plone.mls.listing.browser import listing_search
-from plone.mls.listing.browser.valuerange.widget import ValueRangeFieldWidget
 from plone.mls.listing.i18n import _ as _MLS
 from plone.tiles.interfaces import (
     ITileDataManager,
     ITileType,
 )
-from z3c.form import button, field
-from z3c.form.browser import checkbox, radio
 from zope import schema
-from zope.annotation.interfaces import IAnnotations
 from zope.component import queryUtility
 from zope.interface import alsoProvides, implementer
 from zope.schema import getFieldNamesInOrder
@@ -37,56 +31,16 @@ except ImportError:
 
 # local imports
 from ps.plone.mlstiles import _
+from ps.plone.mlstiles.tiles import listing_search
 
 
-class ListingSearchForm(form.Form):
-    """Listing Search Form."""
-
-    fields = field.Fields(listing_search.IListingSearchForm)
-    ignoreContext = True
-    method = 'get'
-    search_url = None
-
-    fields['air_condition'].widgetFactory = radio.RadioFieldWidget
-    fields['baths'].widgetFactory = ValueRangeFieldWidget
-    fields['lot_size'].widgetFactory = ValueRangeFieldWidget
-    fields['interior_area'].widgetFactory = ValueRangeFieldWidget
-    fields['beds'].widgetFactory = ValueRangeFieldWidget
-    fields['geographic_type'].widgetFactory = checkbox.CheckBoxFieldWidget
-    fields['jacuzzi'].widgetFactory = radio.RadioFieldWidget
-    fields['listing_type'].widgetFactory = checkbox.CheckBoxFieldWidget
-    fields['location_type'].widgetFactory = checkbox.CheckBoxFieldWidget
-    fields['object_type'].widgetFactory = checkbox.CheckBoxFieldWidget
-    fields['ownership_type'].widgetFactory = checkbox.CheckBoxFieldWidget
-    fields['pool'].widgetFactory = radio.RadioFieldWidget
-    fields['view_type'].widgetFactory = checkbox.CheckBoxFieldWidget
-
-    def __init__(self, context, request):
-        super(ListingSearchForm, self).__init__(context, request)
-        form_context = self.getContent()
-        if form_context is not None:
-            self.prefix = 'form.{0}'.format(form_context.id)
-
-    @property
-    def action(self):
-        """See interfaces.IInputForm"""
-        if self.search_url:
-            return self.search_url
-        return super(ListingSearchForm, self).action()
-
-    @button.buttonAndHandler(
-        PMF(u'label_search', default=u'Search'),
-        name='search',
-    )
-    def handle_search(self, action):
-        data, errors = self.extractData()
-        if errors:
-            self.status = self.formErrorsMessage
-            return
-
-
-class IListingSearchTile(base.IPersistentCoverTile):
+class IListingSearchTile(
+    listing_search.IListingSearchTile,
+    base.IPersistentCoverTile,
+):
     """Configuration schema for a listing search."""
+
+    form.omitted('content_uid')
 
     header = schema.TextLine(
         required=False,
@@ -245,13 +199,16 @@ class IListingSearchTile(base.IPersistentCoverTile):
 
 
 @implementer(IListingSearchTile)
-class ListingSearchTile(base.PersistentCoverTile):
+class ListingSearchTile(
+    listing_search.ListingSearchTile,
+    base.PersistentCoverTile,
+):
     """A tile that shows a search form for listings."""
 
     is_configurable = True
     is_editable = True
     short_name = _(u'MLS: Listing Search')
-    index = ViewPageTemplateFile('search.pt')
+    index = ViewPageTemplateFile('listing_search.pt')
 
     header = FieldProperty(IListingSearchTile['header'])
 
@@ -299,15 +256,6 @@ class ListingSearchTile(base.PersistentCoverTile):
 
     def get_title(self):
         return self.data['title']
-
-    def has_listing_search(self, obj):
-        """Check if the obj is activated for a listing search."""
-        return listing_search.IListingSearch.providedBy(obj)
-
-    def get_config(self, obj):
-        """Get collection configuration data from annotations."""
-        annotations = IAnnotations(obj)
-        return annotations.get(listing_search.CONFIGURATION_KEY, {})
 
     def is_empty(self):
         return self.data.get('uuid', None) is None or \
@@ -361,7 +309,10 @@ class ListingSearchTile(base.PersistentCoverTile):
             if name.startswith('form_'):
                 available_fields.append(name.split('form_')[1])
 
-        search_form = ListingSearchForm(aq_inner(obj), self.request)
+        search_form = listing_search.ListingSearchForm(
+            aq_inner(obj),
+            self.request,
+        )
         search_form.fields = search_form.fields.select(*available_fields)
         search_form.search_url = self.search_url()
         if HAS_WRAPPED_FORM:

@@ -2,21 +2,12 @@
 <registry>
   <record name="plone.app.tiles">
     <value purge="false">
-      <element>ps.plone.mlstiles.developments.collection</element>
-      <element>ps.plone.mlstiles.listings.collection</element>
-      <element>ps.plone.mlstiles.listings.recent</element>
-      <element>ps.plone.mlstiles.listings.featured</element>
-      <element>ps.plone.mlstiles.listings.search</element>
+      <element>ps.plone.mlstiles.development_collection</element>
+      <element>ps.plone.mlstiles.featured_listings</element>
+      <element>ps.plone.mlstiles.listing_collection</element>
+      <element>ps.plone.mlstiles.listing_search</element>
+      <element>ps.plone.mlstiles.recent_listings</element>
     </value>
   </record>
 
-  <record name="collective.cover.controlpanel.ICoverSettings.available_tiles">
-    <value purge="false">
-      <element>ps.plone.mlstiles.developments.collection</element>
-      <element>ps.plone.mlstiles.listings.collection</element>
-      <element>ps.plone.mlstiles.listings.recent</element>
-      <element>ps.plone.mlstiles.listings.featured</element>
-      <element>ps.plone.mlstiles.listings.search</element>
-    </value>
-  </record>
 </registry>

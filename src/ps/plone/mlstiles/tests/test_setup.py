@@ -35,11 +35,6 @@ class TestSetup(unittest.TestCase):
         qi = self.portal.portal_quickinstaller
         self.assertTrue(qi.isProductInstalled('ps.plone.mlstiles'))
 
-    def test_collective_cover_installed(self):
-        """Validate that collective.cover is installed."""
-        qi = self.portal.portal_quickinstaller
-        self.assertTrue(qi.isProductInstalled('collective.cover'))
-
     def test_plone_mls_listing_installed(self):
         """Validate that plone.mls.listing is installed."""
         qi = self.portal.portal_quickinstaller
@@ -61,31 +56,22 @@ class TestSetup(unittest.TestCase):
         registry = getUtility(IRegistry)
         key = 'plone.app.tiles'
         self.assertIn(
-            'ps.plone.mlstiles.listings.collection',
+            'ps.plone.mlstiles.development_collection',
             registry.records.get(key).value,
         )
         self.assertIn(
-            'ps.plone.mlstiles.listings.recent',
+            'ps.plone.mlstiles.listing_collection',
             registry.records.get(key).value,
         )
         self.assertIn(
-            'ps.plone.mlstiles.listings.search',
-            registry.records.get(key).value,
-        )
-
-    def test_tiles_available(self):
-        """Validate that the tiles are available within a cover."""
-        registry = getUtility(IRegistry)
-        key = 'collective.cover.controlpanel.ICoverSettings.available_tiles'
-        self.assertIn(
-            'ps.plone.mlstiles.listings.collection',
+            'ps.plone.mlstiles.featured_listings',
             registry.records.get(key).value,
         )
         self.assertIn(
-            'ps.plone.mlstiles.listings.recent',
+            'ps.plone.mlstiles.recent_listings',
             registry.records.get(key).value,
         )
         self.assertIn(
-            'ps.plone.mlstiles.listings.search',
+            'ps.plone.mlstiles.listing_search',
             registry.records.get(key).value,
         )

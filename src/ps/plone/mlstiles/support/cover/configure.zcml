@@ -1,10 +1,8 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="ps.plone.mlstiles">
 
-  <!-- Include tiles providers. -->
-  <!-- ======================== -->
+  <include package="collective.cover" />
   <include file="developments.zcml" />
   <include file="listings.zcml" />
 

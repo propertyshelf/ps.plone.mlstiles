@@ -2,8 +2,7 @@
 <metadata>
   <version>1002</version>
   <dependencies>
-    <dependency>profile-collective.cover:default</dependency>
-    <dependency>profile-plone.mls.listing:default</dependency>
+    <dependency>profile-plone.app.tiles:default</dependency>
     <dependency>profile-ps.plone.mls:default</dependency>
   </dependencies>
 </metadata>

@@ -10,8 +10,8 @@
       description="A tile that shows a list of MLS developments."
       icon="++resource++ps.plone.mlstiles/tile-collection.png"
       add_permission="cmf.ModifyPortalContent"
-      schema=".collection.IDevelopmentCollectionTile"
-      class=".collection.DevelopmentCollectionTile"
+      schema=".development_collection.IDevelopmentCollectionTile"
+      class=".development_collection.DevelopmentCollectionTile"
       permission="zope2.View"
       for="*"
       />

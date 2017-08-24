@@ -5,54 +5,54 @@
 
   <!-- MLS Listing Collection .-->
   <plone:tile
-      name="ps.plone.mlstiles.listings.collection"
-      title="MLS: Listing Collection"
-      description="A tile that shows a list of MLS listings."
-      icon="++resource++ps.plone.mlstiles/tile-collection.png"
       add_permission="cmf.ModifyPortalContent"
-      schema=".collection.IListingCollectionTile"
-      class=".collection.ListingCollectionTile"
-      permission="zope2.View"
+      class=".listing_collection.ListingCollectionTile"
+      description="A tile that shows a list of MLS listings."
       for="*"
+      icon="++resource++ps.plone.mlstiles/tile-collection.png"
+      name="ps.plone.mlstiles.listing_collection"
+      permission="zope2.View"
+      schema=".listing_collection.IListingCollectionTile"
+      title="MLS: Listing Collection"
       />
 
   <!-- Recent MLS Listings .-->
   <plone:tile
-      name="ps.plone.mlstiles.listings.recent"
-      title="MLS: Recent Listings"
-      description="A tile that shows a list of recent MLS listings."
-      icon="++resource++ps.plone.mlstiles/tile-collection.png"
       add_permission="cmf.ModifyPortalContent"
-      schema=".collection.IListingCollectionTile"
-      class=".collection.RecentListingsTile"
-      permission="zope2.View"
+      class=".listing_collection.RecentListingsTile"
+      description="A tile that shows a list of recent MLS listings."
       for="*"
+      icon="++resource++ps.plone.mlstiles/tile-collection.png"
+      name="ps.plone.mlstiles.recent_listings"
+      permission="zope2.View"
+      schema=".listing_collection.IListingCollectionTile"
+      title="MLS: Recent Listings"
       />
 
   <!-- Featured MLS Listings .-->
   <plone:tile
-      name="ps.plone.mlstiles.listings.featured"
-      title="MLS: Featured Listings"
-      description="A tile that shows a list of featured MLS listings."
-      icon="++resource++ps.plone.mlstiles/tile-collection.png"
       add_permission="cmf.ModifyPortalContent"
-      schema=".collection.IListingCollectionTile"
-      class=".collection.FeaturedListingsTile"
-      permission="zope2.View"
+      class=".listing_collection.FeaturedListingsTile"
+      description="A tile that shows a list of featured MLS listings."
       for="*"
+      icon="++resource++ps.plone.mlstiles/tile-collection.png"
+      name="ps.plone.mlstiles.featured_listings"
+      permission="zope2.View"
+      schema=".listing_collection.IListingCollectionTile"
+      title="MLS: Featured Listings"
       />
 
   <!-- Listing Search .-->
   <plone:tile
-      name="ps.plone.mlstiles.listings.search"
-      title="MLS: Listing Search"
-      description="A tile that shows a search form for listings."
-      icon="++resource++ps.plone.mlstiles/tile-search.png"
       add_permission="cmf.ModifyPortalContent"
-      schema=".search.IListingSearchTile"
-      class=".search.ListingSearchTile"
-      permission="zope2.View"
+      class=".listing_search.ListingSearchTile"
+      description="A tile that shows a search form for listings."
       for="*"
+      icon="++resource++ps.plone.mlstiles/tile-search.png"
+      name="ps.plone.mlstiles.listing_search"
+      permission="zope2.View"
+      schema=".listing_search.IListingSearchTile"
+      title="MLS: Listing Search"
       />
 
 </configure>

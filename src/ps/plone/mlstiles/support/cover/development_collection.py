@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""MLS development collection tiles."""
+"""A tile that shows a list of MLS developments for collective.cover."""
 
 # python imports
 import copy
@@ -25,12 +25,9 @@ from plone.tiles.interfaces import (
 )
 from ps.plone.mls import (
     api,
-    config,
 )
-from ps.plone.mls.interfaces import IDevelopmentCollection
 from ps.plone.mls.browser.developments import collection
 from zope import schema
-from zope.annotation.interfaces import IAnnotations
 from zope.component import (
     getMultiAdapter,
     queryUtility,
@@ -41,10 +38,16 @@ from zope.traversing.browser.absoluteurl import absoluteURL
 
 # local imports
 from ps.plone.mlstiles import _
+from ps.plone.mlstiles.tiles import development_collection
 
 
-class IDevelopmentCollectionTile(base.IPersistentCoverTile):
+class IDevelopmentCollectionTile(
+    development_collection.IDevelopmentCollectionTile,
+    base.IPersistentCoverTile
+):
     """Configuration schema for a development collection."""
+
+    form.omitted('content_uid')
 
     header = schema.TextLine(
         required=False,
@@ -53,19 +56,9 @@ class IDevelopmentCollectionTile(base.IPersistentCoverTile):
 
     form.omitted('count')
     form.no_omit(configuration_view.IDefaultConfigureForm, 'count')
-    count = schema.List(
-        required=False,
-        title=_CC(u'Number of items to display'),
-        value_type=schema.TextLine(),
-    )
 
     form.omitted('offset')
     form.no_omit(configuration_view.IDefaultConfigureForm, 'offset')
-    offset = schema.Int(
-        default=0,
-        required=False,
-        title=_CC(u'Start at item'),
-    )
 
     form.omitted('title')
     form.no_omit(configuration_view.IDefaultConfigureForm, 'title')
@@ -164,18 +157,19 @@ class IDevelopmentCollectionTile(base.IPersistentCoverTile):
 
 
 @implementer(IDevelopmentCollectionTile)
-class DevelopmentCollectionTile(base.PersistentCoverTile):
+class DevelopmentCollectionTile(
+    development_collection.DevelopmentCollectionTile,
+    base.PersistentCoverTile,
+):
     """A tile that shows a list of MLS developments."""
 
     is_configurable = True
     is_editable = True
     short_name = _(u'MLS: Development Collection')
-    index = ViewPageTemplateFile('collection.pt')
+    index = ViewPageTemplateFile('development_collection.pt')
     configured_fields = []
 
     header = FieldProperty(IDevelopmentCollectionTile['header'])
-    count = FieldProperty(IDevelopmentCollectionTile['count'])
-    offset = FieldProperty(IDevelopmentCollectionTile['offset'])
     title = FieldProperty(IDevelopmentCollectionTile['title'])
     description = FieldProperty(IDevelopmentCollectionTile['description'])
     banner = FieldProperty(IDevelopmentCollectionTile['banner'])
@@ -195,15 +189,6 @@ class DevelopmentCollectionTile(base.PersistentCoverTile):
 
     def get_title(self):
         return self.data['title']
-
-    def has_development_collection(self, obj):
-        """Check if the obj is activated for recent MLS developments."""
-        return IDevelopmentCollection.providedBy(obj)
-
-    def get_config(self, obj):
-        """Get collection configuration data from annotations."""
-        annotations = IAnnotations(obj)
-        return annotations.get(config.SETTINGS_DEVELOPMENT_COLLECTION, {})
 
     def results(self):
         items = []

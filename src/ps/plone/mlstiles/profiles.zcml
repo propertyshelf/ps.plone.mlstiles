@@ -12,6 +12,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="support_cover"
+      title="Propertyshelf MLS Tiles for collective.cover"
+      directory="profiles/support_cover"
+      description="collective.cover support for the Propertyshelf MLS Plone Embedding."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
 
   <!-- GenericSetup Upgrade Steps. -->
   <!-- =========================== -->

@@ -13,10 +13,15 @@ long_description = ('\n'.join([
 install_requires = [
     'setuptools',
     # -*- Extra requirements: -*-
-    'collective.cover',
     'plone.api >= 1.0',
-    'plone.mls.listing >= 0.9.11',
+    'plone.app.blocks',
+    'plone.app.registry',
+    'plone.app.tiles',
+    'plone.subrequest',
+    'plone.tiles',
     'ps.plone.mls',
+    'requests',
+    'z3c.form',
 ]
 
 setup(
@@ -50,10 +55,18 @@ setup(
     include_package_data=True,
     zip_safe=False,
     extras_require=dict(
+        cover=[
+            'collective.cover',
+        ],
+        mosaic=[
+            'plone.app.mosaic',
+        ],
         test=[
-            'collective.cover [test]',
             'mock',
             'plone.app.testing',
+        ],
+        test_cover=[
+            'collective.cover [test]',
         ],
     ),
     install_requires=install_requires,
