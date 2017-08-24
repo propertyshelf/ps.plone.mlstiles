@@ -6,9 +6,6 @@
   <!-- Include tiles providers. -->
   <!-- ======================== -->
   <include file="developments.zcml" />
-
-  <include package=".listings" />
-  <include package=".agencies" zcml:condition="installed ps.plone.mlsagencies" />
-  <include package=".developments" />
+  <include file="listings.zcml" />
 
 </configure>

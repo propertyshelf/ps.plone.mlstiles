@@ -35,18 +35,18 @@ class ListingSearchTileTestCase(TestTileMixin, unittest.TestCase):
 
     @skip_if_no_cover
     def setUp(self):
-        from ps.plone.mlstiles.tiles.listings import search
+        from ps.plone.mlstiles.support.cover import listing_search
         super(ListingSearchTileTestCase, self).setUp()
-        self.tile = search.ListingSearchTile(self.cover, self.request)
+        self.tile = listing_search.ListingSearchTile(self.cover, self.request)
         self.tile.__name__ = u'ps.plone.mlstiles.listings.search'
         self.tile.id = u'test'
 
     @skip_if_no_cover
     def test_interface(self):
         """Validate the tile implementation."""
-        from ps.plone.mlstiles.tiles.listings import search
-        self.interface = search.IListingSearchTile
-        self.klass = search.ListingSearchTile
+        from ps.plone.mlstiles.support.cover import listing_search
+        self.interface = listing_search.IListingSearchTile
+        self.klass = listing_search.ListingSearchTile
         super(ListingSearchTileTestCase, self).test_interface()
 
     @skip_if_no_cover

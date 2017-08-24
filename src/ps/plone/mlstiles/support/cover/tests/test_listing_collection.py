@@ -36,18 +36,21 @@ class ListingCollectionTileTestCase(TestTileMixin, unittest.TestCase):
 
     @skip_if_no_cover
     def setUp(self):
-        from ps.plone.mlstiles.tiles.listings import collection
+        from ps.plone.mlstiles.support.cover import listing_collection
         super(ListingCollectionTileTestCase, self).setUp()
-        self.tile = collection.ListingCollectionTile(self.cover, self.request)
+        self.tile = listing_collection.ListingCollectionTile(
+            self.cover,
+            self.request,
+        )
         self.tile.__name__ = u'ps.plone.mlstiles.listings.collection'
         self.tile.id = u'test'
 
     @skip_if_no_cover
     def test_interface(self):
         """Validate the tile implementation."""
-        from ps.plone.mlstiles.tiles.listings import collection
-        self.interface = collection.IListingCollectionTile
-        self.klass = collection.ListingCollectionTile
+        from ps.plone.mlstiles.support.cover import listing_collection
+        self.interface = listing_collection.IListingCollectionTile
+        self.klass = listing_collection.ListingCollectionTile
         super(ListingCollectionTileTestCase, self).test_interface()
 
     @skip_if_no_cover
@@ -99,18 +102,21 @@ class RecentListingsTileTestCase(TestTileMixin, unittest.TestCase):
 
     @skip_if_no_cover
     def setUp(self):
-        from ps.plone.mlstiles.tiles.listings import collection
+        from ps.plone.mlstiles.support.cover import listing_collection
         super(RecentListingsTileTestCase, self).setUp()
-        self.tile = collection.RecentListingsTile(self.cover, self.request)
+        self.tile = listing_collection.RecentListingsTile(
+            self.cover,
+            self.request,
+        )
         self.tile.__name__ = u'ps.plone.mlstiles.listings.recent'
         self.tile.id = u'test'
 
     @skip_if_no_cover
     def test_interface(self):
         """Validate the tile implementation."""
-        from ps.plone.mlstiles.tiles.listings import collection
-        self.interface = collection.IListingCollectionTile
-        self.klass = collection.RecentListingsTile
+        from ps.plone.mlstiles.support.cover import listing_collection
+        self.interface = listing_collection.IListingCollectionTile
+        self.klass = listing_collection.RecentListingsTile
         super(RecentListingsTileTestCase, self).test_interface()
 
     @skip_if_no_cover
@@ -163,17 +169,20 @@ class FeaturedListingsTileTestCase(TestTileMixin, unittest.TestCase):
     @skip_if_no_cover
     def setUp(self):
         super(FeaturedListingsTileTestCase, self).setUp()
-        from ps.plone.mlstiles.tiles.listings import collection
-        self.tile = collection.FeaturedListingsTile(self.cover, self.request)
+        from ps.plone.mlstiles.support.cover import listing_collection
+        self.tile = listing_collection.FeaturedListingsTile(
+            self.cover,
+            self.request,
+        )
         self.tile.__name__ = u'ps.plone.mlstiles.listings.featured'
         self.tile.id = u'test'
 
     @skip_if_no_cover
     def test_interface(self):
         """Validate the tile implementation."""
-        from ps.plone.mlstiles.tiles.listings import collection
-        self.interface = collection.IListingCollectionTile
-        self.klass = collection.FeaturedListingsTile
+        from ps.plone.mlstiles.support.cover import listing_collection
+        self.interface = listing_collection.IListingCollectionTile
+        self.klass = listing_collection.FeaturedListingsTile
         super(FeaturedListingsTileTestCase, self).test_interface()
 
     @skip_if_no_cover

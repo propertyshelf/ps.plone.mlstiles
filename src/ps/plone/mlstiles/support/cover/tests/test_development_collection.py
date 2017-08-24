@@ -36,9 +36,9 @@ class DevelopmentCollectionTileTestCase(TestTileMixin, unittest.TestCase):
 
     @skip_if_no_cover
     def setUp(self):
-        from ps.plone.mlstiles.tiles.developments import collection
+        from ps.plone.mlstiles.support.cover import development_collection
         super(DevelopmentCollectionTileTestCase, self).setUp()
-        self.tile = collection.DevelopmentCollectionTile(
+        self.tile = development_collection.DevelopmentCollectionTile(
             self.cover, self.request
         )
         self.tile.__name__ = u'ps.plone.mlstiles.developments.collection'
@@ -47,9 +47,9 @@ class DevelopmentCollectionTileTestCase(TestTileMixin, unittest.TestCase):
     @skip_if_no_cover
     def test_interface(self):
         """Validate the tile implementation."""
-        from ps.plone.mlstiles.tiles.developments import collection
-        self.interface = collection.IDevelopmentCollectionTile
-        self.klass = collection.DevelopmentCollectionTile
+        from ps.plone.mlstiles.support.cover import development_collection
+        self.interface = development_collection.IDevelopmentCollectionTile
+        self.klass = development_collection.DevelopmentCollectionTile
         super(DevelopmentCollectionTileTestCase, self).test_interface()
 
     @skip_if_no_cover
