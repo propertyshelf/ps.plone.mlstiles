@@ -19,3 +19,12 @@ def migrate_to_1001(context):
 
     qi.installProduct('ps.plone.mls')
     setup.runImportStepFromProfile(PROFILE_ID, 'plone.app.registry')
+
+
+def migrate_to_1002(context):
+    """Migrate from 1001 to 1002.
+
+    * Add development collection tile.
+    """
+    setup = api.portal.get_tool(name='portal_setup')
+    setup.runImportStepFromProfile(PROFILE_ID, 'plone.app.registry')

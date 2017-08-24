@@ -4,7 +4,7 @@ Changelog
 0.4 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Add missing upgrade step to add development collection tile to existing sites.
 
 
 0.3 (2017-08-22)
