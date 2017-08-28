@@ -2,6 +2,7 @@
 """Test Layer for ps.plone.mlstiles."""
 
 # python imports
+import pkg_resources
 import unittest
 
 # zope imports
@@ -15,6 +16,13 @@ from plone.app.testing import (
     PloneSandboxLayer,
     PLONE_FIXTURE,
 )
+
+try:
+    pkg_resources.get_distribution('plone.app.contenttypes')
+except pkg_resources.DistributionNotFound:
+    HAS_PA_CONTENTTYPES = False
+else:
+    HAS_PA_CONTENTTYPES = True
 
 
 def skip_if_no_cover(testfunc):
@@ -35,22 +43,36 @@ class PSPloneMLSTiles(PloneSandboxLayer):
     def setUpZope(self, app, configurationContext):
         """Set up Zope for testing."""
         # Load ZCML
+        import plone.app.dexterity
+        self.loadZCML(package=plone.app.dexterity)
+
+        if HAS_PA_CONTENTTYPES:
+            import plone.app.contenttypes
+            self.loadZCML(package=plone.app.contenttypes)
+
+        if HAS_COVER:
+            import collective.cover
+            self.loadZCML(package=collective.cover)
+
         import ps.plone.mlstiles
         self.loadZCML(package=ps.plone.mlstiles)
 
     def setUpPloneSite(self, portal):
         """Set up a Plone site for testing."""
-        self.applyProfile(portal, 'ps.plone.mlstiles:default')
+        # Plone 5 support
+        if HAS_PA_CONTENTTYPES:
+            self.applyProfile(portal, 'plone.app.contenttypes:default')
 
-        # setup test content
+        self.applyProfile(portal, 'ps.plone.mlstiles:default')
+        self.applyProfile(portal, 'ps.plone.mls:testfixture')
+
         if HAS_COVER:
-            self.applyProfile(portal, 'ps.plone.mlstiles:support_cover')
+            # setup test content
             self.applyProfile(portal, 'collective.cover:testfixture')
+            self.applyProfile(portal, 'ps.plone.mlstiles:support_cover')
             create_standard_content_for_tests(portal)
 
-        portal_workflow = portal.portal_workflow
-        portal_workflow.setChainForPortalTypes(
-            ['Collection'], ['simple_publication_workflow'])
+        portal.portal_workflow.setDefaultChain('simple_publication_workflow')
 
         # Prevent kss validation errors in Plone 4.2
         portal_kss = getattr(portal, 'portal_kss', None)
