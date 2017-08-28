@@ -21,6 +21,16 @@
       />
 
 
+  <!-- GenericSetup Import Steps. -->
+  <!-- ========================== -->
+  <genericsetup:importStep
+      description="Install tiles for collective.cover."
+      handler=".setuphandlers.install_cover_support"
+      name="ps.plone.mlstiles.covertiles"
+      title="ps.plone.mls cover tiles">
+  </genericsetup:importStep>
+
+
   <!-- GenericSetup Upgrade Steps. -->
   <!-- =========================== -->
   <genericsetup:upgradeStep
