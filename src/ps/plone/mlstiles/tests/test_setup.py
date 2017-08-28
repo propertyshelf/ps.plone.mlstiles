@@ -12,6 +12,7 @@ from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
 
 # local imports
+from ps.plone.mlstiles import PLONE_4
 from ps.plone.mlstiles.testing import PS_PLONE_MLSTILES_INTEGRATION_TESTING
 
 
@@ -47,6 +48,9 @@ class TestSetup(unittest.TestCase):
 
     def test_cssregistry(self):
         """Validate the CSS file registration."""
+        if not PLONE_4:
+            return
+
         resource_ids = self.portal.portal_css.getResourceIds()
         for id in CSS:
             self.assertIn(id, resource_ids, '{0} not installed'.format(id))
