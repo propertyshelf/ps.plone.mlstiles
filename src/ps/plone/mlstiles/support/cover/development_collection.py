@@ -47,8 +47,6 @@ class IDevelopmentCollectionTile(
 ):
     """Configuration schema for a development collection."""
 
-    form.omitted('content_uid')
-
     header = schema.TextLine(
         required=False,
         title=_CC(u'Header'),
