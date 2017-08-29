@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<registry>
+  <record name="plone.app.tiles">
+    <value purge="false">
+      <element>ps.plone.mlstiles.mosaic.development_collection</element>
+    </value>
+  </record>
+
+  <records prefix="plone.app.mosaic.app_tiles.ps_plone_mlstiles_development_collection"
+      interface="plone.app.mosaic.interfaces.ITile">
+    <value key="name">ps.plone.mlstiles.mosaic.development_collection</value>
+    <value key="label">MLS: Development Collection</value>
+    <value key="category">applications</value>
+    <value key="tile_type">app</value>
+    <value key="default_value"></value>
+    <value key="read_only">false</value>
+    <value key="settings">true</value>
+    <value key="favorite">false</value>
+    <value key="rich_text">false</value>
+    <value key="weight">110</value>
+  </records>
+</registry>
