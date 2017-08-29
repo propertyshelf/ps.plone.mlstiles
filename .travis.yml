@@ -6,8 +6,8 @@ cache:
   directories:
     - eggs
 env:
-  - PLONE_VERSION=4.2 PKG_EXTRAS=[cover, test, test_cover]
-  - PLONE_VERSION=4.3 PKG_EXTRAS=[cover, test, test_cover]
+  - PLONE_VERSION=4.2 PKG_EXTRAS="[test, cover, test_cover]"
+  - PLONE_VERSION=4.3 PKG_EXTRAS="[test, cover, test_cover]"
 install:
   - sed -ie "s#test-4.x.cfg#test-$PLONE_VERSION.x.cfg#" travis.cfg
   - sed -ie "s#versions-$PLONE_VERSION.x#versions#" travis.cfg
