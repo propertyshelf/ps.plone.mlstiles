@@ -66,6 +66,8 @@ setup(
             'plone.app.testing',
         ],
         test_cover=[
+            'ps.plone.mlstiles [test]',
+            'ps.plone.mlstiles [cover]',
             'collective.cover [test]',
         ],
     ),
