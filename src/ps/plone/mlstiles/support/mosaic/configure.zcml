@@ -3,5 +3,6 @@
     i18n_domain="ps.plone.mlstiles">
 
   <include package="plone.app.mosaic" />
+  <include file="developments.zcml" />
 
 </configure>
