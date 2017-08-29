@@ -11,6 +11,11 @@ try:
     HAS_COVER = True
 except ImportError:
     HAS_COVER = False
+try:
+    import plone.app.mosaic  # noqa
+    HAS_MOSAIC = True
+except ImportError:
+    HAS_MOSAIC = False
 from plone.app.testing import (
     IntegrationTesting,
     PloneSandboxLayer,
@@ -35,6 +40,16 @@ def skip_if_no_cover(testfunc):
         return testfunc
 
 
+def skip_if_no_mosaic(testfunc):
+    """Skip test if plone.app.mosaic is missing."""
+    try:
+        import plone.app.mosaic  # noqa
+    except ImportError:
+        return unittest.skip('plone.app.mosaic is not installed')(testfunc)
+    else:
+        return testfunc
+
+
 class PSPloneMLSTiles(PloneSandboxLayer):
     """Custom Test Layer for ps.plone.mlstiles."""
 
@@ -54,6 +69,9 @@ class PSPloneMLSTiles(PloneSandboxLayer):
             import collective.cover
             self.loadZCML(package=collective.cover)
 
+        if HAS_MOSAIC:
+            self.loadZCML(package=plone.app.mosaic)
+
         import ps.plone.mlstiles
         self.loadZCML(package=ps.plone.mlstiles)
 
@@ -71,6 +89,9 @@ class PSPloneMLSTiles(PloneSandboxLayer):
             self.applyProfile(portal, 'collective.cover:testfixture')
             self.applyProfile(portal, 'ps.plone.mlstiles:support_cover')
             create_standard_content_for_tests(portal)
+
+        if HAS_MOSAIC:
+            self.applyProfile(portal, 'ps.plone.mlstiles:support_mosaic')
 
         portal.portal_workflow.setDefaultChain('simple_publication_workflow')
 
