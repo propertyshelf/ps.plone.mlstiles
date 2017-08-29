@@ -42,8 +42,6 @@ class IListingCollectionTile(
 ):
     """Configuration schema for a listing collection."""
 
-    form.omitted('content_uid')
-
     header = schema.TextLine(
         required=False,
         title=_CC(u'Header'),
@@ -180,6 +178,8 @@ class ListingCollectionTile(
     configured_fields = []
 
     header = FieldProperty(IListingCollectionTile['header'])
+    count = FieldProperty(IListingCollectionTile['count'])
+    offset = FieldProperty(IListingCollectionTile['offset'])
     title = FieldProperty(IListingCollectionTile['title'])
     image = FieldProperty(IListingCollectionTile['image'])
     price = FieldProperty(IListingCollectionTile['price'])

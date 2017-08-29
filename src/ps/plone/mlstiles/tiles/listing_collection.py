@@ -15,11 +15,9 @@ from plone.tiles import Tile
 from ps.plone.mls.browser.listings import featured
 from zope import schema
 from zope.annotation.interfaces import IAnnotations
-from zope.schema.fieldproperty import FieldProperty
 
 # local imports
 from ps.plone.mlstiles import _
-from ps.plone.mlstiles.tiles.base import CatalogSource
 
 
 class IListingCollectionTile(Schema):
@@ -37,19 +35,9 @@ class IListingCollectionTile(Schema):
         title=_(u'Start at item'),
     )
 
-    content_uid = schema.Choice(
-        title=_(u'Select an existing content'),
-        required=True,
-        source=CatalogSource(),
-    )
-
 
 class ListingCollectionTile(Tile):
     """A tile that shows a list of MLS listings."""
-
-    count = FieldProperty(IListingCollectionTile['count'])
-    offset = FieldProperty(IListingCollectionTile['offset'])
-    content_uid = FieldProperty(IListingCollectionTile['content_uid'])
 
     def get_config(self, obj):
         """Get collection configuration data from annotations."""

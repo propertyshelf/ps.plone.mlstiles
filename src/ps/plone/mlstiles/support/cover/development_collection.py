@@ -168,6 +168,8 @@ class DevelopmentCollectionTile(
     configured_fields = []
 
     header = FieldProperty(IDevelopmentCollectionTile['header'])
+    count = FieldProperty(IDevelopmentCollectionTile['count'])
+    offset = FieldProperty(IDevelopmentCollectionTile['offset'])
     title = FieldProperty(IDevelopmentCollectionTile['title'])
     description = FieldProperty(IDevelopmentCollectionTile['description'])
     banner = FieldProperty(IDevelopmentCollectionTile['banner'])

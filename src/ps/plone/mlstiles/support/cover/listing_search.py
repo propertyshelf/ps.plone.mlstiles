@@ -40,8 +40,6 @@ class IListingSearchTile(
 ):
     """Configuration schema for a listing search."""
 
-    form.omitted('content_uid')
-
     header = schema.TextLine(
         required=False,
         title=_CC(u'Header'),

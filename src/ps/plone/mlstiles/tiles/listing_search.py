@@ -14,13 +14,7 @@ from plone.supermodel.model import Schema
 from plone.tiles import Tile
 from z3c.form import button, field
 from z3c.form.browser import checkbox, radio
-from zope import schema
 from zope.annotation.interfaces import IAnnotations
-from zope.schema.fieldproperty import FieldProperty
-
-# local imports
-from ps.plone.mlstiles import _
-from ps.plone.mlstiles.tiles.base import CatalogSource
 
 
 class ListingSearchForm(form.Form):
@@ -72,17 +66,9 @@ class ListingSearchForm(form.Form):
 class IListingSearchTile(Schema):
     """Configuration schema for a listing search tile."""
 
-    content_uid = schema.Choice(
-        title=_(u'Select an existing content'),
-        required=True,
-        source=CatalogSource(),
-    )
-
 
 class ListingSearchTile(Tile):
     """A tile that shows a search form for listings."""
-
-    content_uid = FieldProperty(IListingSearchTile['content_uid'])
 
     def get_config(self, obj):
         """Get collection configuration data from annotations."""

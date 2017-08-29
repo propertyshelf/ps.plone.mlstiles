@@ -11,7 +11,6 @@ from ps.plone.mls import (
 from ps.plone.mls.interfaces import IDevelopmentCollection
 from zope import schema
 from zope.annotation.interfaces import IAnnotations
-from zope.schema.fieldproperty import FieldProperty
 
 # local imports
 from ps.plone.mlstiles import _
@@ -35,9 +34,6 @@ class IDevelopmentCollectionTile(Schema):
 
 class DevelopmentCollectionTile(Tile):
     """A tile that shows a list of MLS developments."""
-
-    count = FieldProperty(IDevelopmentCollectionTile['count'])
-    offset = FieldProperty(IDevelopmentCollectionTile['offset'])
 
     def get_config(self, obj):
         """Get collection configuration data from annotations."""
