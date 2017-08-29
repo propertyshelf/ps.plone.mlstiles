@@ -12,7 +12,7 @@ env:
   - PLONE_VERSION=5.1 PKG_EXTRAS=[test_mosaic]
 matrix:
   allow_failures:
-    - env: PLONE_VERSION=4.2
+    - env: PLONE_VERSION=4.2 PKG_EXTRAS=[test_cover]
   fast_finish: true
 install:
   - sed -ie "s#test-4.x.cfg#test-$PLONE_VERSION.x.cfg#" travis.cfg
