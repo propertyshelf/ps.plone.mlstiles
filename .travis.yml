@@ -6,16 +6,16 @@ cache:
   directories:
     - eggs
 env:
-  - PLONE_VERSION=4.2
-  - PLONE_VERSION=4.3
+  - PLONE_VERSION=4.2 PKG_EXTRAS=[cover, test, test_cover]
+  - PLONE_VERSION=4.3 PKG_EXTRAS=[cover, test, test_cover]
 install:
   - sed -ie "s#test-4.x.cfg#test-$PLONE_VERSION.x.cfg#" travis.cfg
   - sed -ie "s#versions-$PLONE_VERSION.x#versions#" travis.cfg
   - mkdir -p buildout-cache/eggs
   - mkdir -p buildout-cache/downloads
   - pip install -r requirements.txt
-  - buildout -c travis.cfg annotate
-  - buildout -c travis.cfg -N -q
+  - buildout buildout:package-extras=$PKG_EXTRAS -c travis.cfg annotate
+  - buildout buildout:package-extras=$PKG_EXTRAS -c travis.cfg -N -q
 script:
   - bin/code-analysis
   - bin/test
