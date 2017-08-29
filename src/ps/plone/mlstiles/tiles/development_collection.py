@@ -20,10 +20,10 @@ from ps.plone.mlstiles import _
 class IDevelopmentCollectionTile(Schema):
     """Configuration schema for a development collection tile."""
 
-    count = schema.List(
+    count = schema.Int(
+        default=5,
         required=False,
         title=_(u'Number of items to display'),
-        value_type=schema.TextLine(),
     )
 
     offset = schema.Int(
