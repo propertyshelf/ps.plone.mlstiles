@@ -5,15 +5,15 @@
 
   <!-- MLS Development Collection .-->
   <plone:tile
-      name="ps.plone.mlstiles.developments.collection"
-      title="MLS: Development Collection"
-      description="A tile that shows a list of MLS developments."
-      icon="++resource++ps.plone.mlstiles/tile-collection.png"
       add_permission="cmf.ModifyPortalContent"
-      schema=".development_collection.IDevelopmentCollectionTile"
       class=".development_collection.DevelopmentCollectionTile"
-      permission="zope2.View"
+      description="A tile that shows a list of MLS developments."
       for="*"
+      icon="++resource++ps.plone.mlstiles/tile-collection.png"
+      name="ps.plone.mlstiles.developments.collection"
+      permission="zope2.View"
+      schema=".development_collection.IDevelopmentCollectionTile"
+      title="MLS: Development Collection"
       />
 
 </configure>
