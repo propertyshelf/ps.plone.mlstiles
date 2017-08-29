@@ -70,6 +70,10 @@ setup(
             'ps.plone.mlstiles [cover]',
             'collective.cover [test]',
         ],
+        test_mosaic=[
+            'ps.plone.mlstiles [test]',
+            'ps.plone.mlstiles [mosaic]',
+        ],
     ),
     install_requires=install_requires,
     entry_points="""
