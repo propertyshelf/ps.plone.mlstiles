@@ -54,6 +54,13 @@ class IDevelopmentCollectionTile(IDevelopmentCollectionTileBase):
         title=_(u'Show development title'),
     )
 
+    title_level = schema.Choice(
+        default=u'h3',
+        required=False,
+        title=_(u'Development title level'),
+        values=(u'h1', u'h2', u'h3', u'h4', u'h5', u'h6'),
+    )
+
     show_description = schema.Bool(
         default=True,
         required=False,
