@@ -2,6 +2,7 @@
 """A tile that shows a list of MLS developments for plone.app.mosaic."""
 
 # zope imports
+from plone.app.standardtiles import _PMF
 from ps.plone.mls.interfaces import IDevelopmentCollection
 from zope import schema
 
@@ -16,6 +17,24 @@ from ps.plone.mlstiles.tiles.development_collection import (
 
 class IDevelopmentCollectionTile(IDevelopmentCollectionTileBase):
     """Configuration schema for a development collection."""
+
+    tile_title = schema.TextLine(
+        required=False,
+        title=_PMF(u'Title'),
+    )
+
+    show_tile_title = schema.Bool(
+        default=True,
+        required=False,
+        title=_PMF(u'Show tile title'),
+    )
+
+    tile_title_level = schema.Choice(
+        default=u'h2',
+        required=False,
+        title=_(u'Headline level'),
+        values=(u'h1', u'h2', u'h3', u'h4', u'h5', u'h6'),
+    )
 
     content_uid = schema.Choice(
         required=True,
