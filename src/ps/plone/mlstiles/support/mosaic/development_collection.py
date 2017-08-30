@@ -121,6 +121,24 @@ class IDevelopmentCollectionTile(IDevelopmentCollectionTileBase):
         title=_(u'Text for link to collection'),
     )
 
+    tile_class = schema.TextLine(
+        default=u'',
+        description=_PMF(
+            u'Insert a list of additional CSS classes that will ',
+            u'be added to the tile',
+        ),
+        required=False,
+        title=_PMF(u'Tile additional styles'),
+    )
+
 
 class DevelopmentCollectionTile(DevelopmentCollectionTileBase):
     """A tile that shows a list of MLS developments."""
+
+    @property
+    def tile_class(self):
+        css_class = 'development__results'
+        additional_classes = self.data.get('tile_class', '')
+        if not additional_classes:
+            return css_class
+        return ' '.join([css_class, additional_classes])
