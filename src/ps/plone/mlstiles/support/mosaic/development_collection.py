@@ -109,6 +109,18 @@ class IDevelopmentCollectionTile(IDevelopmentCollectionTileBase):
         title=_(u'Show number of groups for a development'),
     )
 
+    show_more_link = schema.Bool(
+        default=True,
+        required=False,
+        title=_(u'Show link to collection'),
+    )
+
+    more_link_text = schema.TextLine(
+        default=_(u'More...'),
+        required=False,
+        title=_(u'Text for link to collection'),
+    )
+
 
 class DevelopmentCollectionTile(DevelopmentCollectionTileBase):
     """A tile that shows a list of MLS developments."""
