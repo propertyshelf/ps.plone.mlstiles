@@ -2,7 +2,9 @@
 """A tile that shows a list of MLS developments for plone.app.mosaic."""
 
 # zope imports
+from plone import api
 from plone.app.standardtiles import _PMF
+from plone.memoize import view
 from ps.plone.mls.interfaces import IDevelopmentCollection
 from zope import schema
 
@@ -142,6 +144,17 @@ class DevelopmentCollectionTile(DevelopmentCollectionTileBase):
         if not additional_classes:
             return css_class
         return ' '.join([css_class, additional_classes])
+
+    @property
+    @view.memoize
+    def get_context(self):
+        """Return the development collection context."""
+        uuid = self.data.get('content_uid')
+        if uuid != api.content.get_uuid(obj=self.context):
+            item = api.content.get(UID=uuid)
+            if item is not None:
+                return item
+        return None
 
     @property
     def count(self):
