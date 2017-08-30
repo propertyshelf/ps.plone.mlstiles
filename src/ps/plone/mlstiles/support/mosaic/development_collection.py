@@ -142,3 +142,12 @@ class DevelopmentCollectionTile(DevelopmentCollectionTileBase):
         if not additional_classes:
             return css_class
         return ' '.join([css_class, additional_classes])
+
+    @property
+    def count(self):
+        return self.data.get('count')
+
+    @property
+    def offset(self):
+        return self.data.get('offset')
+
