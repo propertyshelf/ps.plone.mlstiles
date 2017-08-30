@@ -164,3 +164,8 @@ class DevelopmentCollectionTile(DevelopmentCollectionTileBase):
     def offset(self):
         return self.data.get('offset')
 
+    def get_fields(self):
+        fields = super(DevelopmentCollectionTile, self).get_fields()
+        if self.data.get('show_banner'):
+            fields.append('banner_image')
+        return fields
