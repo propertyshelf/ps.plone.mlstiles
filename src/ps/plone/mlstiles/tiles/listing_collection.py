@@ -10,33 +10,11 @@ from plone.mls.listing.browser.recent_listings import (
     CONFIGURATION_KEY as RL_CONFIGURATION_KEY,
     IRecentListings,
 )
-from plone.supermodel.model import Schema
-from plone.tiles import Tile
 from ps.plone.mls.browser.listings import featured
-from zope import schema
 from zope.annotation.interfaces import IAnnotations
 
-# local imports
-from ps.plone.mlstiles import _
 
-
-class IListingCollectionTile(Schema):
-    """Configuration schema for a listing collection tile."""
-
-    count = schema.Int(
-        default=5,
-        required=False,
-        title=_(u'Number of items to display'),
-    )
-
-    offset = schema.Int(
-        default=0,
-        required=False,
-        title=_(u'Start at item'),
-    )
-
-
-class ListingCollectionTile(Tile):
+class ListingCollectionTileMixin(object):
     """A tile that shows a list of MLS listings."""
 
     def get_config(self, obj):
@@ -49,7 +27,7 @@ class ListingCollectionTile(Tile):
         return IListingCollection.providedBy(obj)
 
 
-class RecentListingsTile(ListingCollectionTile):
+class RecentListingsTileMixin(ListingCollectionTileMixin):
     """A tile that shows a list of recent MLS listings."""
 
     def get_config(self, obj):
@@ -62,7 +40,7 @@ class RecentListingsTile(ListingCollectionTile):
         return IRecentListings.providedBy(obj)
 
 
-class FeaturedListingsTile(ListingCollectionTile):
+class FeaturedListingsTileMixin(ListingCollectionTileMixin):
     """A tile that shows a list of featured MLS listings."""
 
     def get_config(self, obj):

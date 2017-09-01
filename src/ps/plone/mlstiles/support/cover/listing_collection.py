@@ -33,13 +33,14 @@ from zope.schema.fieldproperty import FieldProperty
 
 # local imports
 from ps.plone.mlstiles import _
-from ps.plone.mlstiles.tiles import listing_collection
+from ps.plone.mlstiles.tiles.listing_collection import (
+    FeaturedListingsTileMixin,
+    ListingCollectionTileMixin,
+    RecentListingsTileMixin,
+)
 
 
-class IListingCollectionTile(
-    listing_collection.IListingCollectionTile,
-    base.IPersistentCoverTile,
-):
+class IListingCollectionTile(base.IPersistentCoverTile):
     """Configuration schema for a listing collection."""
 
     header = schema.TextLine(
@@ -49,9 +50,19 @@ class IListingCollectionTile(
 
     form.omitted('count')
     form.no_omit(configuration_view.IDefaultConfigureForm, 'count')
+    count = schema.List(
+        required=False,
+        title=_CC(u'Number of items to display'),
+        value_type=schema.TextLine(),
+    )
 
     form.omitted('offset')
     form.no_omit(configuration_view.IDefaultConfigureForm, 'offset')
+    offset = schema.Int(
+        default=0,
+        required=False,
+        title=_CC(u'Start at item'),
+    )
 
     form.omitted('title')
     form.no_omit(configuration_view.IDefaultConfigureForm, 'title')
@@ -166,7 +177,7 @@ class IListingCollectionTile(
 
 @implementer(IListingCollectionTile)
 class ListingCollectionTile(
-    listing_collection.ListingCollectionTile,
+    ListingCollectionTileMixin,
     base.PersistentCoverTile,
 ):
     """A tile that shows a list of MLS listings."""
@@ -371,20 +382,14 @@ class ListingCollectionTile(
 
 
 @implementer(IListingCollectionTile)
-class RecentListingsTile(
-    listing_collection.RecentListingsTile,
-    ListingCollectionTile,
-):
+class RecentListingsTile(RecentListingsTileMixin, ListingCollectionTile):
     """A tile that shows a list of recent MLS listings."""
 
     short_name = _(u'MLS: Recent Listings')
 
 
 @implementer(IListingCollectionTile)
-class FeaturedListingsTile(
-    listing_collection.FeaturedListingsTile,
-    ListingCollectionTile,
-):
+class FeaturedListingsTile(FeaturedListingsTileMixin, ListingCollectionTile):
     """A tile that shows a list of featured MLS listings."""
 
     short_name = _(u'MLS: Featured Listings')
