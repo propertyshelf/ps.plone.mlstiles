@@ -414,3 +414,48 @@ class DevelopmentCollectionTile(
 
     def show_footer(self):
         return self._field_is_visible('footer')
+
+    @property
+    def get_context(self):
+        """Return the development collection context."""
+        uuid = self.data.get('uuid', None)
+        item = ploneapi.content.get(UID=uuid)
+        return item
+
+    @property
+    def size(self):
+        size = 5
+        configured_fields = self.get_configured_fields()
+        size_conf = [
+            i for i in configured_fields if i['id'] == 'count'
+        ]
+
+        if size_conf and 'size' in size_conf[0].keys():
+            size = int(size_conf[0]['size'])
+        return size
+
+    @property
+    def start_at(self):
+        start_at = 0
+        configured_fields = self.get_configured_fields()
+        offset_conf = [
+            i for i in configured_fields if i['id'] == 'offset'
+        ]
+        if offset_conf:
+            try:
+                start_at = int(offset_conf[0].get('offset', 0))
+            except ValueError:
+                start_at = 0
+        return start_at
+
+    def get_fields(self):
+        fields = super(DevelopmentCollectionTile, self).get_fields()
+        configured_fields = self.get_configured_fields()
+        banner_conf = [
+            i for i in configured_fields if i['id'] == 'banner'
+        ]
+
+        if banner_conf and 'visibility' in banner_conf[0].keys():
+            if banner_conf[0]['visibility'] == 'on':
+                fields.append('banner_image')
+        return fields
