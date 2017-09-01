@@ -4,7 +4,7 @@ Changelog
 0.4 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Fix listing collection configuration.
 
 
 0.3.1 (2017-08-24)

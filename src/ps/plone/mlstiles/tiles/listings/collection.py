@@ -254,13 +254,13 @@ class ListingCollectionTile(base.PersistentCoverTile):
                 'offset': offset,
                 'lang': portal_state.language(),
             }
-            params.update(config)
-            params = api.prepare_search_params(params)
+            config.update(params)
+            params = api.prepare_search_params(config)
             items = api.search(
                 params=params,
                 batching=False,
                 context=obj,
-                config=config,
+                config=self.get_config(obj),
             )
         else:
             self.remove_relation()
