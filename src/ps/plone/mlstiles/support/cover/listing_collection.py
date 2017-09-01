@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 """MLS listing collection tiles."""
 
-# python imports
-import copy
-
 # zope imports
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -16,7 +13,6 @@ from plone import api as ploneapi
 from plone.app.uuid.utils import uuidToObject
 from plone.directives import form
 from plone.memoize import view
-from plone.mls.listing import api
 from plone.mls.listing.i18n import _ as _MLS
 from plone.namedfile.field import NamedBlobImage as NamedImage
 from plone.tiles.interfaces import (
@@ -24,10 +20,7 @@ from plone.tiles.interfaces import (
     ITileType,
 )
 from zope import schema
-from zope.component import (
-    getMultiAdapter,
-    queryUtility,
-)
+from zope.component import queryUtility
 from zope.interface import implementer
 from zope.schema.fieldproperty import FieldProperty
 
@@ -186,7 +179,6 @@ class ListingCollectionTile(
     is_editable = True
     short_name = _(u'MLS: Listing Collection')
     index = ViewPageTemplateFile('listing_collection.pt')
-    configured_fields = []
 
     header = FieldProperty(IListingCollectionTile['header'])
     count = FieldProperty(IListingCollectionTile['count'])
@@ -209,56 +201,9 @@ class ListingCollectionTile(
     def get_title(self):
         return self.data['title']
 
-    def results(self):
-        items = []
-
-        self.configured_fields = self.get_configured_fields()
-        size_conf = [
-            i for i in self.configured_fields if i['id'] == 'count'
-        ]
-
-        if size_conf and 'size' in size_conf[0].keys():
-            size = int(size_conf[0]['size'])
-        else:
-            size = 5
-
-        offset = 0
-        offset_conf = [
-            i for i in self.configured_fields if i['id'] == 'offset'
-        ]
-        if offset_conf:
-            try:
-                offset = int(offset_conf[0].get('offset', 0))
-            except ValueError:
-                offset = 0
-
-        uuid = self.data.get('uuid', None)
-        obj = uuidToObject(uuid)
-        if uuid and obj:
-            if not self.has_listing_collection(obj):
-                return items
-            config = copy.copy(self.get_config(obj))
-            portal_state = getMultiAdapter(
-                (self.context, self.request),
-                name='plone_portal_state',
-            )
-            params = {
-                'limit': size,
-                'offset': offset,
-                'lang': portal_state.language(),
-            }
-            params.update(config)
-            params = api.prepare_search_params(params)
-            items = api.search(
-                params=params,
-                batching=False,
-                context=obj,
-                config=config,
-            )
-        else:
-            self.remove_relation()
-
-        return items
+    @property
+    def configured_fields(self):
+        return self.get_configured_fields()
 
     def is_empty(self):
         return self.data.get('uuid', None) is None or \
@@ -379,6 +324,37 @@ class ListingCollectionTile(
 
     def show_footer(self):
         return self._field_is_visible('footer')
+
+    @property
+    def get_context(self):
+        """Return the development collection context."""
+        uuid = self.data.get('uuid', None)
+        item = ploneapi.content.get(UID=uuid)
+        return item
+
+    @property
+    def size(self):
+        size = 5
+        size_conf = [
+            i for i in self.configured_fields if i['id'] == 'count'
+        ]
+
+        if size_conf and 'size' in size_conf[0].keys():
+            size = int(size_conf[0]['size'])
+        return size
+
+    @property
+    def start_at(self):
+        start_at = 0
+        offset_conf = [
+            i for i in self.configured_fields if i['id'] == 'offset'
+        ]
+        if offset_conf:
+            try:
+                start_at = int(offset_conf[0].get('offset', 0))
+            except ValueError:
+                start_at = 0
+        return start_at
 
 
 @implementer(IListingCollectionTile)

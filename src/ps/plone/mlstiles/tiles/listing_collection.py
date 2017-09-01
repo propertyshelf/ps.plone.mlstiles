@@ -1,7 +1,13 @@
 # -*- coding: utf-8 -*-
 """A tile that shows a list of MLS listings."""
 
+# python imports
+import copy
+
 # zope imports
+from plone import api as plone_api
+from plone.memoize import view
+from plone.mls.listing import api
 from plone.mls.listing.browser.listing_collection import (
     CONFIGURATION_KEY as LC_CONFIGURATION_KEY,
     IListingCollection,
@@ -25,6 +31,45 @@ class ListingCollectionTileMixin(object):
     def has_listing_collection(self, obj):
         """Check if the obj is activated for recent MLS listings."""
         return IListingCollection.providedBy(obj)
+
+    @property
+    def get_context(self):
+        """Return the development collection context."""
+        raise NotImplementedError
+
+    @property
+    def size(self):
+        raise NotImplementedError
+
+    @property
+    def start_at(self):
+        raise NotImplementedError
+
+    @property
+    @view.memoize
+    def items(self):
+        """Return the collection items."""
+        items = []
+        context = self.get_context
+        if not context or not self.has_listing_collection(context):
+            return items
+
+        context_config = copy.copy(self.get_config(context))
+        language = plone_api.portal.get_current_language(context=context)
+        params = {
+            'lang': language,
+            'limit': self.size,
+            'offset': self.start_at,
+        }
+        context_config.update(params)
+        params = api.prepare_search_params(context_config)
+        items = api.search(
+            params=params,
+            batching=False,
+            context=context,
+            config=self.get_config(context),
+        )
+        return items
 
 
 class RecentListingsTileMixin(ListingCollectionTileMixin):
