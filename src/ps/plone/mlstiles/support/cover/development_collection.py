@@ -23,15 +23,8 @@ from plone.tiles.interfaces import (
     ITileDataManager,
     ITileType,
 )
-from ps.plone.mls import (
-    api,
-)
-from ps.plone.mls.browser.developments import collection
 from zope import schema
-from zope.component import (
-    getMultiAdapter,
-    queryUtility,
-)
+from zope.component import queryUtility
 from zope.interface import implementer
 from zope.schema.fieldproperty import FieldProperty
 from zope.traversing.browser.absoluteurl import absoluteURL
@@ -174,7 +167,6 @@ class DevelopmentCollectionTile(
     is_editable = True
     short_name = _(u'MLS: Development Collection')
     index = ViewPageTemplateFile('development_collection.pt')
-    configured_fields = []
 
     header = FieldProperty(IDevelopmentCollectionTile['header'])
     count = FieldProperty(IDevelopmentCollectionTile['count'])
@@ -199,67 +191,9 @@ class DevelopmentCollectionTile(
     def get_title(self):
         return self.data['title']
 
-    def results(self):
-        items = []
-
-        self.configured_fields = self.get_configured_fields()
-        size_conf = [
-            i for i in self.configured_fields if i['id'] == 'count'
-        ]
-
-        if size_conf and 'size' in size_conf[0].keys():
-            size = int(size_conf[0]['size'])
-        else:
-            size = 5
-
-        offset = 0
-        offset_conf = [
-            i for i in self.configured_fields if i['id'] == 'offset'
-        ]
-        if offset_conf:
-            try:
-                offset = int(offset_conf[0].get('offset', 0))
-            except ValueError:
-                offset = 0
-
-        uuid = self.data.get('uuid', None)
-        obj = uuidToObject(uuid)
-        if uuid and obj:
-            if not self.has_development_collection(obj):
-                return items
-            config = copy.copy(self.get_config(obj))
-            portal_state = getMultiAdapter(
-                (self.context, self.request),
-                name='plone_portal_state',
-            )
-            lang = portal_state.language()
-            mlsapi = api.get_api(context=obj, lang=lang)
-            fields = collection.FIELDS
-            if 'banner_image' not in fields:
-                fields.append('banner_image')
-            params = {
-                # 'summary': '1',
-                'fields': u','.join(fields),
-                'limit': size,
-                'offset': offset,
-            }
-            config.update(params)
-            params = api.prepare_search_params(
-                config,
-                context=obj,
-                omit=collection.EXCLUDED_SEARCH_FIELDS,
-            )
-            try:
-                result = api.Development.search(mlsapi, params=params)
-            except Exception:
-                pass
-            else:
-                items = result.get_items()
-
-        else:
-            self.remove_relation()
-
-        return items
+    @property
+    def configured_fields(self):
+        return self.get_configured_fields()
 
     @memoize
     def view_url(self, obj):
@@ -425,9 +359,8 @@ class DevelopmentCollectionTile(
     @property
     def size(self):
         size = 5
-        configured_fields = self.get_configured_fields()
         size_conf = [
-            i for i in configured_fields if i['id'] == 'count'
+            i for i in self.configured_fields if i['id'] == 'count'
         ]
 
         if size_conf and 'size' in size_conf[0].keys():
@@ -437,9 +370,8 @@ class DevelopmentCollectionTile(
     @property
     def start_at(self):
         start_at = 0
-        configured_fields = self.get_configured_fields()
         offset_conf = [
-            i for i in configured_fields if i['id'] == 'offset'
+            i for i in self.configured_fields if i['id'] == 'offset'
         ]
         if offset_conf:
             try:
@@ -450,12 +382,9 @@ class DevelopmentCollectionTile(
 
     def get_fields(self):
         fields = super(DevelopmentCollectionTile, self).get_fields()
-        configured_fields = self.get_configured_fields()
         banner_conf = [
-            i for i in configured_fields if i['id'] == 'banner'
+            i for i in self.configured_fields if i['id'] == 'banner'
         ]
-
-        if banner_conf and 'visibility' in banner_conf[0].keys():
-            if banner_conf[0]['visibility'] == 'on':
-                fields.append('banner_image')
+        if banner_conf:
+            fields.append('banner_image')
         return fields
