@@ -40,14 +40,10 @@ from zope.traversing.browser.absoluteurl import absoluteURL
 from ps.plone.mlstiles import _
 from ps.plone.mlstiles.tiles.development_collection import (
     DevelopmentCollectionTileMixin,
-    IDevelopmentCollectionTileBase,
 )
 
 
-class IDevelopmentCollectionTile(
-    IDevelopmentCollectionTileBase,
-    base.IPersistentCoverTile
-):
+class IDevelopmentCollectionTile(base.IPersistentCoverTile):
     """Configuration schema for a development collection."""
 
     header = schema.TextLine(
@@ -57,9 +53,19 @@ class IDevelopmentCollectionTile(
 
     form.omitted('count')
     form.no_omit(configuration_view.IDefaultConfigureForm, 'count')
+    count = schema.List(
+        required=False,
+        title=_CC(u'Number of items to display'),
+        value_type=schema.TextLine(),
+    )
 
     form.omitted('offset')
     form.no_omit(configuration_view.IDefaultConfigureForm, 'offset')
+    offset = schema.Int(
+        default=0,
+        required=False,
+        title=_CC(u'Start at item'),
+    )
 
     form.omitted('title')
     form.no_omit(configuration_view.IDefaultConfigureForm, 'title')

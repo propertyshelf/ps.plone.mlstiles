@@ -6,7 +6,6 @@ import copy
 
 # zope import
 from plone import api as plone_api
-from plone.supermodel.model import Schema
 from plone.memoize import view
 from ps.plone.mls import (
     api,
@@ -17,28 +16,8 @@ from ps.plone.mls.browser.developments.collection import (
     FIELDS,
 )
 from ps.plone.mls.interfaces import IDevelopmentCollection
-from zope import schema
 from zope.annotation.interfaces import IAnnotations
 from zope.traversing.browser.absoluteurl import absoluteURL
-
-# local imports
-from ps.plone.mlstiles import _
-
-
-class IDevelopmentCollectionTileBase(Schema):
-    """Configuration schema for a development collection tile."""
-
-    count = schema.Int(
-        default=5,
-        required=False,
-        title=_(u'Number of items to display'),
-    )
-
-    offset = schema.Int(
-        default=0,
-        required=False,
-        title=_(u'Start at item'),
-    )
 
 
 class DevelopmentCollectionTileMixin(object):

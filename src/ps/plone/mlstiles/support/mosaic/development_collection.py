@@ -5,6 +5,7 @@
 from plone import api
 from plone.app.standardtiles import _PMF
 from plone.memoize import view
+from plone.supermodel.model import Schema
 from plone.tiles import Tile
 from ps.plone.mls.interfaces import IDevelopmentCollection
 from zope import schema
@@ -13,13 +14,24 @@ from zope import schema
 from ps.plone.mlstiles import _
 from ps.plone.mlstiles.tiles.base import CatalogSource
 from ps.plone.mlstiles.tiles.development_collection import (
-    IDevelopmentCollectionTileBase,
     DevelopmentCollectionTileMixin,
 )
 
 
-class IDevelopmentCollectionTile(IDevelopmentCollectionTileBase):
+class IDevelopmentCollectionTile(Schema):
     """Configuration schema for a development collection."""
+
+    count = schema.Int(
+        default=5,
+        required=False,
+        title=_(u'Number of items to display'),
+    )
+
+    offset = schema.Int(
+        default=0,
+        required=False,
+        title=_(u'Start at item'),
+    )
 
     tile_title = schema.TextLine(
         required=False,
