@@ -170,11 +170,11 @@ class DevelopmentCollectionTile(DevelopmentCollectionTileMixin, Tile):
         return None
 
     @property
-    def count(self):
+    def size(self):
         return self.data.get('count')
 
     @property
-    def offset(self):
+    def start_at(self):
         return self.data.get('offset')
 
     def get_fields(self):

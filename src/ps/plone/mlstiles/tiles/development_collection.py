@@ -41,11 +41,11 @@ class DevelopmentCollectionTileMixin(object):
         return FIELDS
 
     @property
-    def count(self):
+    def size(self):
         raise NotImplementedError
 
     @property
-    def offset(self):
+    def start_at(self):
         raise NotImplementedError
 
     @property
@@ -62,8 +62,8 @@ class DevelopmentCollectionTileMixin(object):
         mlsapi = api.get_api(context=context, lang=language)
         params = {
             'fields': u','.join(self.get_fields()),
-            'limit': self.count,
-            'offset': self.offset,
+            'limit': self.size,
+            'offset': self.start_at,
         }
         context_config.update(params)
         params = api.prepare_search_params(
