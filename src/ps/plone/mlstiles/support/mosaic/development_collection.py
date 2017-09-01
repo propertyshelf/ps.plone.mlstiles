@@ -5,6 +5,7 @@
 from plone import api
 from plone.app.standardtiles import _PMF
 from plone.memoize import view
+from plone.tiles import Tile
 from ps.plone.mls.interfaces import IDevelopmentCollection
 from zope import schema
 
@@ -12,8 +13,8 @@ from zope import schema
 from ps.plone.mlstiles import _
 from ps.plone.mlstiles.tiles.base import CatalogSource
 from ps.plone.mlstiles.tiles.development_collection import (
-    IDevelopmentCollectionTile as IDevelopmentCollectionTileBase,
-    DevelopmentCollectionTile as DevelopmentCollectionTileBase,
+    IDevelopmentCollectionTileBase,
+    DevelopmentCollectionTileMixin,
 )
 
 
@@ -134,7 +135,7 @@ class IDevelopmentCollectionTile(IDevelopmentCollectionTileBase):
     )
 
 
-class DevelopmentCollectionTile(DevelopmentCollectionTileBase):
+class DevelopmentCollectionTile(DevelopmentCollectionTileMixin, Tile):
     """A tile that shows a list of MLS developments."""
 
     @property

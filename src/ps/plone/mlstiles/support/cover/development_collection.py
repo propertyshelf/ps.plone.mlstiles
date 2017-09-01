@@ -38,11 +38,14 @@ from zope.traversing.browser.absoluteurl import absoluteURL
 
 # local imports
 from ps.plone.mlstiles import _
-from ps.plone.mlstiles.tiles import development_collection
+from ps.plone.mlstiles.tiles.development_collection import (
+    DevelopmentCollectionTileMixin,
+    IDevelopmentCollectionTileBase,
+)
 
 
 class IDevelopmentCollectionTile(
-    development_collection.IDevelopmentCollectionTile,
+    IDevelopmentCollectionTileBase,
     base.IPersistentCoverTile
 ):
     """Configuration schema for a development collection."""
@@ -156,7 +159,7 @@ class IDevelopmentCollectionTile(
 
 @implementer(IDevelopmentCollectionTile)
 class DevelopmentCollectionTile(
-    development_collection.DevelopmentCollectionTile,
+    DevelopmentCollectionTileMixin,
     base.PersistentCoverTile,
 ):
     """A tile that shows a list of MLS developments."""

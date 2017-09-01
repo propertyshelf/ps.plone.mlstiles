@@ -8,7 +8,6 @@ import copy
 from plone import api as plone_api
 from plone.supermodel.model import Schema
 from plone.memoize import view
-from plone.tiles import Tile
 from ps.plone.mls import (
     api,
     config,
@@ -26,7 +25,7 @@ from zope.traversing.browser.absoluteurl import absoluteURL
 from ps.plone.mlstiles import _
 
 
-class IDevelopmentCollectionTile(Schema):
+class IDevelopmentCollectionTileBase(Schema):
     """Configuration schema for a development collection tile."""
 
     count = schema.Int(
@@ -42,8 +41,8 @@ class IDevelopmentCollectionTile(Schema):
     )
 
 
-class DevelopmentCollectionTile(Tile):
-    """A tile that shows a list of MLS developments."""
+class DevelopmentCollectionTileMixin(object):
+    """A tile mixin that shows a list of MLS developments."""
 
     def get_config(self, obj):
         """Get collection configuration data from annotations."""
