@@ -1,8 +1,8 @@
 Changelog
 =========
 
-0.4 (unreleased)
-----------------
+0.3.2 (2017-09-01)
+------------------
 
 - Fix listing collection configuration.
 
