@@ -36,18 +36,24 @@ class TestSetup(unittest.TestCase):
         """Validate that the tiles are registered."""
         registry = getUtility(IRegistry)
         key = 'plone.app.tiles'
-        self.assertIn(
-            'ps.plone.mlstiles.mosaic.development_collection',
-            registry.records.get(key).value,
-        )
+        value = registry.records.get(key).value
+        self.assertIn('ps.plone.mlstiles.mosaic.development_collection', value)
+        self.assertIn('ps.plone.mlstiles.mosaic.listing_collection', value)
+        self.assertIn('ps.plone.mlstiles.mosaic.recent_listings', value)
+        self.assertIn('ps.plone.mlstiles.mosaic.featured_listings', value)
 
     @skip_if_no_mosaic
     def test_tiles_available(self):
         """Validate that the tiles are available for plone.app.mosaic."""
         registry = getUtility(IRegistry)
-        base_key = 'plone.app.mosaic.app_tiles'
-        key = base_key + '.ps_plone_mlstiles_development_collection.name'
-        self.assertIn(
-            'ps.plone.mlstiles.mosaic.development_collection',
-            registry.records.get(key).value,
-        )
+        base_key = 'plone.app.mosaic.app_tiles.ps_plone_mlstiles_'
+        tiles = [
+            ('development_collection', 'development_collection.name'),
+            ('listing_collection', 'listing_collection.name'),
+            ('recent_listings', 'recent_listings.name'),
+            ('featured_listings', 'featured_listings.name'),
+        ]
+        for tile_name, tile_key in tiles:
+            name = 'ps.plone.mlstiles.mosaic.' + tile_name
+            key = base_key + tile_key
+            self.assertIn(name, registry.records.get(key).value)

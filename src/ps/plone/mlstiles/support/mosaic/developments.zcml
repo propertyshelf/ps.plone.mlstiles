@@ -3,7 +3,7 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="ps.plone.mlstiles">
 
-  <!-- MLS Development Collection .-->
+  <!-- MLS: Development Collection -->
   <plone:tile
       add_permission="cmf.ModifyPortalContent"
       class=".development_collection.DevelopmentCollectionTile"

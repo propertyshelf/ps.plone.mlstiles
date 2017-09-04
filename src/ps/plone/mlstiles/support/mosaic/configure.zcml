@@ -4,5 +4,6 @@
 
   <include package="plone.app.mosaic" />
   <include file="developments.zcml" />
+  <include file="listings.zcml" />
 
 </configure>
