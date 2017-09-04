@@ -353,6 +353,8 @@ class DevelopmentCollectionTile(
     def get_context(self):
         """Return the development collection context."""
         uuid = self.data.get('uuid', None)
+        if uuid is None:
+            return
         item = ploneapi.content.get(UID=uuid)
         return item
 
