@@ -34,7 +34,7 @@ class ListingCollectionTileMixin(object):
 
     @property
     def get_context(self):
-        """Return the development collection context."""
+        """Return the listing collection context."""
         raise NotImplementedError
 
     @property
