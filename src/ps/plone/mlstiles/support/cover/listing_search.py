@@ -2,7 +2,6 @@
 """MLS listing search tile."""
 
 # zope imports
-from Acquisition import aq_inner
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from collective.cover import _ as _CC
@@ -18,26 +17,16 @@ from plone.tiles.interfaces import (
 )
 from zope import schema
 from zope.component import queryUtility
-from zope.interface import alsoProvides, implementer
+from zope.interface import implementer
 from zope.schema import getFieldNamesInOrder
 from zope.schema.fieldproperty import FieldProperty
 
-# starting from 0.6.0 version plone.z3cform has IWrappedForm interface
-try:
-    from plone.z3cform.interfaces import IWrappedForm
-    HAS_WRAPPED_FORM = True
-except ImportError:
-    HAS_WRAPPED_FORM = False
-
 # local imports
 from ps.plone.mlstiles import _
-from ps.plone.mlstiles.tiles import listing_search
+from ps.plone.mlstiles.tiles.listing_search import ListingSearchTileMixin
 
 
-class IListingSearchTile(
-    listing_search.IListingSearchTile,
-    base.IPersistentCoverTile,
-):
+class IListingSearchTile(base.IPersistentCoverTile):
     """Configuration schema for a listing search."""
 
     header = schema.TextLine(
@@ -197,10 +186,7 @@ class IListingSearchTile(
 
 
 @implementer(IListingSearchTile)
-class ListingSearchTile(
-    listing_search.ListingSearchTile,
-    base.PersistentCoverTile,
-):
+class ListingSearchTile(ListingSearchTileMixin, base.PersistentCoverTile):
     """A tile that shows a search form for listings."""
 
     is_configurable = True
@@ -287,13 +273,8 @@ class ListingSearchTile(
         return self._field_is_visible('header')
 
     @property
-    def search_form(self):
-        uuid = self.data.get('uuid', None)
-        obj = uuidToObject(uuid)
-        if not self.has_listing_search(obj):
-            return
-
-        available_fields = []
+    def available_fields(self):
+        fields = []
         tile_type = queryUtility(ITileType, name=self.__name__)
         conf = self.get_tile_configuration()
         for name in getFieldNamesInOrder(tile_type.schema):
@@ -305,23 +286,17 @@ class ListingSearchTile(
                     # ignore it
                     continue
             if name.startswith('form_'):
-                available_fields.append(name.split('form_')[1])
-
-        search_form = listing_search.ListingSearchForm(
-            aq_inner(obj),
-            self.request,
-        )
-        search_form.fields = search_form.fields.select(*available_fields)
-        search_form.search_url = self.search_url()
-        if HAS_WRAPPED_FORM:
-            alsoProvides(search_form, IWrappedForm)
-        search_form.update()
-        return search_form
-
-    def search_url(self):
-        uuid = self.data.get('uuid', None)
-        obj = uuidToObject(uuid)
-        return obj.absolute_url() if obj else ''
+                fields.append(name.split('form_')[1])
+        return fields
 
     def show_footer(self):
         return self._field_is_visible('footer')
+
+    @property
+    def get_context(self):
+        """Return the development collection context."""
+        uuid = self.data.get('uuid', None)
+        if uuid is None:
+            return
+        item = ploneapi.content.get(UID=uuid)
+        return item

@@ -2,19 +2,28 @@
 """A tile that shows a search form for listings."""
 
 # zope imports
+from Acquisition import aq_inner
 from Products.CMFPlone import PloneMessageFactory as PMF
 from plone.directives import form
+from plone.memoize import view
 from plone.mls.listing.browser.listing_search import (
     CONFIGURATION_KEY,
     IListingSearch,
     IListingSearchForm,
 )
 from plone.mls.listing.browser.valuerange.widget import ValueRangeFieldWidget
-from plone.supermodel.model import Schema
-from plone.tiles import Tile
 from z3c.form import button, field
 from z3c.form.browser import checkbox, radio
 from zope.annotation.interfaces import IAnnotations
+from zope.interface import alsoProvides
+from zope.traversing.browser.absoluteurl import absoluteURL
+
+# starting from 0.6.0 version plone.z3cform has IWrappedForm interface
+try:
+    from plone.z3cform.interfaces import IWrappedForm
+    HAS_WRAPPED_FORM = True
+except ImportError:
+    HAS_WRAPPED_FORM = False
 
 
 class ListingSearchForm(form.Form):
@@ -63,12 +72,13 @@ class ListingSearchForm(form.Form):
             return
 
 
-class IListingSearchTile(Schema):
-    """Configuration schema for a listing search tile."""
-
-
-class ListingSearchTile(Tile):
+class ListingSearchTileMixin(object):
     """A tile that shows a search form for listings."""
+
+    @property
+    def get_context(self):
+        """Return the listing search context."""
+        raise NotImplementedError
 
     def get_config(self, obj):
         """Get collection configuration data from annotations."""
@@ -78,3 +88,32 @@ class ListingSearchTile(Tile):
     def has_listing_search(self, obj):
         """Check if the obj is activated for a listing search."""
         return IListingSearch.providedBy(obj)
+
+    @view.memoize
+    def search_url(self):
+        """Generate search form url."""
+        context = self.get_context
+        if not context:
+            return ''
+        return '/'.join([
+            absoluteURL(context, self.request),
+            '',
+        ])
+
+    @property
+    def available_fields(self):
+        raise NotImplementedError
+
+    @property
+    def search_form(self):
+        context = self.get_context
+        if not context or not self.has_listing_search(context):
+            return
+
+        search_form = ListingSearchForm(aq_inner(context), self.request)
+        search_form.fields = search_form.fields.select(*self.available_fields)
+        search_form.search_url = self.search_url
+        if HAS_WRAPPED_FORM:
+            alsoProvides(search_form, IWrappedForm)
+        search_form.update()
+        return search_form
