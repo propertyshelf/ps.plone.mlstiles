@@ -45,4 +45,18 @@
       template="listing_collection.pt"
       />
 
+  <!-- MLS: Listing Search.-->
+  <plone:tile
+      add_permission="cmf.ModifyPortalContent"
+      class=".listing_search.ListingSearchTile"
+      description="A tile that shows a search form for listings."
+      for="*"
+      icon="++resource++ps.plone.mlstiles/tile-search.png"
+      name="ps.plone.mlstiles.mosaic.listing_search"
+      permission="zope2.View"
+      schema=".listing_search.IListingSearchTile"
+      title="MLS: Listing Search"
+      template="listing_search.pt"
+      />
+
 </configure>
