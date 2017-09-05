@@ -5,6 +5,7 @@
       i18n:domain="ps.plone.mlstiles">
   <tal:block condition="nocall:view/get_context">
     <body tal:define="context nocall:view/get_context;
+                      search_form nocall:view/search_form;
                       items view/items | nothing;
                       data view/data;
                       tile_title python: data.get('tile_title', '');
@@ -21,6 +22,10 @@
           <h5 tal:condition="python:tile_title_level == 'h5'">${tile_title}</h5>
           <h6 tal:condition="python:tile_title_level == 'h6'">${tile_title}</h6>
         </div>
+        <div class="row">
+          <div class="listing__form col-xs-12" tal:content="structure search_form/render">[form]</div>
+        </div>
+
         <div class="tile-footer" tal:condition="show_more_link">
           <a tal:attributes="href context/@@absolute_url">${more_link_text}</a>
         </div>

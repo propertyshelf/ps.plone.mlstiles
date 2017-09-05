@@ -9,6 +9,7 @@ from plone.memoize import view
 from plone.supermodel.model import Schema
 from plone.tiles import Tile
 from zope import schema
+from zope.schema import getFieldNamesInOrder
 
 # local imports
 from ps.plone.mlstiles import _
@@ -47,6 +48,126 @@ class IListingSearchTile(Schema):
         required=False,
         title=_(u'Tile headline level'),
         values=(u'h1', u'h2', u'h3', u'h4', u'h5', u'h6'),
+    )
+
+    form_q = schema.Bool(
+        default=True,
+        required=False,
+        title=_(u'Show \'Freetext Search\' field'),
+    )
+
+    form_listing_type = schema.Bool(
+        default=True,
+        required=False,
+        title=_(u'Show \'Listing Type\' field'),
+    )
+
+    form_location_state = schema.Bool(
+        default=True,
+        required=False,
+        title=_(u'Show \'State\' field'),
+    )
+
+    form_location_county = schema.Bool(
+        default=True,
+        required=False,
+        title=_(u'Show \'County\' field'),
+    )
+
+    form_location_district = schema.Bool(
+        default=True,
+        required=False,
+        title=_(u'Show \'District\' field'),
+    )
+
+    form_location_city = schema.Bool(
+        default=True,
+        required=False,
+        title=_(u'Show \'City\' field'),
+    )
+
+    form_price_min = schema.Bool(
+        default=True,
+        required=False,
+        title=_(u'Show \'Price (Min)\' field'),
+    )
+
+    form_price_max = schema.Bool(
+        default=True,
+        required=False,
+        title=_(u'Show \'Price (Max)\' field'),
+    )
+
+    form_location_type = schema.Bool(
+        default=True,
+        required=False,
+        title=_(u'Show \'Location Type\' field'),
+    )
+
+    form_geographic_type = schema.Bool(
+        default=True,
+        required=False,
+        title=_(u'Show \'Geographic Type\' field'),
+    )
+
+    form_view_type = schema.Bool(
+        default=True,
+        required=False,
+        title=_(u'Show \'View Type\' field'),
+    )
+
+    form_object_type = schema.Bool(
+        default=True,
+        required=False,
+        title=_(u'Show \'Property Type\' field'),
+    )
+
+    form_ownership_type = schema.Bool(
+        default=True,
+        required=False,
+        title=_(u'Show \'Ownership Type\' field'),
+    )
+
+    form_beds = schema.Bool(
+        default=True,
+        required=False,
+        title=_(u'Show \'Bedrooms\' field'),
+    )
+
+    form_baths = schema.Bool(
+        default=True,
+        required=False,
+        title=_(u'Show \'Bathrooms\' field'),
+    )
+
+    form_air_condition = schema.Bool(
+        default=True,
+        required=False,
+        title=_(u'Show \'Air Condition\' field'),
+    )
+
+    form_pool = schema.Bool(
+        default=True,
+        required=False,
+        title=_(u'Show \'Pool\' field'),
+    )
+
+    form_jacuzzi = schema.Bool(
+        default=True,
+        required=False,
+        title=_(u'Show \'Jacuzzi\' field'),
+    )
+
+    form_lot_size = schema.Bool(
+        default=True,
+        required=False,
+        title=_(u'Show \'Lot Size\' field'),
+    )
+
+    form_interior_area = schema.Bool(
+        default=True,
+        required=False,
+        title=_(u'Show \'Interior Area\' field'),
     )
 
     show_more_link = schema.Bool(
@@ -97,4 +218,11 @@ class ListingSearchTile(ListingSearchTileMixin, Tile):
     @property
     def available_fields(self):
         fields = []
+        names = [
+            name for name in getFieldNamesInOrder(IListingSearchTile)
+            if name.startswith('form_')
+        ]
+        for name in names:
+            if self.data.get(name, False):
+                fields.append(name.split('form_')[1])
         return fields
