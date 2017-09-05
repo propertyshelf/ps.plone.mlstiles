@@ -24,7 +24,7 @@
       directory="profiles/plone5"
       name="default"
       provides="Products.GenericSetup.interfaces.EXTENSION"
-      title="ps.plone.mls"
+      title="ps.plone.mlstiles"
       />
 
   <genericsetup:registerProfile
