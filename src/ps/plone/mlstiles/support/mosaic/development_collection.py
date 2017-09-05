@@ -5,6 +5,7 @@
 from plone import api
 from plone.app.standardtiles import _PMF
 from plone.memoize import view
+from plone.supermodel.directives import fieldset
 from plone.supermodel.model import Schema
 from plone.tiles import Tile
 from ps.plone.mls.interfaces import IDevelopmentCollection
@@ -20,6 +21,23 @@ from ps.plone.mlstiles.tiles.development_collection import (
 
 class IDevelopmentCollectionTile(Schema):
     """Configuration schema for a development collection."""
+
+    fieldset(
+        'ui',
+        label=u'Select visible fields',
+        fields=[
+            'show_title',
+            'title_level',
+            'show_description',
+            'show_banner',
+            'show_logo',
+            'show_location',
+            'show_lot_size',
+            'show_location_type',
+            'show_number_of_listings',
+            'show_number_of_groups',
+        ]
+    )
 
     content_uid = schema.Choice(
         required=True,
