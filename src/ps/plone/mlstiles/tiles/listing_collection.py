@@ -1,7 +1,13 @@
 # -*- coding: utf-8 -*-
 """A tile that shows a list of MLS listings."""
 
+# python imports
+import copy
+
 # zope imports
+from plone import api as plone_api
+from plone.memoize import view
+from plone.mls.listing import api
 from plone.mls.listing.browser.listing_collection import (
     CONFIGURATION_KEY as LC_CONFIGURATION_KEY,
     IListingCollection,
@@ -10,46 +16,12 @@ from plone.mls.listing.browser.recent_listings import (
     CONFIGURATION_KEY as RL_CONFIGURATION_KEY,
     IRecentListings,
 )
-from plone.supermodel.model import Schema
-from plone.tiles import Tile
 from ps.plone.mls.browser.listings import featured
-from zope import schema
 from zope.annotation.interfaces import IAnnotations
-from zope.schema.fieldproperty import FieldProperty
-
-# local imports
-from ps.plone.mlstiles import _
-from ps.plone.mlstiles.tiles.base import CatalogSource
 
 
-class IListingCollectionTile(Schema):
-    """Configuration schema for a listing collection tile."""
-
-    count = schema.List(
-        required=False,
-        title=_(u'Number of items to display'),
-        value_type=schema.TextLine(),
-    )
-
-    offset = schema.Int(
-        default=0,
-        required=False,
-        title=_(u'Start at item'),
-    )
-
-    content_uid = schema.Choice(
-        title=_(u'Select an existing content'),
-        required=True,
-        source=CatalogSource(),
-    )
-
-
-class ListingCollectionTile(Tile):
+class ListingCollectionTileMixin(object):
     """A tile that shows a list of MLS listings."""
-
-    count = FieldProperty(IListingCollectionTile['count'])
-    offset = FieldProperty(IListingCollectionTile['offset'])
-    content_uid = FieldProperty(IListingCollectionTile['content_uid'])
 
     def get_config(self, obj):
         """Get collection configuration data from annotations."""
@@ -60,8 +32,47 @@ class ListingCollectionTile(Tile):
         """Check if the obj is activated for recent MLS listings."""
         return IListingCollection.providedBy(obj)
 
+    @property
+    def get_context(self):
+        """Return the listing collection context."""
+        raise NotImplementedError
 
-class RecentListingsTile(ListingCollectionTile):
+    @property
+    def size(self):
+        raise NotImplementedError
+
+    @property
+    def start_at(self):
+        raise NotImplementedError
+
+    @property
+    @view.memoize
+    def items(self):
+        """Return the collection items."""
+        items = []
+        context = self.get_context
+        if not context or not self.has_listing_collection(context):
+            return items
+
+        context_config = copy.copy(self.get_config(context))
+        language = plone_api.portal.get_current_language(context=context)
+        params = {
+            'lang': language,
+            'limit': self.size,
+            'offset': self.start_at,
+        }
+        context_config.update(params)
+        params = api.prepare_search_params(context_config)
+        items = api.search(
+            params=params,
+            batching=False,
+            context=context,
+            config=self.get_config(context),
+        )
+        return items
+
+
+class RecentListingsTileMixin(ListingCollectionTileMixin):
     """A tile that shows a list of recent MLS listings."""
 
     def get_config(self, obj):
@@ -74,7 +85,7 @@ class RecentListingsTile(ListingCollectionTile):
         return IRecentListings.providedBy(obj)
 
 
-class FeaturedListingsTile(ListingCollectionTile):
+class FeaturedListingsTileMixin(ListingCollectionTileMixin):
     """A tile that shows a list of featured MLS listings."""
 
     def get_config(self, obj):

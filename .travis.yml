@@ -6,26 +6,25 @@ cache:
   directories:
     - eggs
 env:
-  - PLONE_VERSION=4.2
-  - PLONE_VERSION=4.3
+  - PLONE_VERSION=4.2 PKG_EXTRAS=[test_cover]
+  - PLONE_VERSION=4.3 PKG_EXTRAS=[test_cover]
+  - PLONE_VERSION=5.0 PKG_EXTRAS=[test_mosaic]
+  - PLONE_VERSION=5.1 PKG_EXTRAS=[test_mosaic]
+matrix:
+  allow_failures:
+    - env: PLONE_VERSION=4.2 PKG_EXTRAS=[test_cover]
+  fast_finish: true
 install:
   - sed -ie "s#test-4.x.cfg#test-$PLONE_VERSION.x.cfg#" travis.cfg
   - sed -ie "s#versions-$PLONE_VERSION.x#versions#" travis.cfg
   - mkdir -p buildout-cache/eggs
   - mkdir -p buildout-cache/downloads
   - pip install -r requirements.txt
-  - buildout -c travis.cfg annotate
-  - buildout -c travis.cfg -N -q
-branches:
-  only:
-    - master
+  - buildout buildout:package-extras=$PKG_EXTRAS -c travis.cfg annotate
+  - buildout buildout:package-extras=$PKG_EXTRAS -c travis.cfg -N -q
 script:
   - bin/code-analysis
   - bin/test
-after_success:
-  - bin/createcoverage run bin/test
-  - pip install -q coveralls
-  - coveralls
 notifications:
   hipchat:
     secure: "7bIt1k1JymS5D5hNjfymYRLUTduDp+dujTjpipk82v7kPsgLCBSUtf15TYvAfsuJluqjd/Utsh+mE4cIONmFqvkqH16RuTY3FzDr/YkT8UDp2PgWT8OHOkvOOwf+9TfhxayaY4u07TV9++UN2HJ0a7glIIRBULzZk+YFaeE8BFA="

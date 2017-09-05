@@ -20,6 +20,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="support_mosaic"
+      title="Propertyshelf MLS Tiles for plone.app.mosaic"
+      directory="profiles/support_mosaic"
+      description="plone.app.mosaic support for the Propertyshelf MLS Plone Embedding."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
 
   <!-- GenericSetup Import Steps. -->
   <!-- ========================== -->

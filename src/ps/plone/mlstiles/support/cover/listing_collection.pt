@@ -11,7 +11,7 @@
 
     <div class="mls-collection-tile listing-collection-tile tile-content" tal:condition="not:is_empty">
       <tal:results
-          tal:define="results view/results | nothing;
+          tal:define="results view/items | nothing;
                       toLocalizedTime nocall:context/@@plone/toLocalizedTime">
 
         <div class="collection-link" tal:condition="view/is_compose_mode">

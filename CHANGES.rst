@@ -6,6 +6,7 @@ Changelog
 
 - Add new base tiles which are independent of collective.cover.
 - Move collective.cover related tiles to new support package.
+- Add plone.app.mosaic specific tiles for listings and developments.
 
 
 0.3.1 (2017-08-24)

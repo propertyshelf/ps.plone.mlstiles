@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 """MLS listing collection tiles."""
 
-# python imports
-import copy
-
 # zope imports
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -16,7 +13,6 @@ from plone import api as ploneapi
 from plone.app.uuid.utils import uuidToObject
 from plone.directives import form
 from plone.memoize import view
-from plone.mls.listing import api
 from plone.mls.listing.i18n import _ as _MLS
 from plone.namedfile.field import NamedBlobImage as NamedImage
 from plone.tiles.interfaces import (
@@ -24,25 +20,21 @@ from plone.tiles.interfaces import (
     ITileType,
 )
 from zope import schema
-from zope.component import (
-    getMultiAdapter,
-    queryUtility,
-)
+from zope.component import queryUtility
 from zope.interface import implementer
 from zope.schema.fieldproperty import FieldProperty
 
 # local imports
 from ps.plone.mlstiles import _
-from ps.plone.mlstiles.tiles import listing_collection
+from ps.plone.mlstiles.tiles.listing_collection import (
+    FeaturedListingsTileMixin,
+    ListingCollectionTileMixin,
+    RecentListingsTileMixin,
+)
 
 
-class IListingCollectionTile(
-    listing_collection.IListingCollectionTile,
-    base.IPersistentCoverTile,
-):
+class IListingCollectionTile(base.IPersistentCoverTile):
     """Configuration schema for a listing collection."""
-
-    form.omitted('content_uid')
 
     header = schema.TextLine(
         required=False,
@@ -51,9 +43,19 @@ class IListingCollectionTile(
 
     form.omitted('count')
     form.no_omit(configuration_view.IDefaultConfigureForm, 'count')
+    count = schema.List(
+        required=False,
+        title=_CC(u'Number of items to display'),
+        value_type=schema.TextLine(),
+    )
 
     form.omitted('offset')
     form.no_omit(configuration_view.IDefaultConfigureForm, 'offset')
+    offset = schema.Int(
+        default=0,
+        required=False,
+        title=_CC(u'Start at item'),
+    )
 
     form.omitted('title')
     form.no_omit(configuration_view.IDefaultConfigureForm, 'title')
@@ -168,7 +170,7 @@ class IListingCollectionTile(
 
 @implementer(IListingCollectionTile)
 class ListingCollectionTile(
-    listing_collection.ListingCollectionTile,
+    ListingCollectionTileMixin,
     base.PersistentCoverTile,
 ):
     """A tile that shows a list of MLS listings."""
@@ -177,9 +179,10 @@ class ListingCollectionTile(
     is_editable = True
     short_name = _(u'MLS: Listing Collection')
     index = ViewPageTemplateFile('listing_collection.pt')
-    configured_fields = []
 
     header = FieldProperty(IListingCollectionTile['header'])
+    count = FieldProperty(IListingCollectionTile['count'])
+    offset = FieldProperty(IListingCollectionTile['offset'])
     title = FieldProperty(IListingCollectionTile['title'])
     image = FieldProperty(IListingCollectionTile['image'])
     price = FieldProperty(IListingCollectionTile['price'])
@@ -198,56 +201,9 @@ class ListingCollectionTile(
     def get_title(self):
         return self.data['title']
 
-    def results(self):
-        items = []
-
-        self.configured_fields = self.get_configured_fields()
-        size_conf = [
-            i for i in self.configured_fields if i['id'] == 'count'
-        ]
-
-        if size_conf and 'size' in size_conf[0].keys():
-            size = int(size_conf[0]['size'])
-        else:
-            size = 5
-
-        offset = 0
-        offset_conf = [
-            i for i in self.configured_fields if i['id'] == 'offset'
-        ]
-        if offset_conf:
-            try:
-                offset = int(offset_conf[0].get('offset', 0))
-            except ValueError:
-                offset = 0
-
-        uuid = self.data.get('uuid', None)
-        obj = uuidToObject(uuid)
-        if uuid and obj:
-            if not self.has_listing_collection(obj):
-                return items
-            config = copy.copy(self.get_config(obj))
-            portal_state = getMultiAdapter(
-                (self.context, self.request),
-                name='plone_portal_state',
-            )
-            params = {
-                'limit': size,
-                'offset': offset,
-                'lang': portal_state.language(),
-            }
-            params.update(config)
-            params = api.prepare_search_params(params)
-            items = api.search(
-                params=params,
-                batching=False,
-                context=obj,
-                config=config,
-            )
-        else:
-            self.remove_relation()
-
-        return items
+    @property
+    def configured_fields(self):
+        return self.get_configured_fields()
 
     def is_empty(self):
         return self.data.get('uuid', None) is None or \
@@ -369,22 +325,49 @@ class ListingCollectionTile(
     def show_footer(self):
         return self._field_is_visible('footer')
 
+    @property
+    def get_context(self):
+        """Return the development collection context."""
+        uuid = self.data.get('uuid', None)
+        if uuid is None:
+            return
+        item = ploneapi.content.get(UID=uuid)
+        return item
+
+    @property
+    def size(self):
+        size = 5
+        size_conf = [
+            i for i in self.configured_fields if i['id'] == 'count'
+        ]
+
+        if size_conf and 'size' in size_conf[0].keys():
+            size = int(size_conf[0]['size'])
+        return size
+
+    @property
+    def start_at(self):
+        start_at = 0
+        offset_conf = [
+            i for i in self.configured_fields if i['id'] == 'offset'
+        ]
+        if offset_conf:
+            try:
+                start_at = int(offset_conf[0].get('offset', 0))
+            except ValueError:
+                start_at = 0
+        return start_at
+
 
 @implementer(IListingCollectionTile)
-class RecentListingsTile(
-    listing_collection.RecentListingsTile,
-    ListingCollectionTile,
-):
+class RecentListingsTile(RecentListingsTileMixin, ListingCollectionTile):
     """A tile that shows a list of recent MLS listings."""
 
     short_name = _(u'MLS: Recent Listings')
 
 
 @implementer(IListingCollectionTile)
-class FeaturedListingsTile(
-    listing_collection.FeaturedListingsTile,
-    ListingCollectionTile,
-):
+class FeaturedListingsTile(FeaturedListingsTileMixin, ListingCollectionTile):
     """A tile that shows a list of featured MLS listings."""
 
     short_name = _(u'MLS: Featured Listings')

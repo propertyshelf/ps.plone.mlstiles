@@ -23,31 +23,21 @@ from plone.tiles.interfaces import (
     ITileDataManager,
     ITileType,
 )
-from ps.plone.mls import (
-    api,
-)
-from ps.plone.mls.browser.developments import collection
 from zope import schema
-from zope.component import (
-    getMultiAdapter,
-    queryUtility,
-)
+from zope.component import queryUtility
 from zope.interface import implementer
 from zope.schema.fieldproperty import FieldProperty
 from zope.traversing.browser.absoluteurl import absoluteURL
 
 # local imports
 from ps.plone.mlstiles import _
-from ps.plone.mlstiles.tiles import development_collection
+from ps.plone.mlstiles.tiles.development_collection import (
+    DevelopmentCollectionTileMixin,
+)
 
 
-class IDevelopmentCollectionTile(
-    development_collection.IDevelopmentCollectionTile,
-    base.IPersistentCoverTile
-):
+class IDevelopmentCollectionTile(base.IPersistentCoverTile):
     """Configuration schema for a development collection."""
-
-    form.omitted('content_uid')
 
     header = schema.TextLine(
         required=False,
@@ -56,9 +46,19 @@ class IDevelopmentCollectionTile(
 
     form.omitted('count')
     form.no_omit(configuration_view.IDefaultConfigureForm, 'count')
+    count = schema.List(
+        required=False,
+        title=_CC(u'Number of items to display'),
+        value_type=schema.TextLine(),
+    )
 
     form.omitted('offset')
     form.no_omit(configuration_view.IDefaultConfigureForm, 'offset')
+    offset = schema.Int(
+        default=0,
+        required=False,
+        title=_CC(u'Start at item'),
+    )
 
     form.omitted('title')
     form.no_omit(configuration_view.IDefaultConfigureForm, 'title')
@@ -158,7 +158,7 @@ class IDevelopmentCollectionTile(
 
 @implementer(IDevelopmentCollectionTile)
 class DevelopmentCollectionTile(
-    development_collection.DevelopmentCollectionTile,
+    DevelopmentCollectionTileMixin,
     base.PersistentCoverTile,
 ):
     """A tile that shows a list of MLS developments."""
@@ -167,9 +167,10 @@ class DevelopmentCollectionTile(
     is_editable = True
     short_name = _(u'MLS: Development Collection')
     index = ViewPageTemplateFile('development_collection.pt')
-    configured_fields = []
 
     header = FieldProperty(IDevelopmentCollectionTile['header'])
+    count = FieldProperty(IDevelopmentCollectionTile['count'])
+    offset = FieldProperty(IDevelopmentCollectionTile['offset'])
     title = FieldProperty(IDevelopmentCollectionTile['title'])
     description = FieldProperty(IDevelopmentCollectionTile['description'])
     banner = FieldProperty(IDevelopmentCollectionTile['banner'])
@@ -190,67 +191,9 @@ class DevelopmentCollectionTile(
     def get_title(self):
         return self.data['title']
 
-    def results(self):
-        items = []
-
-        self.configured_fields = self.get_configured_fields()
-        size_conf = [
-            i for i in self.configured_fields if i['id'] == 'count'
-        ]
-
-        if size_conf and 'size' in size_conf[0].keys():
-            size = int(size_conf[0]['size'])
-        else:
-            size = 5
-
-        offset = 0
-        offset_conf = [
-            i for i in self.configured_fields if i['id'] == 'offset'
-        ]
-        if offset_conf:
-            try:
-                offset = int(offset_conf[0].get('offset', 0))
-            except ValueError:
-                offset = 0
-
-        uuid = self.data.get('uuid', None)
-        obj = uuidToObject(uuid)
-        if uuid and obj:
-            if not self.has_development_collection(obj):
-                return items
-            config = copy.copy(self.get_config(obj))
-            portal_state = getMultiAdapter(
-                (self.context, self.request),
-                name='plone_portal_state',
-            )
-            lang = portal_state.language()
-            mlsapi = api.get_api(context=obj, lang=lang)
-            fields = collection.FIELDS
-            if 'banner_image' not in fields:
-                fields.append('banner_image')
-            params = {
-                # 'summary': '1',
-                'fields': u','.join(fields),
-                'limit': size,
-                'offset': offset,
-            }
-            config.update(params)
-            params = api.prepare_search_params(
-                config,
-                context=obj,
-                omit=collection.EXCLUDED_SEARCH_FIELDS,
-            )
-            try:
-                result = api.Development.search(mlsapi, params=params)
-            except Exception:
-                pass
-            else:
-                items = result.get_items()
-
-        else:
-            self.remove_relation()
-
-        return items
+    @property
+    def configured_fields(self):
+        return self.get_configured_fields()
 
     @memoize
     def view_url(self, obj):
@@ -405,3 +348,45 @@ class DevelopmentCollectionTile(
 
     def show_footer(self):
         return self._field_is_visible('footer')
+
+    @property
+    def get_context(self):
+        """Return the development collection context."""
+        uuid = self.data.get('uuid', None)
+        if uuid is None:
+            return
+        item = ploneapi.content.get(UID=uuid)
+        return item
+
+    @property
+    def size(self):
+        size = 5
+        size_conf = [
+            i for i in self.configured_fields if i['id'] == 'count'
+        ]
+
+        if size_conf and 'size' in size_conf[0].keys():
+            size = int(size_conf[0]['size'])
+        return size
+
+    @property
+    def start_at(self):
+        start_at = 0
+        offset_conf = [
+            i for i in self.configured_fields if i['id'] == 'offset'
+        ]
+        if offset_conf:
+            try:
+                start_at = int(offset_conf[0].get('offset', 0))
+            except ValueError:
+                start_at = 0
+        return start_at
+
+    def get_fields(self):
+        fields = super(DevelopmentCollectionTile, self).get_fields()
+        banner_conf = [
+            i for i in self.configured_fields if i['id'] == 'banner'
+        ]
+        if banner_conf:
+            fields.append('banner_image')
+        return fields
