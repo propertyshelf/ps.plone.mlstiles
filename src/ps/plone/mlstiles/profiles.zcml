@@ -1,15 +1,30 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:genericsetup="http://namespaces.zope.org/genericsetup">
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    i18n_domain="ps.plone.mlstiles">
 
   <!-- GenericSetup Profiles. -->
   <!-- ====================== -->
+
+  <!-- Installation: Plone 4. -->
   <genericsetup:registerProfile
+      zcml:condition="not-have plone-5"
+      description="Plone 4 support for the Propertyshelf MLS Tiles."
+      directory="profiles/plone4"
       name="default"
-      title="Propertyshelf MLS Tiles"
-      directory="profiles/default"
-      description="Tiles support for the Propertyshelf MLS Plone Embedding."
       provides="Products.GenericSetup.interfaces.EXTENSION"
+      title="ps.plone.mlstiles"
+      />
+
+  <!-- Installation: Plone 5. -->
+  <genericsetup:registerProfile
+      zcml:condition="have plone-5"
+      description="Plone 5 support for the Propertyshelf MLS Tiles."
+      directory="profiles/plone5"
+      name="default"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      title="ps.plone.mls"
       />
 
   <genericsetup:registerProfile
