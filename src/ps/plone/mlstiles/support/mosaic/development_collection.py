@@ -47,19 +47,19 @@ class IDevelopmentCollectionTile(Schema):
 
     tile_title = schema.TextLine(
         required=False,
-        title=_PMF(u'Title'),
+        title=_(u'Tile Headline'),
     )
 
     show_tile_title = schema.Bool(
         default=True,
         required=False,
-        title=_PMF(u'Show tile title'),
+        title=_(u'Show tile headline'),
     )
 
     tile_title_level = schema.Choice(
         default=u'h2',
         required=False,
-        title=_(u'Headline level'),
+        title=_(u'Tile headline level'),
         values=(u'h1', u'h2', u'h3', u'h4', u'h5', u'h6'),
     )
 
