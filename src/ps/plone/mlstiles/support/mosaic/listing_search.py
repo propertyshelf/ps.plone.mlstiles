@@ -19,6 +19,18 @@ from ps.plone.mlstiles.tiles.listing_search import ListingSearchTileMixin
 class IListingSearchTile(Schema):
     """Configuration schema for a listing search tile."""
 
+    content_uid = schema.Choice(
+        required=True,
+        source=CatalogSource(
+            object_provides=IListingSearch.__identifier__,
+            path={
+                'query': [''],
+                'depth': -1,
+            },
+        ),
+        title=_(u'Select an existing listing search'),
+    )
+
     tile_title = schema.TextLine(
         required=False,
         title=_PMF(u'Title'),
@@ -57,18 +69,6 @@ class IListingSearchTile(Schema):
         ),
         required=False,
         title=_PMF(u'Tile additional styles'),
-    )
-
-    content_uid = schema.Choice(
-        required=True,
-        source=CatalogSource(
-            object_provides=IListingSearch.__identifier__,
-            path={
-                'query': [''],
-                'depth': -1,
-            },
-        ),
-        title=_(u'Select an existing listing collection'),
     )
 
 

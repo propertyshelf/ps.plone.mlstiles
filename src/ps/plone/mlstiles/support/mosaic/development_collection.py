@@ -21,6 +21,18 @@ from ps.plone.mlstiles.tiles.development_collection import (
 class IDevelopmentCollectionTile(Schema):
     """Configuration schema for a development collection."""
 
+    content_uid = schema.Choice(
+        required=True,
+        source=CatalogSource(
+            object_provides=IDevelopmentCollection.__identifier__,
+            path={
+                'query': [''],
+                'depth': -1,
+            },
+        ),
+        title=_(u'Select an existing development collection'),
+    )
+
     count = schema.Int(
         default=5,
         required=False,
@@ -49,18 +61,6 @@ class IDevelopmentCollectionTile(Schema):
         required=False,
         title=_(u'Headline level'),
         values=(u'h1', u'h2', u'h3', u'h4', u'h5', u'h6'),
-    )
-
-    content_uid = schema.Choice(
-        required=True,
-        source=CatalogSource(
-            object_provides=IDevelopmentCollection.__identifier__,
-            path={
-                'query': [''],
-                'depth': -1,
-            },
-        ),
-        title=_(u'Select an existing development collection'),
     )
 
     show_title = schema.Bool(

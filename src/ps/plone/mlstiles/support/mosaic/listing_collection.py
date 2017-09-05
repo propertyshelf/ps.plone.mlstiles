@@ -4,6 +4,7 @@
 # zope imports
 from plone import api
 from plone.app.standardtiles import _PMF
+from plone.autoform import directives
 from plone.mls.listing.browser.listing_collection import IListingCollection
 from plone.mls.listing.browser.recent_listings import IRecentListings
 from plone.memoize import view
@@ -178,6 +179,7 @@ class IBaseCollectionTile(Schema):
 class IListingCollectionTile(IBaseCollectionTile):
     """Configuration schema for a listing collection."""
 
+    directives.order_before(content_uid='*')
     content_uid = schema.Choice(
         required=True,
         source=CatalogSource(
@@ -194,6 +196,7 @@ class IListingCollectionTile(IBaseCollectionTile):
 class IRecentListingsTile(IBaseCollectionTile):
     """Configuration schema for a recent listings collection."""
 
+    directives.order_before(content_uid='*')
     content_uid = schema.Choice(
         required=True,
         source=CatalogSource(
@@ -210,6 +213,7 @@ class IRecentListingsTile(IBaseCollectionTile):
 class IFeaturedListingsTile(IBaseCollectionTile):
     """Configuration schema for a featured listings collection."""
 
+    directives.order_before(content_uid='*')
     content_uid = schema.Choice(
         required=True,
         source=CatalogSource(
