@@ -95,4 +95,11 @@
       profile="ps.plone.mlstiles:default"
       />
 
+
+  <!-- GenericSetup utilities. -->
+  <!-- ======================= -->
+  <utility
+      factory=".setuphandlers.HiddenProfiles"
+      name="ps.plone.mlstiles-hiddenprofiles"
+      />
 </configure>

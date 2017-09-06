@@ -5,7 +5,22 @@
 import pkg_resources
 
 # zope imports
+from Products.CMFPlone.interfaces import INonInstallable
 from plone import api
+from zope.interface import implementer
+
+
+@implementer(INonInstallable)
+class HiddenProfiles(object):
+    """Define hidden GenericSetup profiles."""
+
+    def getNonInstallableProfiles(self):
+        """Hide uninstall profile from site-creation and quickinstaller."""
+        return [
+            'ps.plone.mlstiles:support_cover',
+            'ps.plone.mlstiles:support_mosaic',
+            'ps.plone.mlstiles:uninstall',
+        ]
 
 
 def install_cover_support(context):
