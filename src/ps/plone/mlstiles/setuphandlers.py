@@ -6,8 +6,13 @@ import pkg_resources
 
 # zope imports
 from Products.CMFPlone.interfaces import INonInstallable
+from Products.GenericSetup.interfaces import IProfileImportedEvent
 from plone import api
+from zope.component import adapter
 from zope.interface import implementer
+
+# local imports
+from ps.plone.mlstiles import config
 
 
 @implementer(INonInstallable)
@@ -21,6 +26,25 @@ class HiddenProfiles(object):
             'ps.plone.mlstiles:support_mosaic',
             'ps.plone.mlstiles:uninstall',
         ]
+
+
+@adapter(IProfileImportedEvent)
+def handle_profile_imported_event(event):
+    """Update 'last version for profile' after a full import."""
+    qi = api.portal.get_tool(name='portal_quickinstaller')
+    setup = api.portal.get_tool(name='portal_setup')
+
+    if not qi.isProductInstalled(config.PROJECT_NAME):
+        return
+
+    if event.profile_id == 'profile-plone.app.upgrade.v50:to50alpha3':
+        setup.runAllImportStepsFromProfile(config.INSTALL_PROFILE)
+
+    if event.profile_id == 'profile-plone.app.mosaic:default':
+        setup.runAllImportStepsFromProfile(config.MOSAIC_SUPPORT_PROFILE)
+
+    if event.profile_id == 'profile-collective.cover:default':
+        setup.runAllImportStepsFromProfile(config.COVER_SUPPORT_PROFILE)
 
 
 def install_cover_support(context):

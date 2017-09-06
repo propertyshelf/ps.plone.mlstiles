@@ -102,4 +102,9 @@
       factory=".setuphandlers.HiddenProfiles"
       name="ps.plone.mlstiles-hiddenprofiles"
       />
+
+  <subscriber
+    handler=".setuphandlers.handle_profile_imported_event"
+      />
+
 </configure>
