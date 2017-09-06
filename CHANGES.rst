@@ -7,6 +7,9 @@ Changelog
 - Add new base tiles which are independent of collective.cover.
 - Move collective.cover related tiles to new support package.
 - Add plone.app.mosaic specific tiles for listings and developments.
+- Add GS profiles for Plone 4 and Plone 5.
+- Install cover/mosaic support when addons are installed with GS event.
+- Add missing browser layer.
 
 
 0.3.1 (2017-08-24)
