@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.4 (unreleased)
+1.0 (2017-09-06)
 ----------------
 
 - Add new base tiles which are independent of collective.cover.
