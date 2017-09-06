@@ -8,9 +8,12 @@ except ImportError:
     import unittest
 
 # zope imports
+from plone import api
 from plone.browserlayer.utils import registered_layers
+
 # local imports
 from ps.plone.mlstiles import PLONE_4
+from ps.plone.mlstiles.config import PROJECT_NAME
 from ps.plone.mlstiles.testing import PS_PLONE_MLSTILES_INTEGRATION_TESTING
 
 
@@ -57,3 +60,39 @@ class TestSetup(unittest.TestCase):
         resource_ids = self.portal.portal_css.getResourceIds()
         for id in CSS:
             self.assertIn(id, resource_ids, '{0} not installed'.format(id))
+
+
+class UninstallTestCase(unittest.TestCase):
+    """Validate uninstall process for ps.plone.mls."""
+
+    layer = PS_PLONE_MLSTILES_INTEGRATION_TESTING
+
+    def setUp(self):
+        """Additional test setup."""
+        self.portal = self.layer['portal']
+
+        qi = self.portal.portal_quickinstaller
+        with api.env.adopt_roles(['Manager']):
+            qi.uninstallProducts(products=[PROJECT_NAME])
+
+    def test_product_is_uninstalled(self):
+        """Validate that our product is uninstalled."""
+        qi = self.portal.portal_quickinstaller
+        self.assertFalse(qi.isProductInstalled(PROJECT_NAME))
+
+    def test_addon_layer_removed(self):
+        """Validate that the browserlayer is removed."""
+        layers = [l.getName() for l in registered_layers()]
+        self.assertNotIn('IPSPloneMLSTilesLayer', layers)
+
+    def test_cssregistry(self):
+        """Validate the CSS file unregistration."""
+        if not PLONE_4:
+            return
+
+        resource_ids = self.portal.portal_css.getResourceIds()
+        for id in CSS:
+            self.assertNotIn(
+                id, resource_ids,
+                '{0} is still installed'.format(id),
+            )
