@@ -7,6 +7,8 @@ try:
 except ImportError:
     import unittest
 
+# zope imports
+from plone.browserlayer.utils import registered_layers
 # local imports
 from ps.plone.mlstiles import PLONE_4
 from ps.plone.mlstiles.testing import PS_PLONE_MLSTILES_INTEGRATION_TESTING
@@ -31,6 +33,11 @@ class TestSetup(unittest.TestCase):
         """Validate that our product is installed."""
         qi = self.portal.portal_quickinstaller
         self.assertTrue(qi.isProductInstalled('ps.plone.mlstiles'))
+
+    def test_addon_layer(self):
+        """Validate that the browserlayer for our product is installed."""
+        layers = [l.getName() for l in registered_layers()]
+        self.assertIn('IPSPloneMLSTilesLayer', layers)
 
     def test_plone_mls_listing_installed(self):
         """Validate that plone.mls.listing is installed."""

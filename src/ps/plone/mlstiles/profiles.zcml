@@ -76,4 +76,14 @@
       profile="ps.plone.mlstiles:default"
       />
 
+  <genericsetup:upgradeStep
+      title="Upgrade ps.plone.mlstiles"
+      description="Add browserlayer."
+      source="1002"
+      destination="1003"
+      handler=".migrations.migrate_to_1003"
+      sortkey="1"
+      profile="ps.plone.mlstiles:default"
+      />
+
 </configure>

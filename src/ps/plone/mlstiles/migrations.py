@@ -28,3 +28,12 @@ def migrate_to_1002(context):
     """
     setup = api.portal.get_tool(name='portal_setup')
     setup.runImportStepFromProfile(config.PROFILE_ID, 'plone.app.registry')
+
+
+def migrate_to_1003(context):
+    """Migrate from 1002 to 1003.
+
+    * Add browserlayer.
+    """
+    setup = api.portal.get_tool(name='portal_setup')
+    setup.runImportStepFromProfile(config.PROFILE_ID, 'browserlayer')
