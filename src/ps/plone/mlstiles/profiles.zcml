@@ -56,6 +56,13 @@
   <!-- GenericSetup Import Steps. -->
   <!-- ========================== -->
   <genericsetup:importStep
+      description="Install additional profiles."
+      handler=".setuphandlers.install_additional_profiles"
+      name="ps.plone.mlstiles.additional_profiles"
+      title="ps.plone.mls additional profiles">
+  </genericsetup:importStep>
+
+  <genericsetup:importStep
       description="Install tiles for collective.cover."
       handler=".setuphandlers.install_cover_support"
       name="ps.plone.mlstiles.covertiles"

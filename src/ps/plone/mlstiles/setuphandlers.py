@@ -47,6 +47,21 @@ def handle_profile_imported_event(event):
         setup.runAllImportStepsFromProfile(config.COVER_SUPPORT_PROFILE)
 
 
+def install_additional_profiles(context):
+    """Install additional support profiles."""
+    if not context.readDataFile('ps.plone.mlstiles.txt'):
+        return
+
+    qi = api.portal.get_tool(name='portal_quickinstaller')
+    setup = api.portal.get_tool(name='portal_setup')
+
+    if qi.isProductInstalled('collective.cover'):
+        setup.runAllImportStepsFromProfile(config.COVER_SUPPORT_PROFILE)
+
+    if qi.isProductInstalled('plone.app.mosaic'):
+        setup.runAllImportStepsFromProfile(config.MOSAIC_SUPPORT_PROFILE)
+
+
 def install_cover_support(context):
     """Register tiles collective.cover."""
     if not context.readDataFile('ps.plone.mlstiles.cover.txt'):
