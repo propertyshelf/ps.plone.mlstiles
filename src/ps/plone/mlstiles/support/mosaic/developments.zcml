@@ -10,6 +10,7 @@
       description="A tile that shows a list of MLS developments."
       for="*"
       icon="++resource++ps.plone.mlstiles/tile-collection.png"
+      layer="ps.plone.mlstiles.interfaces.IPSPloneMLSTilesLayer"
       name="ps.plone.mlstiles.mosaic.development_collection"
       permission="zope2.View"
       schema=".development_collection.IDevelopmentCollectionTile"
