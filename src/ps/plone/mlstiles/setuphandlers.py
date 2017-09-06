@@ -30,7 +30,10 @@ def install_cover_support(context):
     from collective.cover.controlpanel import ICoverSettings
     record = dict(interface=ICoverSettings, name='available_tiles')
     available_tiles = api.portal.get_registry_record(**record)
-    available_tiles.remove(calendar_tile)
+    try:
+        available_tiles.remove(calendar_tile)
+    except ValueError:
+        pass  # no calendar tile found
     for tile in tiles:
         if tile not in available_tiles:
             available_tiles.append(tile)
