@@ -86,11 +86,13 @@ class PSPloneMLSTiles(PloneSandboxLayer):
 
         if HAS_COVER:
             # setup test content
+            self.applyProfile(portal, 'collective.cover:default')
             self.applyProfile(portal, 'collective.cover:testfixture')
             self.applyProfile(portal, 'ps.plone.mlstiles:support_cover')
             create_standard_content_for_tests(portal)
 
         if HAS_MOSAIC:
+            self.applyProfile(portal, 'plone.app.mosaic:default')
             self.applyProfile(portal, 'ps.plone.mlstiles:support_mosaic')
 
         portal.portal_workflow.setDefaultChain('simple_publication_workflow')
