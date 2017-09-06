@@ -5,7 +5,7 @@
 from plone import api
 
 # local imports
-from ps.plone.mls import config
+from ps.plone.mlstiles import config
 
 
 def migrate_to_1001(context):
@@ -18,7 +18,10 @@ def migrate_to_1001(context):
     qi = api.portal.get_tool(name='portal_quickinstaller')
 
     qi.installProduct('ps.plone.mls')
-    setup.runImportStepFromProfile(config.PROFILE_ID, 'plone.app.registry')
+    setup.runImportStepFromProfile(
+        config.INSTALL_PROFILE,
+        'plone.app.registry',
+    )
 
 
 def migrate_to_1002(context):
@@ -27,7 +30,10 @@ def migrate_to_1002(context):
     * Add development collection tile.
     """
     setup = api.portal.get_tool(name='portal_setup')
-    setup.runImportStepFromProfile(config.PROFILE_ID, 'plone.app.registry')
+    setup.runImportStepFromProfile(
+        config.INSTALL_PROFILE,
+        'plone.app.registry',
+    )
 
 
 def migrate_to_1003(context):
@@ -36,4 +42,4 @@ def migrate_to_1003(context):
     * Add browserlayer.
     """
     setup = api.portal.get_tool(name='portal_setup')
-    setup.runImportStepFromProfile(config.PROFILE_ID, 'browserlayer')
+    setup.runImportStepFromProfile(config.INSTALL_PROFILE, 'browserlayer')
