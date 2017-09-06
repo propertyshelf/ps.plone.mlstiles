@@ -4,8 +4,8 @@
 # zope imports
 from plone import api
 
-
-PROFILE_ID = 'profile-ps.plone.mlstiles:default'
+# local imports
+from ps.plone.mls import config
 
 
 def migrate_to_1001(context):
@@ -18,7 +18,7 @@ def migrate_to_1001(context):
     qi = api.portal.get_tool(name='portal_quickinstaller')
 
     qi.installProduct('ps.plone.mls')
-    setup.runImportStepFromProfile(PROFILE_ID, 'plone.app.registry')
+    setup.runImportStepFromProfile(config.PROFILE_ID, 'plone.app.registry')
 
 
 def migrate_to_1002(context):
@@ -27,4 +27,4 @@ def migrate_to_1002(context):
     * Add development collection tile.
     """
     setup = api.portal.get_tool(name='portal_setup')
-    setup.runImportStepFromProfile(PROFILE_ID, 'plone.app.registry')
+    setup.runImportStepFromProfile(config.PROFILE_ID, 'plone.app.registry')
