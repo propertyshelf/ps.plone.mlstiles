@@ -25,6 +25,12 @@ try:
 except ImportError:
     HAS_WRAPPED_FORM = False
 
+# local imports
+from ps.plone.mlstiles import (
+    _,
+    PLONE_5,
+)
+
 
 class ListingSearchForm(form.Form):
     """Listing Search Form."""
@@ -48,6 +54,12 @@ class ListingSearchForm(form.Form):
     fields['pool'].widgetFactory = radio.RadioFieldWidget
     fields['view_type'].widgetFactory = checkbox.CheckBoxFieldWidget
 
+    if PLONE_5:
+        from plone.app.z3cform.widget import SelectFieldWidget
+        fields['location_state'].widgetFactory = SelectFieldWidget
+        fields['location_county'].widgetFactory = SelectFieldWidget
+        fields['location_district'].widgetFactory = SelectFieldWidget
+
     def __init__(self, context, request):
         super(ListingSearchForm, self).__init__(context, request)
         form_context = self.getContent()
@@ -70,6 +82,22 @@ class ListingSearchForm(form.Form):
         if errors:
             self.status = self.formErrorsMessage
             return
+
+    def updateWidgets(self):
+        super(ListingSearchForm, self).updateWidgets()
+        if PLONE_5:
+            if 'location_state' in self.widgets:
+                self.widgets['location_state'].pattern_options = {
+                    'placeholder': _(u'Select a State'),
+                }
+            if 'location_county' in self.widgets:
+                self.widgets['location_county'].pattern_options = {
+                    'placeholder': _(u'Select a County'),
+                }
+            if 'location_district' in self.widgets:
+                self.widgets['location_district'].pattern_options = {
+                    'placeholder': _(u'Select a District'),
+                }
 
 
 class ListingSearchTileMixin(object):
