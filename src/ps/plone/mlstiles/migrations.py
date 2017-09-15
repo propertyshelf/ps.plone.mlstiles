@@ -43,3 +43,21 @@ def migrate_to_1003(context):
     """
     setup = api.portal.get_tool(name='portal_setup')
     setup.runImportStepFromProfile(config.INSTALL_PROFILE, 'browserlayer')
+
+
+def migrate_to_1004(context):
+    """Migrate from 1003 to 1004.
+
+    * Add browserlayer.
+    """
+    setup = api.portal.get_tool(name='portal_setup')
+    setup.runAllImportStepsFromProfile(config.INSTALL_PROFILE)
+
+
+def migrate_to_3002(context):
+    """Migrate from 3001 to 3002.
+
+    * Add listing search results tile.
+    """
+    setup = api.portal.get_tool(name='portal_setup')
+    setup.runImportStepFromProfile(config.MOSAIC_SUPPORT_PROFILE, 'registry')

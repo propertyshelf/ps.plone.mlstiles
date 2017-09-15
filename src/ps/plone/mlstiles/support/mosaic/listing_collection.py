@@ -6,6 +6,7 @@ from plone import api
 from plone.app.standardtiles import _PMF
 from plone.autoform import directives
 from plone.mls.listing.browser.listing_collection import IListingCollection
+from plone.mls.listing.browser.listing_search import IListingSearch
 from plone.mls.listing.browser.recent_listings import IRecentListings
 from plone.memoize import view
 from plone.supermodel.model import Schema
@@ -19,6 +20,7 @@ from ps.plone.mlstiles.tiles.base import CatalogSource
 from ps.plone.mlstiles.tiles.listing_collection import (
     FeaturedListingsTileMixin,
     ListingCollectionTileMixin,
+    ListingSearchResultsTileMixin,
     RecentListingsTileMixin,
 )
 
@@ -193,6 +195,23 @@ class IListingCollectionTile(IBaseCollectionTile):
     )
 
 
+class IListingSearchResultsTile(IBaseCollectionTile):
+    """Configuration schema for a listing search (results)."""
+
+    directives.order_before(content_uid='*')
+    content_uid = schema.Choice(
+        required=True,
+        source=CatalogSource(
+            object_provides=IListingSearch.__identifier__,
+            path={
+                'query': [''],
+                'depth': -1,
+            },
+        ),
+        title=_(u'Select an existing listing search'),
+    )
+
+
 class IRecentListingsTile(IBaseCollectionTile):
     """Configuration schema for a recent listings collection."""
 
@@ -256,6 +275,13 @@ class ListingCollectionTile(ListingCollectionTileMixin, Tile):
     @property
     def start_at(self):
         return self.data.get('offset')
+
+
+class ListingSearchResultsTile(
+    ListingSearchResultsTileMixin,
+    ListingCollectionTile,
+):
+    """A tile that shows a list of MLS listings from search results."""
 
 
 class RecentListingsTile(RecentListingsTileMixin, ListingCollectionTile):

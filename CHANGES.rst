@@ -6,6 +6,7 @@ Changelog
 
 - Use SelectWidget with pat-select2 for Plone 5.
 - Hide all location fields in search form tile when one option in linked search form is pre-selected.
+- Add listing search results tile for Mosaic.
 
 
 1.0 (2017-09-06)

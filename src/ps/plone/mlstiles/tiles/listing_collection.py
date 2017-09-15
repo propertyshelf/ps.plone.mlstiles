@@ -12,6 +12,10 @@ from plone.mls.listing.browser.listing_collection import (
     CONFIGURATION_KEY as LC_CONFIGURATION_KEY,
     IListingCollection,
 )
+from plone.mls.listing.browser.listing_search import (
+    CONFIGURATION_KEY as SEARCH_CONFIGURATION_KEY,
+    IListingSearch,
+)
 from plone.mls.listing.browser.recent_listings import (
     CONFIGURATION_KEY as RL_CONFIGURATION_KEY,
     IRecentListings,
@@ -70,6 +74,19 @@ class ListingCollectionTileMixin(object):
             config=self.get_config(context),
         )
         return items
+
+
+class ListingSearchResultsTileMixin(ListingCollectionTileMixin):
+    """A tile that shows a list of MLS listings from search results."""
+
+    def get_config(self, obj):
+        """Get collection configuration data from annotations."""
+        annotations = IAnnotations(obj)
+        return annotations.get(SEARCH_CONFIGURATION_KEY, {})
+
+    def has_listing_collection(self, obj):
+        """Check if the obj is activated for listing search results."""
+        return IListingSearch.providedBy(obj)
 
 
 class RecentListingsTileMixin(ListingCollectionTileMixin):

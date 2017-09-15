@@ -102,6 +102,26 @@
       profile="ps.plone.mlstiles:default"
       />
 
+  <genericsetup:upgradeStep
+      title="Upgrade ps.plone.mlstiles"
+      description="Upgrade mosaic support."
+      source="1003"
+      destination="1004"
+      handler=".migrations.migrate_to_1004"
+      sortkey="1"
+      profile="ps.plone.mlstiles:default"
+      />
+
+  <genericsetup:upgradeStep
+      title="Upgrade ps.plone.mlstiles"
+      description="Update mosaic tiles."
+      source="3001"
+      destination="3002"
+      handler=".migrations.migrate_to_3002"
+      sortkey="1"
+      profile="ps.plone.mlstiles:support_mosaic"
+      />
+
 
   <!-- GenericSetup utilities. -->
   <!-- ======================= -->

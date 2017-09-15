@@ -63,4 +63,19 @@
       template="listing_search.pt"
       />
 
+  <!-- MLS: Listing Search Results.-->
+  <plone:tile
+      add_permission="cmf.ModifyPortalContent"
+      class=".listing_collection.ListingSearchResultsTile"
+      description="A tile that shows a list of MLS listings from search results."
+      for="*"
+      icon="++resource++ps.plone.mlstiles/tile-collection.png"
+      layer="ps.plone.mlstiles.interfaces.IPSPloneMLSTilesLayer"
+      name="ps.plone.mlstiles.mosaic.listing_search_results"
+      permission="zope2.View"
+      schema=".listing_collection.IListingSearchResultsTile"
+      title="MLS: Listing Search Results"
+      template="listing_collection.pt"
+      />
+
 </configure>

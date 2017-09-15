@@ -42,6 +42,7 @@ class TestSetup(unittest.TestCase):
         self.assertIn('ps.plone.mlstiles.mosaic.recent_listings', value)
         self.assertIn('ps.plone.mlstiles.mosaic.featured_listings', value)
         self.assertIn('ps.plone.mlstiles.mosaic.listing_search', value)
+        self.assertIn('ps.plone.mlstiles.mosaic.listing_search_results', value)
 
     @skip_if_no_mosaic
     def test_tiles_available(self):
@@ -54,6 +55,7 @@ class TestSetup(unittest.TestCase):
             ('recent_listings', 'recent_listings.name'),
             ('featured_listings', 'featured_listings.name'),
             ('listing_search', 'listing_search.name'),
+            ('listing_search_results', 'listing_search_results.name'),
         ]
         for tile_name, tile_key in tiles:
             name = 'ps.plone.mlstiles.mosaic.' + tile_name
