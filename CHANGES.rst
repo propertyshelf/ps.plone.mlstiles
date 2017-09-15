@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.1 (unreleased)
+1.1 (2017-09-15)
 ----------------
 
 - Use SelectWidget with pat-select2 for Plone 5.
