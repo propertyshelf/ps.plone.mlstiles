@@ -138,8 +138,39 @@ class ListingSearchTileMixin(object):
         if not context or not self.has_listing_search(context):
             return
 
+        config = self.get_config(context)
+        omitted = []
+        if config.get('location_city', None):
+            omitted.extend([
+                'location_state',
+                'location_county',
+                'location_district',
+                'location_city',
+            ])
+
+        if config.get('location_district', None):
+            omitted.extend([
+                'location_state',
+                'location_county',
+                'location_district',
+            ])
+        elif config.get('location_county', None):
+            omitted.extend([
+                'location_state',
+                'location_county',
+                'location_district',
+            ])
+        elif config.get('location_state', None):
+            omitted.extend([
+                'location_state',
+                'location_county',
+                'location_district',
+            ])
+        available = self.available_fields
+        available = [a for a in available if a not in omitted]
+
         search_form = ListingSearchForm(aq_inner(context), self.request)
-        search_form.fields = search_form.fields.select(*self.available_fields)
+        search_form.fields = search_form.fields.select(*available)
         search_form.search_url = self.search_url
         if HAS_WRAPPED_FORM:
             alsoProvides(search_form, IWrappedForm)
