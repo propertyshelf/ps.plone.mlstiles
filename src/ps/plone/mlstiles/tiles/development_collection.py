@@ -38,7 +38,7 @@ class DevelopmentCollectionTileMixin(object):
         raise NotImplementedError
 
     def get_fields(self):
-        return FIELDS
+        return copy.copy(FIELDS)
 
     @property
     def size(self):
