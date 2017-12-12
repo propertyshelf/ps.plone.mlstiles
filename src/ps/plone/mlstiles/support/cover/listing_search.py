@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 """MLS listing search tile."""
 
-# zope imports
-from Products.CMFPlone.utils import safe_unicode
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from collective.cover import _ as _CC
 from collective.cover.tiles import base
 from collective.cover.tiles.configuration_view import IDefaultConfigureForm
@@ -11,19 +8,17 @@ from plone import api as ploneapi
 from plone.app.uuid.utils import uuidToObject
 from plone.directives import form
 from plone.mls.listing.i18n import _ as _MLS
-from plone.tiles.interfaces import (
-    ITileDataManager,
-    ITileType,
-)
+from plone.tiles.interfaces import ITileDataManager
+from plone.tiles.interfaces import ITileType
+from Products.CMFPlone.utils import safe_unicode
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from ps.plone.mlstiles import _
+from ps.plone.mlstiles.tiles.listing_search import ListingSearchTileMixin
 from zope import schema
 from zope.component import queryUtility
 from zope.interface import implementer
 from zope.schema import getFieldNamesInOrder
 from zope.schema.fieldproperty import FieldProperty
-
-# local imports
-from ps.plone.mlstiles import _
-from ps.plone.mlstiles.tiles.listing_search import ListingSearchTileMixin
 
 
 class IListingSearchTile(base.IPersistentCoverTile):

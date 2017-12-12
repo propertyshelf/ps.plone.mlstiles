@@ -1,36 +1,25 @@
 # -*- coding: utf-8 -*-
 """MLS listing collection tiles."""
 
-# zope imports
-from Products.CMFPlone.utils import safe_unicode
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from collective.cover import _ as _CC
-from collective.cover.tiles import (
-    base,
-    configuration_view,
-)
+from collective.cover.tiles import base
+from collective.cover.tiles import configuration_view
 from plone import api as ploneapi
 from plone.app.uuid.utils import uuidToObject
 from plone.directives import form
 from plone.memoize import view
 from plone.mls.listing.i18n import _ as _MLS
 from plone.namedfile.field import NamedBlobImage as NamedImage
-from plone.tiles.interfaces import (
-    ITileDataManager,
-    ITileType,
-)
+from plone.tiles.interfaces import ITileDataManager
+from plone.tiles.interfaces import ITileType
+from Products.CMFPlone.utils import safe_unicode
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from ps.plone.mlstiles import _
+from ps.plone.mlstiles.tiles import listing_collection
 from zope import schema
 from zope.component import queryUtility
 from zope.interface import implementer
 from zope.schema.fieldproperty import FieldProperty
-
-# local imports
-from ps.plone.mlstiles import _
-from ps.plone.mlstiles.tiles.listing_collection import (
-    FeaturedListingsTileMixin,
-    ListingCollectionTileMixin,
-    RecentListingsTileMixin,
-)
 
 
 class IListingCollectionTile(base.IPersistentCoverTile):
@@ -170,7 +159,7 @@ class IListingCollectionTile(base.IPersistentCoverTile):
 
 @implementer(IListingCollectionTile)
 class ListingCollectionTile(
-    ListingCollectionTileMixin,
+    listing_collection.ListingCollectionTileMixin,
     base.PersistentCoverTile,
 ):
     """A tile that shows a list of MLS listings."""
@@ -360,14 +349,20 @@ class ListingCollectionTile(
 
 
 @implementer(IListingCollectionTile)
-class RecentListingsTile(RecentListingsTileMixin, ListingCollectionTile):
+class RecentListingsTile(
+    listing_collection.RecentListingsTileMixin,
+    ListingCollectionTile,
+):
     """A tile that shows a list of recent MLS listings."""
 
     short_name = _(u'MLS: Recent Listings')
 
 
 @implementer(IListingCollectionTile)
-class FeaturedListingsTile(FeaturedListingsTileMixin, ListingCollectionTile):
+class FeaturedListingsTile(
+    listing_collection.FeaturedListingsTileMixin,
+    ListingCollectionTile,
+):
     """A tile that shows a list of featured MLS listings."""
 
     short_name = _(u'MLS: Featured Listings')

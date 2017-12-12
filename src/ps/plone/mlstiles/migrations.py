@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
 """Migration steps for ps.plone.mlstiles."""
 
-# zope imports
 from plone import api
-
-# local imports
 from ps.plone.mlstiles import config
 
 

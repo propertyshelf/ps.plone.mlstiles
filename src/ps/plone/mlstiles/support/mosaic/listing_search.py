@@ -1,20 +1,17 @@
 # -*- coding: utf-8 -*-
 """Tiles that shows a list of MLS listings for plone.app.mosaic."""
 
-# zope imports
 from plone import api
 from plone.app.standardtiles import _PMF
-from plone.mls.listing.browser.listing_search import IListingSearch
 from plone.memoize import view
+from plone.mls.listing.browser.listing_search import IListingSearch
 from plone.supermodel.model import Schema
 from plone.tiles import Tile
-from zope import schema
-from zope.schema import getFieldNamesInOrder
-
-# local imports
 from ps.plone.mlstiles import _
 from ps.plone.mlstiles.tiles.base import CatalogSource
 from ps.plone.mlstiles.tiles.listing_search import ListingSearchTileMixin
+from zope import schema
+from zope.schema import getFieldNamesInOrder
 
 
 class IListingSearchTile(Schema):

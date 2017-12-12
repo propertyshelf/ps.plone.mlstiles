@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """Tiles support for the Propertyshelf MLS Plone Embedding."""
 
-# zope imports
 from plone import api as ploneapi
 from zope.i18nmessageid import MessageFactory
 

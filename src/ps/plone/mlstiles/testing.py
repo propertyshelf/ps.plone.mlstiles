@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 """Test Layer for ps.plone.mlstiles."""
 
-# python imports
+from plone.app.testing import IntegrationTesting
+from plone.app.testing import PLONE_FIXTURE
+from plone.app.testing import PloneSandboxLayer
+
 import pkg_resources
 import unittest
 
-# zope imports
+
 try:
     from collective.cover.tests.utils import create_standard_content_for_tests
     HAS_COVER = True
@@ -16,12 +19,6 @@ try:
     HAS_MOSAIC = True
 except ImportError:
     HAS_MOSAIC = False
-from plone.app.testing import (
-    IntegrationTesting,
-    PloneSandboxLayer,
-    PLONE_FIXTURE,
-)
-
 try:
     pkg_resources.get_distribution('plone.app.contenttypes')
 except pkg_resources.DistributionNotFound:

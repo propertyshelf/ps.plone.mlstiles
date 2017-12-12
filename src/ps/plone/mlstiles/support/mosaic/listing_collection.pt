@@ -27,7 +27,8 @@
                       show_living_area python: data.get('show_living_area', True);
                       show_interior_area python: data.get('show_interior_area', True);
                       show_more_link python: data.get('show_more_link', True);
-                      more_link_text python: data.get('more_link_text', '');">
+                      more_link_text python: data.get('more_link_text', '');
+                      utils context/@@psplonemls-utils;">
       <section class="${view/tile_class}">
         <div class="tile-header" tal:condition="show_tile_title">
           <h1 tal:condition="python:tile_title_level == 'h1'">${tile_title}</h1>
@@ -181,7 +182,7 @@
             <p class="listing__description col-xs-12"
                 tal:define="field item/description/value | nothing"
                 tal:condition="python: show_description and field"
-                tal:content="field">
+                tal:content="python: utils.smart_truncate(field)">
                 [Description]
             </p>
           </tal:item>

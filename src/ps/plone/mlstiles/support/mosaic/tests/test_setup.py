@@ -1,18 +1,12 @@
 # -*- coding: utf-8 -*-
 """Test Setup of ps.plone.mlstiles."""
 
-# python imports
-import unittest
-
-# zope imports
 from plone.registry.interfaces import IRegistry
+from ps.plone.mlstiles.testing import PS_PLONE_MLSTILES_INTEGRATION_TESTING
+from ps.plone.mlstiles.testing import skip_if_no_mosaic
 from zope.component import getUtility
 
-# local imports
-from ps.plone.mlstiles.testing import (
-    PS_PLONE_MLSTILES_INTEGRATION_TESTING,
-    skip_if_no_mosaic,
-)
+import unittest
 
 
 class TestSetup(unittest.TestCase):

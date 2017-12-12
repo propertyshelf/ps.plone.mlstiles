@@ -1,22 +1,24 @@
 # -*- coding: utf-8 -*-
 """A tile that shows a search form for listings."""
 
-# zope imports
 from Acquisition import aq_inner
-from Products.CMFPlone import PloneMessageFactory as PMF
 from plone.directives import form
 from plone.memoize import view
-from plone.mls.listing.browser.listing_search import (
-    CONFIGURATION_KEY,
-    IListingSearch,
-    IListingSearchForm,
-)
+from plone.mls.listing.browser.listing_search import CONFIGURATION_KEY
+from plone.mls.listing.browser.listing_search import IListingSearch
+from plone.mls.listing.browser.listing_search import IListingSearchForm
 from plone.mls.listing.browser.valuerange.widget import ValueRangeFieldWidget
-from z3c.form import button, field
-from z3c.form.browser import checkbox, radio
+from Products.CMFPlone import PloneMessageFactory as PMF
+from ps.plone.mlstiles import _
+from ps.plone.mlstiles import PLONE_5
+from z3c.form import button
+from z3c.form import field
+from z3c.form.browser import checkbox
+from z3c.form.browser import radio
 from zope.annotation.interfaces import IAnnotations
 from zope.interface import alsoProvides
 from zope.traversing.browser.absoluteurl import absoluteURL
+
 
 # starting from 0.6.0 version plone.z3cform has IWrappedForm interface
 try:
@@ -24,12 +26,6 @@ try:
     HAS_WRAPPED_FORM = True
 except ImportError:
     HAS_WRAPPED_FORM = False
-
-# local imports
-from ps.plone.mlstiles import (
-    _,
-    PLONE_5,
-)
 
 
 class ListingSearchForm(form.Form):

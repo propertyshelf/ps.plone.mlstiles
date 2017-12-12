@@ -1,28 +1,20 @@
 # -*- coding: utf-8 -*-
 """Tiles that shows a list of MLS listings for plone.app.mosaic."""
 
-# zope imports
 from plone import api
 from plone.app.standardtiles import _PMF
 from plone.autoform import directives
+from plone.memoize import view
 from plone.mls.listing.browser.listing_collection import IListingCollection
 from plone.mls.listing.browser.listing_search import IListingSearch
 from plone.mls.listing.browser.recent_listings import IRecentListings
-from plone.memoize import view
 from plone.supermodel.model import Schema
 from plone.tiles import Tile
 from ps.plone.mls.browser.listings.featured import IFeaturedListings
-from zope import schema
-
-# local imports
 from ps.plone.mlstiles import _
+from ps.plone.mlstiles.tiles import listing_collection
 from ps.plone.mlstiles.tiles.base import CatalogSource
-from ps.plone.mlstiles.tiles.listing_collection import (
-    FeaturedListingsTileMixin,
-    ListingCollectionTileMixin,
-    ListingSearchResultsTileMixin,
-    RecentListingsTileMixin,
-)
+from zope import schema
 
 
 class IBaseCollectionTile(Schema):
@@ -246,7 +238,10 @@ class IFeaturedListingsTile(IBaseCollectionTile):
     )
 
 
-class ListingCollectionTile(ListingCollectionTileMixin, Tile):
+class ListingCollectionTile(
+    listing_collection.ListingCollectionTileMixin,
+    Tile,
+):
     """A tile that shows a list of MLS listings."""
 
     @property
@@ -278,15 +273,21 @@ class ListingCollectionTile(ListingCollectionTileMixin, Tile):
 
 
 class ListingSearchResultsTile(
-    ListingSearchResultsTileMixin,
+    listing_collection.ListingSearchResultsTileMixin,
     ListingCollectionTile,
 ):
     """A tile that shows a list of MLS listings from search results."""
 
 
-class RecentListingsTile(RecentListingsTileMixin, ListingCollectionTile):
+class RecentListingsTile(
+    listing_collection.RecentListingsTileMixin,
+    ListingCollectionTile,
+):
     """A tile that shows a list of recent MLS listings."""
 
 
-class FeaturedListingsTile(FeaturedListingsTileMixin, ListingCollectionTile):
+class FeaturedListingsTile(
+    listing_collection.FeaturedListingsTileMixin,
+    ListingCollectionTile,
+):
     """A tile that shows a list of featured MLS listings."""

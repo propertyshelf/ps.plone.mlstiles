@@ -1,20 +1,13 @@
 # -*- coding: utf-8 -*-
 """Test Setup of ps.plone.mlstiles."""
 
-# python imports
-try:
-    import unittest2 as unittest
-except ImportError:
-    import unittest
-
-# zope imports
 from plone import api
 from plone.browserlayer.utils import registered_layers
-
-# local imports
 from ps.plone.mlstiles import PLONE_4
 from ps.plone.mlstiles.config import PROJECT_NAME
 from ps.plone.mlstiles.testing import PS_PLONE_MLSTILES_INTEGRATION_TESTING
+
+import unittest
 
 
 CSS = [

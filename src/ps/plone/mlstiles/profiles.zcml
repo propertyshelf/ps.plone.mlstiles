@@ -131,7 +131,7 @@
       />
 
   <subscriber
-    handler=".setuphandlers.handle_profile_imported_event"
+      handler=".setuphandlers.handle_profile_imported_event"
       />
 
 </configure>

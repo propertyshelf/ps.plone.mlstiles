@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Custom widgets."""
 
-# local imports
-from .widgets import ListingTextFieldWidget
+from ps.plone.mlstiles.widgets.widgets import ListingTextFieldWidget
+
 
 assert(ListingTextFieldWidget)

@@ -1,11 +1,18 @@
 # -*- coding: utf-8 -*-
 """Test Listing Search tile."""
 
-# python imports
 from mock import Mock
+from plone import api
+from plone.app.testing import login
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
+from ps.plone.mlstiles.testing import PS_PLONE_MLSTILES_INTEGRATION_TESTING
+from ps.plone.mlstiles.testing import skip_if_no_cover
+
 import unittest
 
-# zope imports
+
 try:
     from collective.cover.testing import ALL_CONTENT_TYPES
     from collective.cover.tests.base import TestTileMixin
@@ -14,18 +21,6 @@ except ImportError:
 
     class TestTileMixin(object):
         """Dummy class"""
-from plone import api
-from plone.app.testing import (
-    TEST_USER_ID,
-    TEST_USER_NAME,
-    login,
-    setRoles,
-)
-
-from ps.plone.mlstiles.testing import (
-    PS_PLONE_MLSTILES_INTEGRATION_TESTING,
-    skip_if_no_cover,
-)
 
 
 class ListingSearchTileTestCase(TestTileMixin, unittest.TestCase):

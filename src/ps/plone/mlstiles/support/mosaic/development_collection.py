@@ -1,21 +1,16 @@
 # -*- coding: utf-8 -*-
 """A tile that shows a list of MLS developments for plone.app.mosaic."""
 
-# zope imports
 from plone import api
 from plone.app.standardtiles import _PMF
 from plone.memoize import view
 from plone.supermodel.model import Schema
 from plone.tiles import Tile
 from ps.plone.mls.interfaces import IDevelopmentCollection
-from zope import schema
-
-# local imports
 from ps.plone.mlstiles import _
+from ps.plone.mlstiles.tiles import development_collection
 from ps.plone.mlstiles.tiles.base import CatalogSource
-from ps.plone.mlstiles.tiles.development_collection import (
-    DevelopmentCollectionTileMixin,
-)
+from zope import schema
 
 
 class IDevelopmentCollectionTile(Schema):
@@ -147,7 +142,10 @@ class IDevelopmentCollectionTile(Schema):
     )
 
 
-class DevelopmentCollectionTile(DevelopmentCollectionTileMixin, Tile):
+class DevelopmentCollectionTile(
+    development_collection.DevelopmentCollectionTileMixin,
+    Tile,
+):
     """A tile that shows a list of MLS developments."""
 
     @property

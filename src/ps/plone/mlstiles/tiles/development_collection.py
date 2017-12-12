@@ -1,23 +1,17 @@
 # -*- coding: utf-8 -*-
 """A tile that shows a list of MLS developments."""
 
-# python imports
-import copy
-
-# zope import
 from plone import api as plone_api
 from plone.memoize import view
-from ps.plone.mls import (
-    api,
-    config,
-)
-from ps.plone.mls.browser.developments.collection import (
-    EXCLUDED_SEARCH_FIELDS,
-    FIELDS,
-)
+from ps.plone.mls import api
+from ps.plone.mls import config
+from ps.plone.mls.browser.developments.collection import EXCLUDED_SEARCH_FIELDS
+from ps.plone.mls.browser.developments.collection import FIELDS
 from ps.plone.mls.interfaces import IDevelopmentCollection
 from zope.annotation.interfaces import IAnnotations
 from zope.traversing.browser.absoluteurl import absoluteURL
+
+import copy
 
 
 class DevelopmentCollectionTileMixin(object):

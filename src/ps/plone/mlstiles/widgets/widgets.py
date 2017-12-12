@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
 """Custom widget implementations."""
 
-# zope imports
+from ps.plone.mlstiles.widgets.interfaces import IListingTextWidget
 from z3c.form import interfaces
 from z3c.form.browser.text import TextWidget
 from z3c.form.widget import FieldWidget
+
 import zope.component
 import zope.interface
 import zope.schema
-
-# local imports
-from .interfaces import IListingTextWidget
 
 
 @zope.interface.implementer_only(IListingTextWidget)
