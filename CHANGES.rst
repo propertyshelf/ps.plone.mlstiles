@@ -5,6 +5,7 @@ Changelog
 ----------------
 
 - Fix wrong usage of FIELDS.
+- Truncate description for listings in summaries with global configuration.
 
 
 1.1 (2017-09-15)
