@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2 (unreleased)
+1.2 (2017-12-12)
 ----------------
 
 - Fix wrong usage of FIELDS.
