@@ -14,6 +14,8 @@ matrix:
   allow_failures:
     - env: PLONE_VERSION=4.2 PKG_EXTRAS=[test_cover]
   fast_finish: true
+addons:
+  firefox: 45.8.0esr
 install:
   - sed -ie "s#test-4.x.cfg#test-$PLONE_VERSION.x.cfg#" travis.cfg
   - sed -ie "s#versions-$PLONE_VERSION.x#versions#" travis.cfg
@@ -22,9 +24,19 @@ install:
   - pip install -r requirements.txt
   - buildout buildout:package-extras=$PKG_EXTRAS -c travis.cfg annotate
   - buildout buildout:package-extras=$PKG_EXTRAS -c travis.cfg -N -q
+before_script:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - firefox -v
 script:
   - bin/code-analysis
   - bin/test
+after_success:
+  - bin/createcoverage
+  - pip install coveralls
+  - coveralls
 notifications:
+  email:
+    - development@propertyshelf.com
   hipchat:
     secure: "7bIt1k1JymS5D5hNjfymYRLUTduDp+dujTjpipk82v7kPsgLCBSUtf15TYvAfsuJluqjd/Utsh+mE4cIONmFqvkqH16RuTY3FzDr/YkT8UDp2PgWT8OHOkvOOwf+9TfhxayaY4u07TV9++UN2HJ0a7glIIRBULzZk+YFaeE8BFA="
