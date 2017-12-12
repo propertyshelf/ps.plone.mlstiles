@@ -18,7 +18,7 @@ install_requires = [
     'plone.app.tiles',
     'plone.subrequest',
     'plone.tiles',
-    'ps.plone.mls',
+    'ps.plone.mls >= 0.13.dev0',
     'requests',
     'z3c.form',
 ]
