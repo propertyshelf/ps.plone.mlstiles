@@ -5,7 +5,7 @@ from plone import api
 from plone.app.standardtiles import _PMF
 from plone.memoize import view
 from plone.supermodel.model import Schema
-from plone.tiles import Tile
+from plone.tiles import PersistentTile
 from ps.plone.mls.interfaces import IDevelopmentCollection
 from ps.plone.mlstiles import _
 from ps.plone.mlstiles.tiles import development_collection
@@ -144,7 +144,7 @@ class IDevelopmentCollectionTile(Schema):
 
 class DevelopmentCollectionTile(
     development_collection.DevelopmentCollectionTileMixin,
-    Tile,
+    PersistentTile,
 ):
     """A tile that shows a list of MLS developments."""
 

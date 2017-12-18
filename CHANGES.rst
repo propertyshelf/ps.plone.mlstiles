@@ -4,7 +4,7 @@ Changelog
 1.3 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Use PersistentTile as base for Mosaic tiles.
 
 
 1.2 (2017-12-12)

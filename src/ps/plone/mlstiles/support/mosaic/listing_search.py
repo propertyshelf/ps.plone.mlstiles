@@ -6,7 +6,7 @@ from plone.app.standardtiles import _PMF
 from plone.memoize import view
 from plone.mls.listing.browser.listing_search import IListingSearch
 from plone.supermodel.model import Schema
-from plone.tiles import Tile
+from plone.tiles import PersistentTile
 from ps.plone.mlstiles import _
 from ps.plone.mlstiles.tiles.base import CatalogSource
 from ps.plone.mlstiles.tiles.listing_search import ListingSearchTileMixin
@@ -190,7 +190,7 @@ class IListingSearchTile(Schema):
     )
 
 
-class ListingSearchTile(ListingSearchTileMixin, Tile):
+class ListingSearchTile(ListingSearchTileMixin, PersistentTile):
     """A tile that shows a list of MLS listings."""
 
     @property

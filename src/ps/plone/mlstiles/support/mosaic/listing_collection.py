@@ -9,7 +9,7 @@ from plone.mls.listing.browser.listing_collection import IListingCollection
 from plone.mls.listing.browser.listing_search import IListingSearch
 from plone.mls.listing.browser.recent_listings import IRecentListings
 from plone.supermodel.model import Schema
-from plone.tiles import Tile
+from plone.tiles import PersistentTile
 from ps.plone.mls.browser.listings.featured import IFeaturedListings
 from ps.plone.mlstiles import _
 from ps.plone.mlstiles.tiles import listing_collection
@@ -240,7 +240,7 @@ class IFeaturedListingsTile(IBaseCollectionTile):
 
 class ListingCollectionTile(
     listing_collection.ListingCollectionTileMixin,
-    Tile,
+    PersistentTile,
 ):
     """A tile that shows a list of MLS listings."""
 
