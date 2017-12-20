@@ -35,11 +35,6 @@ class TestSetup(unittest.TestCase):
         layers = [l.getName() for l in registered_layers()]
         self.assertIn('IPSPloneMLSTilesLayer', layers)
 
-    def test_plone_mls_listing_installed(self):
-        """Validate that plone.mls.listing is installed."""
-        qi = self.portal.portal_quickinstaller
-        self.assertTrue(qi.isProductInstalled('plone.mls.listing'))
-
     def test_ps_plone_mls_installed(self):
         """Validate that ps.plone.mls is installed."""
         qi = self.portal.portal_quickinstaller
