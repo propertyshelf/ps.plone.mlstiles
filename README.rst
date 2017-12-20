@@ -27,5 +27,5 @@ Mostly Harmless
 
 
 .. _`Propertyshelf`: http://propertyshelf.com
-.. _`MLS Embedding`: https://pypi.python.org/pypi/plone.mls.listing
+.. _`MLS Embedding`: https://pypi.python.org/pypi/ps.plone.mls
 .. _`collective.cover`: https://pypi.python.org/pypi/collective.cover
