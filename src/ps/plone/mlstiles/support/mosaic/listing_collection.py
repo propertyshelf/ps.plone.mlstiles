@@ -20,6 +20,16 @@ from zope import schema
 class IBaseCollectionTile(Schema):
     """Base configuration schema for listing collections."""
 
+    grid_layout = schema.Bool(
+        description=_(
+            u'If allowed by the theme/design, the listings will be displayed '
+            u'in a grid layout when enabled.',
+        ),
+        default=False,
+        required=False,
+        title=_(u'Grid Layout'),
+    )
+
     count = schema.Int(
         default=5,
         required=False,
@@ -247,6 +257,8 @@ class ListingCollectionTile(
     @property
     def tile_class(self):
         css_class = 'listing__results'
+        if self.data.get('grid_layout', False):
+            css_class = css_class + ' listing-grid-view'
         additional_classes = self.data.get('tile_class', '')
         if not additional_classes:
             return css_class
