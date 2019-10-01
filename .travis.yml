@@ -27,9 +27,11 @@ install:
   - pip install -r requirements.txt
   - buildout buildout:package-extras=$PKG_EXTRAS -c travis.cfg annotate
   - buildout buildout:package-extras=$PKG_EXTRAS -c travis.cfg -N -q
+dist: xenial
+services:
+  - xvfb
 before_script:
   - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
   - firefox -v
 script:
   - bin/code-analysis
