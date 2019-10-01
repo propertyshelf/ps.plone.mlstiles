@@ -34,7 +34,8 @@ class DevelopmentCollectionTileTestCase(TestTileMixin, unittest.TestCase):
         from ps.plone.mlstiles.support.cover import development_collection
         super(DevelopmentCollectionTileTestCase, self).setUp()
         self.tile = development_collection.DevelopmentCollectionTile(
-            self.cover, self.request
+            self.cover,
+            self.request,
         )
         self.tile.__name__ = u'ps.plone.mlstiles.developments.collection'
         self.tile.id = u'test'

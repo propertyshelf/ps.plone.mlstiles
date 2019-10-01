@@ -194,40 +194,40 @@ class ListingSearchTile(ListingSearchTileMixin, base.PersistentCoverTile):
     form_q = FieldProperty(IListingSearchTile['form_q'])
     form_listing_type = FieldProperty(IListingSearchTile['form_listing_type'])
     form_location_state = FieldProperty(
-        IListingSearchTile['form_location_state']
+        IListingSearchTile['form_location_state'],
     )
     form_location_county = FieldProperty(
-        IListingSearchTile['form_location_county']
+        IListingSearchTile['form_location_county'],
     )
     form_location_district = FieldProperty(
-        IListingSearchTile['form_location_district']
+        IListingSearchTile['form_location_district'],
     )
     form_location_city = FieldProperty(
-        IListingSearchTile['form_location_city']
+        IListingSearchTile['form_location_city'],
     )
     form_price_min = FieldProperty(IListingSearchTile['form_price_min'])
     form_price_max = FieldProperty(IListingSearchTile['form_price_max'])
     form_location_type = FieldProperty(
-        IListingSearchTile['form_location_type']
+        IListingSearchTile['form_location_type'],
     )
     form_geographic_type = FieldProperty(
-        IListingSearchTile['form_geographic_type']
+        IListingSearchTile['form_geographic_type'],
     )
     form_view_type = FieldProperty(IListingSearchTile['form_view_type'])
     form_object_type = FieldProperty(IListingSearchTile['form_object_type'])
     form_ownership_type = FieldProperty(
-        IListingSearchTile['form_ownership_type']
+        IListingSearchTile['form_ownership_type'],
     )
     form_beds = FieldProperty(IListingSearchTile['form_beds'])
     form_baths = FieldProperty(IListingSearchTile['form_baths'])
     form_air_condition = FieldProperty(
-        IListingSearchTile['form_air_condition']
+        IListingSearchTile['form_air_condition'],
     )
     form_pool = FieldProperty(IListingSearchTile['form_pool'])
     form_jacuzzi = FieldProperty(IListingSearchTile['form_jacuzzi'])
     form_lot_size = FieldProperty(IListingSearchTile['form_lot_size'])
     form_interior_area = FieldProperty(
-        IListingSearchTile['form_interior_area']
+        IListingSearchTile['form_interior_area'],
     )
 
     footer = FieldProperty(IListingSearchTile['footer'])
