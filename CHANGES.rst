@@ -5,7 +5,7 @@ Changelog
 ----------------
 
 - Use PersistentTile as base for Mosaic tiles.
-
+- Add option for Grid Layout to listing tiles.
 
 1.2 (2017-12-12)
 ----------------
