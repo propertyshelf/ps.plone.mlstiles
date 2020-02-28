@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.3 (unreleased)
-----------------
+1.2.1 (2020-02-28)
+------------------
 
 - Use PersistentTile as base for Mosaic tiles.
 - Add option for Grid Layout to listing tiles.
