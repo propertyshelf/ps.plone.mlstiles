@@ -1,5 +1,7 @@
 graft src/ps
 graft docs
 include *.rst
+include Pipfile
+include Pipfile.lock
 global-exclude *.pyc
 prune docs/build
