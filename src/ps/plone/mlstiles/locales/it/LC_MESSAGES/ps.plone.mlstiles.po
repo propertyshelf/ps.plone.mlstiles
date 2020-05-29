@@ -1,12 +1,14 @@
-# 
 # Translators:
+# Translators:
+# Zach Cashero <zach@propertyshelf.com>, 2020
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: MLS Plone Components\n"
 "POT-Creation-Date: 2014-07-14 16:32+0000\n"
-"PO-Revision-Date: 2014-07-14 16:34+0000\n"
-"Last-Translator: Thomas Massmann <thomas.massmann@it-spir.it>\n"
-"Language-Team: Italian (http://www.transifex.com/projects/p/MLS_Plone/language/it/)\n"
+"PO-Revision-Date: 2020-05-29 15:40+0000\n"
+"Last-Translator: Zach Cashero <zach@propertyshelf.com>, 2020\n"
+"Language-Team: Italian (https://www.transifex.com/propertyshelf/teams/13797/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,28 +21,28 @@ msgstr ""
 
 #: ps/plone/mlstiles/tiles/listings/search.pt:15
 msgid "Go to related search"
-msgstr ""
+msgstr "Vai alla ricerca correlata"
 
 #: ps/plone/mlstiles/tiles/listings/collection.py:401
 msgid "MLS: Featured Listings"
-msgstr ""
+msgstr "MLS: Annunci in Evidenza"
 
 #: ps/plone/mlstiles/tiles/listings/collection.py:182
 msgid "MLS: Listing Collection"
-msgstr ""
+msgstr "MLS: Collezione Annunci"
 
 #: ps/plone/mlstiles/tiles/listings/search.py:239
 msgid "MLS: Listing Search"
-msgstr ""
+msgstr "MLS: Ricerca Annunci"
 
 #: ps/plone/mlstiles/tiles/listings/collection.py:385
 msgid "MLS: Recent Listings"
-msgstr ""
+msgstr "MLS: Annunci Recenti"
 
 #: ps/plone/mlstiles/tiles/listings/search.pt:19
 msgid "The listing search is not yet active."
-msgstr ""
+msgstr "La ricerca annunci non è ancora attiva."
 
 #: ps/plone/mlstiles/widgets/textline_listing.pt:87
 msgid "Wrap content in a link"
-msgstr ""
+msgstr "Inserisci il contenuto in un link"
